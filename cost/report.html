@@ -1,0 +1,74 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Cost calculator report</title><style>body{font:15px/1.5 system-ui,sans-serif;max-width:1100px;margin:24px auto;padding:0 16px;color:#1c1c1a;background:#fff}table{border-collapse:collapse;margin:8px 0 16px;font-size:13px}td,th{border:1px solid #ddd;padding:4px 8px;text-align:left}th{background:#f3f3f0}code{background:#f3f3f0;padding:1px 4px;border-radius:3px}</style></head><body><h1>100-review cost and runtime calculator</h1>
+<p>Offline replay of saved measurements; rates multiplier <b>x1.0</b>. Regenerate with <code>python cost/calculator.py</code> (no API key, no model calls).</p>
+<h2>Measured pilot (cost_100.csv, unchanged)</h2>
+<li>Input: <code>cost_100.csv</code> sha256 <code>c884ac3b9be5066995d5063f96ad9af6e5e082975788c1684c4f6b6ea661dd0e</code>; 100 source IDs; 100 completed, 0 failed/quarantined; 100 distinct texts enriched.</li>
+<li>Settings: label_config <code>jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1</code>; enrichment batch &lt;= 50 reviews; workers: batch 1, Jev 1 (one worker, as specified).</li>
+<li>Models: enrich: <code>jev-1.13.0</code>; quote: <code>gpt-6-luna/none</code>; verify: <code>gpt-6-luna/none</code>; group: <code>gpt-6-luna/low</code>; memo: <code>gpt-6-luna/low</code>.</li>
+<li>Prompt versions: labels <code>prompts-v1</code>, group <code>group-v2</code>, memo <code>memo-v2</code>; schema <code>schema-v1</code>.</li>
+<table>
+<tr><th></th><th>Cold (empty result cache)</th><th>Warm (saved result cache)</th></tr>
+<tr><td>End-to-end wall clock</td><td>69.06 s</td><td>0.67 s</td></tr>
+<tr><td>API cost</td><td>$0.009011</td><td>$0.000000</td></tr>
+<tr><td>Requests / attempts / failed</td><td>110 / 110 / 0</td><td>0 new calls (0 enrichment)</td></tr>
+<tr><td>Result-cache hits</td><td>0</td><td>100 of 100</td></tr>
+<tr><td>Cost per 1,000 inputs</td><td>$0.0901</td><td>$0</td></tr>
+<tr><td>Cost per completed record</td><td>$0.000090</td><td>$0</td></tr>
+<tr><td>Throughput</td><td>1.45 records/s</td><td>149.0 records/s</td></tr>
+</table>
+<p>Stage seconds (cold): ingest 0.07, enrich 14.82, verify 5.19, group 28.83, rank 0.01, memo 20.13. Stage seconds (warm): ingest 0.06, enrich 0.52, verify 0.02, group 0.03, rank 0.01, memo 0.02.</p>
+<h3>Cold run by stage (actual usage x editable rates)</h3>
+<table>
+<tr><th>Stage</th><th>Model</th><th>Requests</th><th>Attempts</th><th>Failed</th><th>Review IDs sent</th><th>Input tok</th><th>Cached tok</th><th>Output tok</th><th>Cost</th></tr>
+<tr><td>enrich: Jev labels</td><td>jev-1.13.0</td><td>100</td><td>100</td><td>0</td><td>100</td><td>127,787</td><td>0</td><td>21,275</td><td>$0.005367</td></tr>
+<tr><td>enrich: gpt quotes</td><td>gpt-6-luna (effort none)</td><td>2</td><td>2</td><td>0</td><td>9</td><td>1,417</td><td>0</td><td>186</td><td>$0.000235</td></tr>
+<tr><td>verify</td><td>gpt-6-luna (effort none)</td><td>1</td><td>1</td><td>0</td><td>20</td><td>1,719</td><td>1,313</td><td>492</td><td>$0.000300</td></tr>
+<tr><td>group: discover</td><td>gpt-6-luna (effort low)</td><td>3</td><td>3</td><td>0</td><td>37</td><td>3,064</td><td>0</td><td>1,609</td><td>$0.001111</td></tr>
+<tr><td>group: assign</td><td>gpt-6-luna (effort none)</td><td>3</td><td>3</td><td>0</td><td>37</td><td>2,503</td><td>0</td><td>455</td><td>$0.000478</td></tr>
+<tr><td>memo</td><td>gpt-6-luna (effort low)</td><td>1</td><td>1</td><td>0</td><td>0</td><td>5,036</td><td>0</td><td>2,034</td><td>$0.001521</td></tr>
+</table>
+<p>Retries: 0 failed attempts in the pilot, so the base projection adds no retry allowance; the conservative case adds 10%. Verification: a declared seeded sample (3% of distinct texts, minimum 20; 20 in the pilot). Fallbacks: none configured (no stronger model); a quote failure falls back to an exact text prefix in code at zero API cost.</p>
+<h2>Estimate refreshes (100 -&gt; 500 -&gt; 10,000)</h2>
+<table>
+<tr><th>Checkpoint</th><th>Distinct texts</th><th>Enrich seconds</th><th>Texts/s</th><th>Jev cost/text</th><th>Workers</th></tr>
+<tr><td>pilot 100 (cold, 1 worker)</td><td>100</td><td>14.8</td><td>6.75</td><td>$0.000054</td><td>batch 1 / jev 1</td></tr>
+<tr><td>checkpoint_500</td><td>479</td><td>31.5</td><td>15.22</td><td>$0.000054</td><td>batch 2 / jev 8</td></tr>
+<tr><td>checkpoint_10000 part 1 (before cache-fill fix; process ended by a session restart)</td><td>3,750</td><td>1243.2</td><td>3.02</td><td>$0.000054</td><td>batch 4 / jev 8</td></tr>
+<tr><td>checkpoint_10000 part 2 (after fix)</td><td>4,741</td><td>136.2</td><td>34.81</td><td>$0.000054</td><td>batch 4 / jev 8</td></tr>
+</table>
+<p>Projections use the latest refresh&#x27;s enrichment throughput. Elapsed time is modeled from measured throughput, not from summed call durations (calls overlap when workers &gt; 1).</p>
+<h2>Full-run projections (budget $10.00)</h2>
+<table>
+<tr><th>Scenario</th><th>Case</th><th>Distinct texts sent</th><th>Completed classifications</th><th>API cost</th><th>Enrich time</th><th>Budget</th></tr>
+<tr><td>100k scope, exact-text reuse (chosen)</td><td>base</td><td>78,137</td><td>237,987</td><td>$4.98</td><td>0.62 h</td><td>within</td></tr>
+<tr><td>100k scope, exact-text reuse (chosen)</td><td>conservative</td><td>78,137</td><td>237,987</td><td>$5.67</td><td>1.25 h</td><td>within</td></tr>
+<tr><td>Full corpus, exact-text reuse</td><td>base</td><td>484,189</td><td>660,609</td><td>$30.68</td><td>3.86 h</td><td><b>OVER BUDGET</b></td></tr>
+<tr><td>Full corpus, exact-text reuse</td><td>conservative</td><td>484,189</td><td>660,609</td><td>$34.98</td><td>7.73 h</td><td><b>OVER BUDGET</b></td></tr>
+<tr><td>Full corpus, NO reuse (comparison)</td><td>base</td><td>660,609</td><td>660,609</td><td>$41.85</td><td>5.27 h</td><td><b>OVER BUDGET</b></td></tr>
+<tr><td>Full corpus, NO reuse (comparison)</td><td>conservative</td><td>660,609</td><td>660,609</td><td>$47.71</td><td>10.54 h</td><td><b>OVER BUDGET</b></td></tr>
+</table>
+<p>All scenarios account for all 660,622 source rows and 13 empty-text quarantines. Stage detail (work units x unit cost):</p>
+<li><b>100k scope, exact-text reuse (chosen) / base</b>: enrich: Jev labels 78,137 -&gt; $4.19; enrich: gpt quotes 7,032 -&gt; $0.1834; verify 2,345 -&gt; $0.0351; group: assign 41,413 -&gt; $0.5348; group: discover (fixed) 8 -&gt; $0.0288; memo (fixed) 1 -&gt; $0.001521. Assumptions: extra attempts 0%, long-text share 0.090, complaint share 0.530.</li>
+<li><b>100k scope, exact-text reuse (chosen) / conservative</b>: enrich: Jev labels 78,137 -&gt; $4.61; enrich: gpt quotes 8,790 -&gt; $0.2522; verify 2,345 -&gt; $0.0387; group: assign 51,766 -&gt; $0.7353; group: discover (fixed) 8 -&gt; $0.0288; memo (fixed) 2 -&gt; $0.003041. Assumptions: extra attempts 10%, long-text share 0.112, complaint share 0.663.</li>
+<li><b>Full corpus, exact-text reuse / base</b>: enrich: Jev labels 484,189 -&gt; $25.99; enrich: gpt quotes 43,577 -&gt; $1.14; verify 14,526 -&gt; $0.2177; group: assign 256,620 -&gt; $3.31; group: discover (fixed) 8 -&gt; $0.0288; memo (fixed) 1 -&gt; $0.001521. Assumptions: extra attempts 0%, long-text share 0.090, complaint share 0.530.</li>
+<li><b>Full corpus, exact-text reuse / conservative</b>: enrich: Jev labels 484,189 -&gt; $28.59; enrich: gpt quotes 54,471 -&gt; $1.56; verify 14,526 -&gt; $0.2395; group: assign 320,775 -&gt; $4.56; group: discover (fixed) 8 -&gt; $0.0288; memo (fixed) 2 -&gt; $0.003041. Assumptions: extra attempts 10%, long-text share 0.112, complaint share 0.663.</li>
+<li><b>Full corpus, NO reuse (comparison) / base</b>: enrich: Jev labels 660,609 -&gt; $35.46; enrich: gpt quotes 59,455 -&gt; $1.55; verify 19,819 -&gt; $0.2970; group: assign 350,123 -&gt; $4.52; group: discover (fixed) 8 -&gt; $0.0288; memo (fixed) 1 -&gt; $0.001521. Assumptions: extra attempts 0%, long-text share 0.090, complaint share 0.530.</li>
+<li><b>Full corpus, NO reuse (comparison) / conservative</b>: enrich: Jev labels 660,609 -&gt; $39.00; enrich: gpt quotes 74,319 -&gt; $2.13; verify 19,819 -&gt; $0.3267; group: assign 437,653 -&gt; $6.22; group: discover (fixed) 8 -&gt; $0.0288; memo (fixed) 2 -&gt; $0.003041. Assumptions: extra attempts 10%, long-text share 0.112, complaint share 0.663.</li>
+<h2>Controls</h2>
+<li>Spending limit: $10.00 (<code>limits.spend_cap_usd</code> in config/run_config.json; the pipeline reserves an estimated worst case before every call and stops admitting work when spent + reserved + next &gt; cap).</li>
+<li>Output-token cap per request: 6,000; max reviews per enrichment request: 50.</li>
+<li>Max workers: Jev 8, batch 4; shared rate limiter and one spend ledger.</li>
+<li>Max fallback fraction: 5%; fallback model: none (no stronger-model fallback is configured; a failed quote falls back to an exact text prefix in code at zero API cost).</li>
+<h2>Not API spend</h2>
+<li>Local compute: <b>unknown</b>. Pipeline code runs on a Windows laptop; electricity and hardware time are not metered, so they are reported as unknown rather than zero.</li>
+<li>Infrastructure: neon_postgres: free tier, $0 list price (checked 2026-10-14); vercel_hosting: Hobby tier, $0 list price (checked 2026-10-14).</li>
+<h2>Rates used (editable: cost/rates.csv)</h2>
+<table>
+<tr><th>Provider</th><th>Model</th><th>Item</th><th>Price per unit</th><th>Quoted as</th><th>Checked</th><th>Source</th></tr>
+<tr><td>openai</td><td>gpt-6-luna</td><td>input_uncached</td><td>0.000000100000</td><td>$0.10 per 1M tokens (standard)</td><td>2026-10-13</td><td>https://developers.openai.com/api/docs/models/gpt-6-luna</td></tr>
+<tr><td>openai</td><td>gpt-6-luna</td><td>input_cached</td><td>0.000000010000</td><td>$0.01 per 1M tokens (standard)</td><td>2026-10-13</td><td>https://developers.openai.com/api/docs/models/gpt-6-luna</td></tr>
+<tr><td>openai</td><td>gpt-6-luna</td><td>cache_write</td><td>0.000000125000</td><td>$0.125 per 1M tokens (standard)</td><td>2026-10-13</td><td>https://developers.openai.com/api/docs/models/gpt-6-luna</td></tr>
+<tr><td>openai</td><td>gpt-6-luna</td><td>output</td><td>0.000000500000</td><td>$0.50 per 1M tokens incl. reasoning (standard)</td><td>2026-10-13</td><td>https://developers.openai.com/api/docs/models/gpt-6-luna</td></tr>
+<tr><td>typesafe</td><td>jev-1.13.0</td><td>input</td><td>0.000000042000</td><td>$0.042 per 1M input tokens ($42 per 1B)</td><td>2026-10-13</td><td>https://docs.typesafe.ai/models</td></tr>
+<tr><td>typesafe</td><td>jev-1.13.0</td><td>output</td><td>0.000000000000</td><td>output tokens are free</td><td>2026-10-13</td><td>https://docs.typesafe.ai/models</td></tr>
+</table>
+<p>Every charged item per call is in <code>usage.csv</code> (request_id -&gt; billing item -&gt; billed units x price). Raw per-attempt usage and timing are in <code>pilot_calls.jsonl</code>.</p></body></html>

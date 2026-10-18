@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Golden 50 Labeler</title>
+<style>
+:root {
+  --bg: #f7f7f5; --panel: #ffffff; --ink: #1c1c1a; --muted: #6b6b66; --line: #e2e1dc;
+  --accent: #1f6f4a; --accent-ink: #ffffff; --warn: #a2461a; --chip: #f0efea; --mark: #fff3b0;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161615; --panel: #20201e; --ink: #ecebe6; --muted: #a09f99; --line: #34332f;
+    --accent: #4fbf8a; --accent-ink: #0d1f16; --warn: #f08a5d; --chip: #2a2a27; --mark: #5a4f1a;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+.wrap { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 20px; max-width: 1180px; margin: 0 auto; padding: 20px 16px 60px; }
+@media (max-width: 900px) { .wrap { grid-template-columns: 1fr; } }
+header { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+h1 { font-size: 18px; margin: 0 auto 0 0; }
+.progress { flex: 1 1 200px; height: 8px; background: var(--chip); border-radius: 99px; overflow: hidden; max-width: 320px; }
+.progress > div { height: 100%; background: var(--accent); width: 0; }
+.card, .defs { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px; }
+.meta { color: var(--muted); font-size: 13px; margin-bottom: 8px; word-break: break-all; }
+.review { font-size: 18px; line-height: 1.55; white-space: pre-wrap; padding: 14px; background: var(--chip); border-radius: 8px; margin-bottom: 16px; }
+.field { margin: 14px 0; }
+.field > label, .field > .lbl { display: block; font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin-bottom: 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips button { border: 1px solid var(--line); background: var(--chip); color: var(--ink); padding: 6px 11px; border-radius: 99px; cursor: pointer; font: inherit; font-size: 14px; }
+.chips button.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+input[type=text], textarea { width: 100%; font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 8px; }
+textarea { min-height: 54px; resize: vertical; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.btn { border: 1px solid var(--line); background: var(--panel); color: var(--ink); padding: 8px 14px; border-radius: 6px; cursor: pointer; font: inherit; }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.err { color: var(--warn); font-size: 13px; min-height: 1.2em; }
+.nav { display: flex; justify-content: space-between; margin-top: 18px; gap: 8px; }
+.defs h2 { font-size: 14px; margin: 0 0 6px; }
+.defs dl { margin: 0 0 14px; font-size: 13px; }
+.defs dt { font-weight: 600; }
+.defs dd { margin: 0 0 6px; color: var(--muted); }
+.defs p { font-size: 13px; color: var(--muted); margin: 0 0 10px; }
+.jump { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; }
+.jump button { width: 30px; height: 26px; font-size: 12px; border: 1px solid var(--line); background: var(--chip); color: var(--ink); border-radius: 4px; cursor: pointer; }
+.jump button.done { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.jump button.cur { outline: 2px solid var(--ink); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Golden 50: human labels</h1>
+    <div class="progress"><div id="bar"></div></div>
+    <span id="count"></span>
+    <button class="btn primary" id="download">Download CSV</button>
+  </header>
+
+  <main class="card">
+    <div class="meta" id="meta"></div>
+    <div class="review" id="text"></div>
+
+    <div class="field"><span class="lbl">Topic</span><div class="chips" id="topic"></div></div>
+    <div class="field"><span class="lbl">Intent</span><div class="chips" id="intent"></div></div>
+    <div class="field"><span class="lbl">Severity</span><div class="chips" id="severity"></div></div>
+    <div class="field"><span class="lbl">Sentiment (-1 to 1)</span><div class="chips" id="sentiment"></div></div>
+
+    <div class="field">
+      <label for="quote">Evidence quote (must be an exact substring)</label>
+      <div class="row" style="margin-bottom:6px">
+        <button class="btn" id="useSel">Use selected text</button>
+        <button class="btn" id="useAll">Use whole review</button>
+      </div>
+      <textarea id="quote"></textarea>
+      <div class="err" id="quoteErr"></div>
+    </div>
+    <div class="field"><label for="entities">Entities (comma-separated product features/terms actually mentioned; optional)</label><input type="text" id="entities"></div>
+    <div class="field row">
+      <label><input type="checkbox" id="needs"> needs_review (missing context / can't tell)</label>
+      <label><input type="checkbox" id="ambig"> ambiguous (another label is also defensible)</label>
+    </div>
+    <div class="field"><label for="notes">Notes (why; alternative label if ambiguous)</label><input type="text" id="notes"></div>
+
+    <div class="nav">
+      <button class="btn" id="prev">&larr; Prev</button>
+      <span class="err" id="navErr"></span>
+      <button class="btn primary" id="next">Save &amp; next &rarr;</button>
+    </div>
+    <div class="jump" id="jump"></div>
+  </main>
+
+  <aside class="defs">
+    <h2>Topic (pick the highest-severity problem; tie = first mentioned)</h2>
+    <dl>
+      <dt>access</dt><dd>Login, signup, password or account access</dd>
+      <dt>usability</dt><dd>Navigation, controls, layout, queue/playlist management, ad interruptions</dd>
+      <dt>playback</dt><dd>Playback failure, crashes, lag, connection failures, audio quality, resource use</dd>
+      <dt>downloads</dt><dd>Downloading, saved music, offline listening, disappearing downloads</dd>
+      <dt>catalog</dt><dd>Missing songs/artists, search/discovery, recommendations, lyrics availability</dd>
+      <dt>billing</dt><dd>Price, charges, subscriptions, paywalls, premium entitlement; explicitly premium-only controls</dd>
+      <dt>support</dt><dd>Contacting support and the support response</dd>
+      <dt>other</dt><dd>General praise/criticism, unrelated content, no supported specific topic</dd>
+    </dl>
+    <p>Positive review: first specific praised feature; general praise = other. A paid plan mentioned alone is not billing.</p>
+    <h2>Intent (precedence order)</h2>
+    <dl>
+      <dt>cancellation</dt><dd>Explicitly leaving, uninstalling, cancelling, or threatening to</dd>
+      <dt>complaint</dt><dd>Negative experience, incl. mixed praise/criticism; generic "bad app"</dd>
+      <dt>request</dt><dd>Desired change without a reported failure</dd>
+      <dt>praise</dt><dd>Positive</dd>
+      <dt>unclear</dt><dd>Bare boycott slogans, unrelated or meaningless text</dd>
+    </dl>
+    <h2>Severity</h2>
+    <dl>
+      <dt>1</dt><dd>No reported problem: praise, neutral/unclear, pure feature request</dd>
+      <dt>2</dt><dd>Dislike, generic criticism, minor annoyance, cosmetic; no functional loss</dd>
+      <dt>3</dt><dd>Degraded/restricted function; some use or workaround remains</dd>
+      <dt>4</dt><dd>Clearly blocked core task (can't log in, can't play music)</dd>
+      <dt>5</dt><dd>Explicit serious financial, privacy or data harm. Price, crash or anger alone is not enough</dd>
+    </dl>
+    <p>Stars are hidden on purpose: label the text. Cancellation intent does not raise severity by itself.</p>
+  </aside>
+</div>
+
+<script>
+const ROWS = __DATA__;
+const TOPICS = ["access","usability","playback","downloads","catalog","billing","support","other"];
+const INTENTS = ["cancellation","complaint","request","praise","unclear"];
+const SEVERITIES = ["1","2","3","4","5"];
+const SENTIMENTS = ["-1","-0.5","0","0.5","1"];
+const KEY = "golden50-labels-v1";
+let labels = {};
+try { labels = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { labels = {}; }
+let i = 0;
+const $ = id => document.getElementById(id);
+
+function save() { try { localStorage.setItem(KEY, JSON.stringify(labels)); } catch (e) {} }
+function cur() { const id = ROWS[i].review_id; return labels[id] || (labels[id] = {}); }
+function isDone(r) {
+  const l = labels[r.review_id] || {};
+  return l.topic && l.intent && l.severity && l.sentiment && l.evidence_quote && r.review_text.includes(l.evidence_quote);
+}
+
+function chips(el, options, field) {
+  const box = $(el); box.innerHTML = "";
+  options.forEach(opt => {
+    const b = document.createElement("button");
+    b.textContent = opt; b.type = "button";
+    if (cur()[field] === opt) b.classList.add("on");
+    b.onclick = () => { cur()[field] = opt; save(); render(); };
+    box.appendChild(b);
+  });
+}
+
+function render() {
+  const r = ROWS[i], l = cur();
+  $("meta").textContent = `#${i + 1} of ${ROWS.length} · ${r.review_id} · ${r.review_timestamp} · app ${r.app_version || "(missing)"}`;
+  $("text").textContent = r.review_text;
+  chips("topic", TOPICS, "topic"); chips("intent", INTENTS, "intent");
+  chips("severity", SEVERITIES, "severity"); chips("sentiment", SENTIMENTS, "sentiment");
+  $("quote").value = l.evidence_quote || "";
+  $("entities").value = l.entities || "";
+  $("needs").checked = !!l.needs_review; $("ambig").checked = !!l.ambiguous;
+  $("notes").value = l.notes || "";
+  checkQuote();
+  const done = ROWS.filter(isDone).length;
+  $("count").textContent = `${done}/${ROWS.length} complete`;
+  $("bar").style.width = (100 * done / ROWS.length) + "%";
+  $("prev").disabled = i === 0;
+  $("next").textContent = i === ROWS.length - 1 ? "Save" : "Save & next →";
+  const jump = $("jump"); jump.innerHTML = "";
+  ROWS.forEach((row, k) => {
+    const b = document.createElement("button"); b.textContent = k + 1;
+    if (isDone(row)) b.classList.add("done"); if (k === i) b.classList.add("cur");
+    b.onclick = () => { i = k; render(); }; jump.appendChild(b);
+  });
+  $("navErr").textContent = "";
+}
+
+function checkQuote() {
+  const q = $("quote").value;
+  $("quoteErr").textContent = q && !ROWS[i].review_text.includes(q) ? "Not an exact substring of the review." : "";
+}
+
+$("quote").oninput = () => { cur().evidence_quote = $("quote").value; save(); checkQuote(); };
+$("entities").oninput = () => { cur().entities = $("entities").value; save(); };
+$("notes").oninput = () => { cur().notes = $("notes").value; save(); };
+$("needs").onchange = () => { cur().needs_review = $("needs").checked; save(); };
+$("ambig").onchange = () => { cur().ambiguous = $("ambig").checked; save(); };
+$("useAll").onclick = () => { cur().evidence_quote = ROWS[i].review_text; save(); render(); };
+$("useSel").onclick = () => {
+  const s = String(window.getSelection() || "");
+  if (s && ROWS[i].review_text.includes(s)) { cur().evidence_quote = s; save(); render(); }
+  else $("quoteErr").textContent = "Select text inside the review first.";
+};
+$("prev").onclick = () => { if (i > 0) { i--; render(); } };
+$("next").onclick = () => {
+  if (!isDone(ROWS[i])) { $("navErr").textContent = "Topic, intent, severity, sentiment and an exact quote are required."; return; }
+  if (i < ROWS.length - 1) { i++; render(); } else render();
+};
+
+function csvCell(v) { v = v == null ? "" : String(v); return /[",\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
+$("download").onclick = () => {
+  const cols = ["review_id","review_text","review_rating","review_likes","app_version","review_timestamp",
+                "topic","intent","sentiment","severity","entities","evidence_quote","needs_review","ambiguous","notes"];
+  const lines = [cols.join(",")];
+  ROWS.forEach(r => {
+    const l = labels[r.review_id] || {};
+    const ents = (l.entities || "").split(",").map(s => s.trim()).filter(Boolean);
+    const out = { ...r, topic: l.topic || "", intent: l.intent || "", sentiment: l.sentiment || "", severity: l.severity || "",
+      entities: JSON.stringify(ents), evidence_quote: l.evidence_quote || "",
+      needs_review: l.needs_review ? "true" : "false", ambiguous: l.ambiguous ? "true" : "false", notes: l.notes || "" };
+    lines.push(cols.map(c => csvCell(out[c])).join(","));
+  });
+  const done = ROWS.filter(isDone).length;
+  if (done < ROWS.length && !confirm(`Only ${done}/${ROWS.length} are complete. Download anyway?`)) return;
+  const blob = new Blob(["﻿" + lines.join("\n") + "\n"], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "golden_50_labeled.csv"; a.click();
+};
+
+const firstOpen = ROWS.findIndex(r => !isDone(r)); i = firstOpen === -1 ? 0 : firstOpen;
+render();
+</script>
+</body>
+</html>

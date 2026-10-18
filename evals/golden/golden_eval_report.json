@@ -1,0 +1,100 @@
+{
+  "primary": {
+    "setup": "final pipeline (Jev labels + code/gpt quotes)",
+    "n": 50,
+    "ambiguous": 1,
+    "agreement": {
+      "topic": 0.6,
+      "intent": 0.82,
+      "severity": 0.8,
+      "sentiment_within_tol": 0.86,
+      "topic_intent_severity": 0.5
+    },
+    "severity_mae": 0.32,
+    "sentiment_mae": 0.21,
+    "missing_or_quarantined_predictions": 0,
+    "per_topic_support": {
+      "access": 1,
+      "other": 32,
+      "usability": 13,
+      "catalog": 1,
+      "playback": 2,
+      "support": 1
+    },
+    "topic_confusion_human_to_pred": {
+      "access->catalog": 1,
+      "catalog->other": 1,
+      "other->billing": 2,
+      "other->catalog": 3,
+      "other->other": 23,
+      "other->usability": 4,
+      "playback->playback": 2,
+      "support->playback": 1,
+      "usability->billing": 1,
+      "usability->catalog": 2,
+      "usability->downloads": 1,
+      "usability->other": 2,
+      "usability->playback": 2,
+      "usability->usability": 5
+    },
+    "agreement_excluding_ambiguous": {
+      "topic": 0.6122,
+      "intent": 0.8367,
+      "severity": 0.7959
+    },
+    "needs_review_as_predictor": {
+      "needs_review=False,materially_wrong=False": 24,
+      "needs_review=False,materially_wrong=True": 20,
+      "needs_review=True,materially_wrong=False": 2,
+      "needs_review=True,materially_wrong=True": 4
+    },
+    "quotes_exact_substring": 50,
+    "cases_with_entities_not_in_human_list": 19
+  },
+  "sentiment_tolerance": 0.5,
+  "note": "Golden labels were hand-labelled by the student and never used as model inputs, examples or thresholds.",
+  "alternative": {
+    "setup": "alternative: gpt-6-luna only (blind)",
+    "n": 50,
+    "ambiguous": 1,
+    "agreement": {
+      "topic": 0.66,
+      "intent": 0.82,
+      "severity": 0.8,
+      "sentiment_within_tol": 0.86,
+      "topic_intent_severity": 0.54
+    },
+    "severity_mae": 0.32,
+    "sentiment_mae": 0.268,
+    "missing_or_quarantined_predictions": 0,
+    "per_topic_support": {
+      "access": 1,
+      "other": 32,
+      "usability": 13,
+      "catalog": 1,
+      "playback": 2,
+      "support": 1
+    },
+    "topic_confusion_human_to_pred": {
+      "access->other": 1,
+      "catalog->other": 1,
+      "other->billing": 2,
+      "other->catalog": 3,
+      "other->other": 24,
+      "other->usability": 3,
+      "playback->playback": 2,
+      "support->playback": 1,
+      "usability->billing": 1,
+      "usability->catalog": 1,
+      "usability->downloads": 1,
+      "usability->other": 2,
+      "usability->playback": 1,
+      "usability->usability": 7
+    },
+    "agreement_excluding_ambiguous": {
+      "topic": 0.6735,
+      "intent": 0.8367,
+      "severity": 0.7959
+    }
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "input": "C:\\Users\\billy\\Agentic AI\\final-spotify-pipeline\\data\\dataset\\cost_100.csv",
+  "input_sha256": "c884ac3b9be5066995d5063f96ad9af6e5e082975788c1684c4f6b6ea661dd0e",
+  "state": "C:\\Users\\billy\\Agentic AI\\final-spotify-pipeline\\state\\pilot\\warm.sqlite",
+  "cache": "C:\\Users\\billy\\Agentic AI\\final-spotify-pipeline\\state\\pilot\\result_cache.sqlite",
+  "label_config": "jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1",
+  "enrich": {
+    "completed": 0,
+    "quarantined": 0,
+    "left_pending": 0,
+    "cache_filled": 100,
+    "batches": 0,
+    "stop_reason": "finished",
+    "seconds": 0.05,
+    "spent_total_usd": 0.0,
+    "record_status": {
+      "completed": 100
+    },
+    "run_id": "enrich-20261014T184325-6739b0",
+    "label_config": "jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1"
+  },
+  "verify": {
+    "verify_config": "gpt-6-luna/none+verify-prompts-v1+labels-v1",
+    "sample_declared": 20,
+    "compared": 20,
+    "agreement": {
+      "topic": 1.0,
+      "intent": 0.95,
+      "severity": 0.9,
+      "all3": 0.9
+    },
+    "severity_mae": 0.1,
+    "sentiment_mae": 0.162,
+    "topic_confusion_enrich_vs_verifier": {},
+    "needs_review_vs_material_disagreement": {
+      "needs_review=False,disagree=False": 17,
+      "needs_review=False,disagree=True": 1,
+      "needs_review=True,disagree=False": 2
+    },
+    "disagreement_count": 2,
+    "planted_error_test": {
+      "cases": 20,
+      "detected": 20,
+      "note": "synthetic copy with deliberately wrong topic/severity; excluded from all business aggregates"
+    },
+    "verifier_failures": []
+  },
+  "group": {
+    "group_config": "gpt-6-luna/low+group-v2+[jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1]",
+    "issues": 17,
+    "memberships": 53,
+    "ungrouped_complaints": 0,
+    "assignment_methods": {
+      "luna": 37,
+      "only_issue": 16
+    }
+  },
+  "rank": {
+    "issues": 15,
+    "top5": [
+      [
+        "PLB-99",
+        "Other playback complaints",
+        21
+      ],
+      [
+        "USB-01",
+        "Excessive Ad Interruptions",
+        20
+      ],
+      [
+        "OTH-99",
+        "General dissatisfaction (no specific feature)",
+        18
+      ],
+      [
+        "CAT-99",
+        "Other catalog complaints",
+        15
+      ],
+      [
+        "BIL-03",
+        "Premium-Gated Playback Controls",
+        12
+      ]
+    ]
+  },
+  "memo": {
+    "attempts": 0,
+    "problems": [],
+    "area": "usability"
+  },
+  "stage_seconds": {
+    "ingest": 0.06,
+    "enrich": 0.52,
+    "verify": 0.02,
+    "group": 0.03,
+    "rank": 0.01,
+    "memo": 0.02
+  },
+  "wall_clock_seconds": 0.67,
+  "finished_at": "2026-10-14T18:43:26-0700"
+}

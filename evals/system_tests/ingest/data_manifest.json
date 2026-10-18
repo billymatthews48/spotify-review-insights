@@ -1,0 +1,28 @@
+{
+  "source": {
+    "title": "3.4 Million Spotify Google Store Reviews",
+    "creator": "BwandoWando",
+    "url": "https://www.kaggle.com/datasets/bwandowando/3-4-million-spotify-google-store-reviews",
+    "download_url": "https://www.kaggle.com/api/v1/datasets/download/bwandowando/3-4-million-spotify-google-store-reviews?datasetVersionNumber=2",
+    "version": 2,
+    "publisher_license": "CC0: Public Domain",
+    "archive_sha256": "7b351f41fef9de9d8cba07ac40a300d20fd605ff0298a1885df0dbf0d66b3cbc",
+    "archive_bytes": 273598020,
+    "records": 3377423
+  },
+  "window": {
+    "start_inclusive": "2022-05-17",
+    "end_exclusive": "2023-11-17",
+    "first_review": "2022-05-17 00:01:07",
+    "last_review": "2023-11-15 23:16:10"
+  },
+  "input": {
+    "path": "synthetic_reviews.csv",
+    "bytes": 1414,
+    "sha256": "3ec586f06ce4626ec799c51c240bb1a8f8a30998c99d8778df3b8f9f4b03849a",
+    "matches_course_manifest": false
+  },
+  "parsed_rows_sha256": "92fd0fa3839859e3c1c08ccd0cb56e9f9bcb96f5ebd324950b1c8df526cb4da7",
+  "row_hash": "SHA-256 of UTF-8 compact JSON of the six source fields (course row_sha helper)",
+  "scope": "all nonempty IDs"
+}

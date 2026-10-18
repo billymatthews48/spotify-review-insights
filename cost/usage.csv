@@ -1,0 +1,231 @@
+request_id,run,stage,provider,model,outcome,usage_status,billing_item,billed_units,unit,price_per_unit_usd,cost_usd
+typesafe-e4d2d5cd871e4960bdba70166428b87d,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1263,token,0.000000042000,0.0000530460
+typesafe-e4d2d5cd871e4960bdba70166428b87d,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-9a6f001e0ff546ef9c392da1bf1d51f7,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1260,token,0.000000042000,0.0000529200
+typesafe-9a6f001e0ff546ef9c392da1bf1d51f7,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-8cf3c944486442a8b2ff6ef427cd52cf,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1258,token,0.000000042000,0.0000528360
+typesafe-8cf3c944486442a8b2ff6ef427cd52cf,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-dc979bcb563a40b3a8183811bccf76df,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1299,token,0.000000042000,0.0000545580
+typesafe-dc979bcb563a40b3a8183811bccf76df,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-7d36983ed6ec4e4582f592405dcec5c5,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1298,token,0.000000042000,0.0000545160
+typesafe-7d36983ed6ec4e4582f592405dcec5c5,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-53c48daf1c4742ecaad1b522c8b7fd2f,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1259,token,0.000000042000,0.0000528780
+typesafe-53c48daf1c4742ecaad1b522c8b7fd2f,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-c35e040c76294c309a1fae859c916f1e,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1259,token,0.000000042000,0.0000528780
+typesafe-c35e040c76294c309a1fae859c916f1e,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-dbbfb377ecda40fc8ba14713cb2cf20e,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1261,token,0.000000042000,0.0000529620
+typesafe-dbbfb377ecda40fc8ba14713cb2cf20e,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-fad08dcb5e364bfba3a4b6ea7d4a3791,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1261,token,0.000000042000,0.0000529620
+typesafe-fad08dcb5e364bfba3a4b6ea7d4a3791,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-22f36f8a1477475d8ce1206d458bdb08,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1260,token,0.000000042000,0.0000529200
+typesafe-22f36f8a1477475d8ce1206d458bdb08,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-059b1147b57542d482c417fa5e7a9d23,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1259,token,0.000000042000,0.0000528780
+typesafe-059b1147b57542d482c417fa5e7a9d23,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-9cd3e7282d7c42bfa7e6d4323313377f,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1282,token,0.000000042000,0.0000538440
+typesafe-9cd3e7282d7c42bfa7e6d4323313377f,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-f9cd9e982d1441e5a68ea3b2fd087ac3,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1259,token,0.000000042000,0.0000528780
+typesafe-f9cd9e982d1441e5a68ea3b2fd087ac3,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-35bf9d9de9404d23941c1642d4d9882a,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1260,token,0.000000042000,0.0000529200
+typesafe-35bf9d9de9404d23941c1642d4d9882a,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-4e355a9187d34c64a8bbafbbfb97aeb3,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1266,token,0.000000042000,0.0000531720
+typesafe-4e355a9187d34c64a8bbafbbfb97aeb3,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-aeee5659eced4b198b29e28e3e91cdd4,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1261,token,0.000000042000,0.0000529620
+typesafe-aeee5659eced4b198b29e28e3e91cdd4,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,213,token,0.000000000000,0.0000000000
+typesafe-cbc7e0dde5b148549fb313df8779e8f2,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1262,token,0.000000042000,0.0000530040
+typesafe-cbc7e0dde5b148549fb313df8779e8f2,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-733a7b1d2e2a4e86966379471d5c6b7b,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1299,token,0.000000042000,0.0000545580
+typesafe-733a7b1d2e2a4e86966379471d5c6b7b,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,215,token,0.000000000000,0.0000000000
+typesafe-a5abf9441b5841b18ac5ad1da290c727,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1281,token,0.000000042000,0.0000538020
+typesafe-a5abf9441b5841b18ac5ad1da290c727,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-724af33f26b14784b22e70c51dd4a299,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1262,token,0.000000042000,0.0000530040
+typesafe-724af33f26b14784b22e70c51dd4a299,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-2e3ea504d38b4ba6b8021993243b3609,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1324,token,0.000000042000,0.0000556080
+typesafe-2e3ea504d38b4ba6b8021993243b3609,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,214,token,0.000000000000,0.0000000000
+typesafe-3b705456f2b24dd5b9319e5a6730ea12,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1258,token,0.000000042000,0.0000528360
+typesafe-3b705456f2b24dd5b9319e5a6730ea12,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-3895e8ad2bee49f7b770112ae4977eda,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1282,token,0.000000042000,0.0000538440
+typesafe-3895e8ad2bee49f7b770112ae4977eda,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,215,token,0.000000000000,0.0000000000
+typesafe-cd7860b14d4d4b1296e5d2d8a2b97416,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1272,token,0.000000042000,0.0000534240
+typesafe-cd7860b14d4d4b1296e5d2d8a2b97416,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-b9e9055c8990410b94220be79ac90f26,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1281,token,0.000000042000,0.0000538020
+typesafe-b9e9055c8990410b94220be79ac90f26,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-652b0728001d4f058ede5773ad0eed90,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1265,token,0.000000042000,0.0000531300
+typesafe-652b0728001d4f058ede5773ad0eed90,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-6f677ee369bd4029afeead715645821b,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1260,token,0.000000042000,0.0000529200
+typesafe-6f677ee369bd4029afeead715645821b,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-c994fc691a4f4bba9b28f5dfc79ad0ce,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1299,token,0.000000042000,0.0000545580
+typesafe-c994fc691a4f4bba9b28f5dfc79ad0ce,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,213,token,0.000000000000,0.0000000000
+typesafe-ac5cc5265fff49898b575a06d4547b44,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1270,token,0.000000042000,0.0000533400
+typesafe-ac5cc5265fff49898b575a06d4547b44,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,215,token,0.000000000000,0.0000000000
+typesafe-55adef5540bd49f295348cc636b49e04,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1277,token,0.000000042000,0.0000536340
+typesafe-55adef5540bd49f295348cc636b49e04,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,213,token,0.000000000000,0.0000000000
+typesafe-d523f105013a4f79b1488a63ba9d6344,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1268,token,0.000000042000,0.0000532560
+typesafe-d523f105013a4f79b1488a63ba9d6344,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-9b2c10357cd943cca344132787335f4e,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1266,token,0.000000042000,0.0000531720
+typesafe-9b2c10357cd943cca344132787335f4e,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-34b3680b57aa4942a6a7ecb979fa4b9b,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1274,token,0.000000042000,0.0000535080
+typesafe-34b3680b57aa4942a6a7ecb979fa4b9b,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,214,token,0.000000000000,0.0000000000
+typesafe-10c73c11cef94de6bb51ae41735c3d77,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1341,token,0.000000042000,0.0000563220
+typesafe-10c73c11cef94de6bb51ae41735c3d77,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,214,token,0.000000000000,0.0000000000
+typesafe-6f0146d574c44e5ca1931d9517b49ac0,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1294,token,0.000000042000,0.0000543480
+typesafe-6f0146d574c44e5ca1931d9517b49ac0,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,214,token,0.000000000000,0.0000000000
+typesafe-f7316e715faf47dc8d89807072c5d75d,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1270,token,0.000000042000,0.0000533400
+typesafe-f7316e715faf47dc8d89807072c5d75d,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-c1808b9b35e541e4ba993df189bc04ba,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1260,token,0.000000042000,0.0000529200
+typesafe-c1808b9b35e541e4ba993df189bc04ba,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-15530f0f06cc4a568017c22e34a45066,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1274,token,0.000000042000,0.0000535080
+typesafe-15530f0f06cc4a568017c22e34a45066,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,214,token,0.000000000000,0.0000000000
+typesafe-4a775be5a3f846e0995edb799245e0bc,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1322,token,0.000000042000,0.0000555240
+typesafe-4a775be5a3f846e0995edb799245e0bc,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-236c0805afbe43b3b30caaf8137d8959,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1275,token,0.000000042000,0.0000535500
+typesafe-236c0805afbe43b3b30caaf8137d8959,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,214,token,0.000000000000,0.0000000000
+typesafe-c5ce5e5062b64109ad5e0d4108f0f48b,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1258,token,0.000000042000,0.0000528360
+typesafe-c5ce5e5062b64109ad5e0d4108f0f48b,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-01faf613d78e4c98aee3f77f9171ef40,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1357,token,0.000000042000,0.0000569940
+typesafe-01faf613d78e4c98aee3f77f9171ef40,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,214,token,0.000000000000,0.0000000000
+typesafe-adf73e1913a54fc295683cf2a22d35b9,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1312,token,0.000000042000,0.0000551040
+typesafe-adf73e1913a54fc295683cf2a22d35b9,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,213,token,0.000000000000,0.0000000000
+typesafe-55c6de550093443f96e27efb4ca97e55,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1261,token,0.000000042000,0.0000529620
+typesafe-55c6de550093443f96e27efb4ca97e55,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,213,token,0.000000000000,0.0000000000
+typesafe-b7e3a412d2734368ad24b0634fa81bd6,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1315,token,0.000000042000,0.0000552300
+typesafe-b7e3a412d2734368ad24b0634fa81bd6,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,214,token,0.000000000000,0.0000000000
+typesafe-667d3ae337be4cd3b319812639454992,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1260,token,0.000000042000,0.0000529200
+typesafe-667d3ae337be4cd3b319812639454992,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-c8099628f8dc408b86f3992248a303f7,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1263,token,0.000000042000,0.0000530460
+typesafe-c8099628f8dc408b86f3992248a303f7,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-f8599adb67c243a290abcce5c3530329,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1304,token,0.000000042000,0.0000547680
+typesafe-f8599adb67c243a290abcce5c3530329,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,213,token,0.000000000000,0.0000000000
+typesafe-528528d33d0b4a0d8d6addd60e027280,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1267,token,0.000000042000,0.0000532140
+typesafe-528528d33d0b4a0d8d6addd60e027280,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-13e7703740434912b2669e1785c1bc32,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1262,token,0.000000042000,0.0000530040
+typesafe-13e7703740434912b2669e1785c1bc32,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,213,token,0.000000000000,0.0000000000
+openai-2c0a98bb8e65466eb4836da317d8fd4e,cold,enrich: gpt quotes,openai,gpt-6-luna,succeeded,reported,input_uncached,718,token,0.000000100000,0.0000718000
+openai-2c0a98bb8e65466eb4836da317d8fd4e,cold,enrich: gpt quotes,openai,gpt-6-luna,succeeded,reported,input_cached,0,token,0.000000010000,0.0000000000
+openai-2c0a98bb8e65466eb4836da317d8fd4e,cold,enrich: gpt quotes,openai,gpt-6-luna,succeeded,reported,output,100,token,0.000000500000,0.0000500000
+typesafe-4bb77f54cb184677a0ece4613691352b,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1269,token,0.000000042000,0.0000532980
+typesafe-4bb77f54cb184677a0ece4613691352b,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-a5bb06e889bd48399376ceb63bccf564,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1264,token,0.000000042000,0.0000530880
+typesafe-a5bb06e889bd48399376ceb63bccf564,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-b36a92a37a3047ad8509f42d35073432,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1285,token,0.000000042000,0.0000539700
+typesafe-b36a92a37a3047ad8509f42d35073432,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,216,token,0.000000000000,0.0000000000
+typesafe-7e7d638291b34359933d3d6a9d2d8ef0,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1372,token,0.000000042000,0.0000576240
+typesafe-7e7d638291b34359933d3d6a9d2d8ef0,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,215,token,0.000000000000,0.0000000000
+typesafe-98ac9049e4ca46ddb2adc9a5c7849454,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1262,token,0.000000042000,0.0000530040
+typesafe-98ac9049e4ca46ddb2adc9a5c7849454,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,213,token,0.000000000000,0.0000000000
+typesafe-d7d2e89035554315a53f99b6711c996f,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1280,token,0.000000042000,0.0000537600
+typesafe-d7d2e89035554315a53f99b6711c996f,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,214,token,0.000000000000,0.0000000000
+typesafe-e1f2f352d14849a58ce651f489017a97,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1260,token,0.000000042000,0.0000529200
+typesafe-e1f2f352d14849a58ce651f489017a97,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,213,token,0.000000000000,0.0000000000
+typesafe-0d6a4127e556468b95e94d7476ab0cd8,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1264,token,0.000000042000,0.0000530880
+typesafe-0d6a4127e556468b95e94d7476ab0cd8,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-e1413e8723d04147a4812334afe30c83,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1267,token,0.000000042000,0.0000532140
+typesafe-e1413e8723d04147a4812334afe30c83,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-e0c871a73ff5466696aaa6ae71f86267,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1266,token,0.000000042000,0.0000531720
+typesafe-e0c871a73ff5466696aaa6ae71f86267,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,214,token,0.000000000000,0.0000000000
+typesafe-2d4423ae6126424889b4926e37c0b0ce,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1308,token,0.000000042000,0.0000549360
+typesafe-2d4423ae6126424889b4926e37c0b0ce,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,216,token,0.000000000000,0.0000000000
+typesafe-d0c953d85ffc4eb190d8b81050063378,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1268,token,0.000000042000,0.0000532560
+typesafe-d0c953d85ffc4eb190d8b81050063378,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-ab930bf1236c48d29e48de82661b7f18,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1293,token,0.000000042000,0.0000543060
+typesafe-ab930bf1236c48d29e48de82661b7f18,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,214,token,0.000000000000,0.0000000000
+typesafe-a9512998608840b7b2a699af6d7eb422,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1259,token,0.000000042000,0.0000528780
+typesafe-a9512998608840b7b2a699af6d7eb422,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-1710687844154b08b16d2e422ae47130,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1287,token,0.000000042000,0.0000540540
+typesafe-1710687844154b08b16d2e422ae47130,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-ec49429725d84d26ab3dbfba4e0cd372,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1271,token,0.000000042000,0.0000533820
+typesafe-ec49429725d84d26ab3dbfba4e0cd372,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-d75ce7eee4bd44138fa41b39e31141eb,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1333,token,0.000000042000,0.0000559860
+typesafe-d75ce7eee4bd44138fa41b39e31141eb,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-f2d3a9e95b3546458efc56691c4d0ac6,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1267,token,0.000000042000,0.0000532140
+typesafe-f2d3a9e95b3546458efc56691c4d0ac6,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,211,token,0.000000000000,0.0000000000
+typesafe-e61bc044916545599775bae7aab44396,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1270,token,0.000000042000,0.0000533400
+typesafe-e61bc044916545599775bae7aab44396,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-0d1a940b884d46b1a08e580d7c7b0799,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1260,token,0.000000042000,0.0000529200
+typesafe-0d1a940b884d46b1a08e580d7c7b0799,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,213,token,0.000000000000,0.0000000000
+typesafe-c414a9fd861a4ba2a0fee35c70b1af14,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1259,token,0.000000042000,0.0000528780
+typesafe-c414a9fd861a4ba2a0fee35c70b1af14,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-4704f4eb21f648a4a0ed8d1520542ff8,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1264,token,0.000000042000,0.0000530880
+typesafe-4704f4eb21f648a4a0ed8d1520542ff8,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,215,token,0.000000000000,0.0000000000
+typesafe-d784643155104d2a8b5e30e775132f3f,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1289,token,0.000000042000,0.0000541380
+typesafe-d784643155104d2a8b5e30e775132f3f,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,214,token,0.000000000000,0.0000000000
+typesafe-0a08df65d9dd4ba1a2ed7652a768994b,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1270,token,0.000000042000,0.0000533400
+typesafe-0a08df65d9dd4ba1a2ed7652a768994b,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,211,token,0.000000000000,0.0000000000
+typesafe-8425071145ea4964bb3bf19033ea0db5,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1281,token,0.000000042000,0.0000538020
+typesafe-8425071145ea4964bb3bf19033ea0db5,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,213,token,0.000000000000,0.0000000000
+typesafe-00ee5939a2d64641a3283a57ef09ddb0,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1259,token,0.000000042000,0.0000528780
+typesafe-00ee5939a2d64641a3283a57ef09ddb0,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-804862e48395456da6632f105ceff1fc,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1262,token,0.000000042000,0.0000530040
+typesafe-804862e48395456da6632f105ceff1fc,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,213,token,0.000000000000,0.0000000000
+typesafe-682a20295bfa41e1b357c33e0e635c25,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1260,token,0.000000042000,0.0000529200
+typesafe-682a20295bfa41e1b357c33e0e635c25,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,213,token,0.000000000000,0.0000000000
+typesafe-8c38764b3add4fcea212548b5eefa4fe,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1262,token,0.000000042000,0.0000530040
+typesafe-8c38764b3add4fcea212548b5eefa4fe,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-4a31522a50b243c7b7020efef5ca3800,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1262,token,0.000000042000,0.0000530040
+typesafe-4a31522a50b243c7b7020efef5ca3800,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-5e2b96e5d0024f9caabe9418653e1041,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1293,token,0.000000042000,0.0000543060
+typesafe-5e2b96e5d0024f9caabe9418653e1041,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-d3151af042c34b9d8774ce8e5f89bb62,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1356,token,0.000000042000,0.0000569520
+typesafe-d3151af042c34b9d8774ce8e5f89bb62,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,214,token,0.000000000000,0.0000000000
+typesafe-24b3cf6e693b4d868fa8ba937c183d44,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1278,token,0.000000042000,0.0000536760
+typesafe-24b3cf6e693b4d868fa8ba937c183d44,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,213,token,0.000000000000,0.0000000000
+typesafe-82df6cbdbc7c49598cf4e31bbabe8ab6,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1294,token,0.000000042000,0.0000543480
+typesafe-82df6cbdbc7c49598cf4e31bbabe8ab6,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,216,token,0.000000000000,0.0000000000
+typesafe-3d942775a79640afb85aac7d29ac2d50,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1260,token,0.000000042000,0.0000529200
+typesafe-3d942775a79640afb85aac7d29ac2d50,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,213,token,0.000000000000,0.0000000000
+typesafe-f5d597fbde5242fabb729e8d6632ce8a,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1265,token,0.000000042000,0.0000531300
+typesafe-f5d597fbde5242fabb729e8d6632ce8a,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,213,token,0.000000000000,0.0000000000
+typesafe-c56e2e22eb8240338dea62165ce94ac7,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1265,token,0.000000042000,0.0000531300
+typesafe-c56e2e22eb8240338dea62165ce94ac7,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-7aee657ecdfa41cdbeca6962e68b990b,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1264,token,0.000000042000,0.0000530880
+typesafe-7aee657ecdfa41cdbeca6962e68b990b,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,214,token,0.000000000000,0.0000000000
+typesafe-2a51db7de17844d5a092b71a3fb44ef6,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1270,token,0.000000042000,0.0000533400
+typesafe-2a51db7de17844d5a092b71a3fb44ef6,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,213,token,0.000000000000,0.0000000000
+typesafe-512bb995ce20404583674d7c42556b27,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1261,token,0.000000042000,0.0000529620
+typesafe-512bb995ce20404583674d7c42556b27,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-b85838f0fc504147b48a395fd994b520,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1262,token,0.000000042000,0.0000530040
+typesafe-b85838f0fc504147b48a395fd994b520,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-a75cdde7d6e14dc68b5abfd54404674c,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1295,token,0.000000042000,0.0000543900
+typesafe-a75cdde7d6e14dc68b5abfd54404674c,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,213,token,0.000000000000,0.0000000000
+typesafe-c92d8609197840f79bbcb376355a04c8,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1266,token,0.000000042000,0.0000531720
+typesafe-c92d8609197840f79bbcb376355a04c8,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,213,token,0.000000000000,0.0000000000
+typesafe-9b515ca1efa24f758fd02e8460859b38,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1266,token,0.000000042000,0.0000531720
+typesafe-9b515ca1efa24f758fd02e8460859b38,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-b98d8ca5a0594279916e55fe18924197,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1259,token,0.000000042000,0.0000528780
+typesafe-b98d8ca5a0594279916e55fe18924197,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-c87601b5b93049c5baf162b338424c19,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1269,token,0.000000042000,0.0000532980
+typesafe-c87601b5b93049c5baf162b338424c19,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-8a03de13dc4843b9aee55dc608f1eb36,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1274,token,0.000000042000,0.0000535080
+typesafe-8a03de13dc4843b9aee55dc608f1eb36,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,213,token,0.000000000000,0.0000000000
+typesafe-76235ea608f647ff8814c5a43bfc6ab9,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1284,token,0.000000042000,0.0000539280
+typesafe-76235ea608f647ff8814c5a43bfc6ab9,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-346cd984341a444ba07fa46ce1ff4b87,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1402,token,0.000000042000,0.0000588840
+typesafe-346cd984341a444ba07fa46ce1ff4b87,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,212,token,0.000000000000,0.0000000000
+typesafe-efd4861e81c541ef80f22490345f9684,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,input,1271,token,0.000000042000,0.0000533820
+typesafe-efd4861e81c541ef80f22490345f9684,cold,enrich: Jev labels,typesafe,jev-1.13.0,succeeded,reported,output,214,token,0.000000000000,0.0000000000
+openai-5427ff997efa412c9ce428d7cbcc4182,cold,enrich: gpt quotes,openai,gpt-6-luna,succeeded,reported,input_uncached,699,token,0.000000100000,0.0000699000
+openai-5427ff997efa412c9ce428d7cbcc4182,cold,enrich: gpt quotes,openai,gpt-6-luna,succeeded,reported,input_cached,0,token,0.000000010000,0.0000000000
+openai-5427ff997efa412c9ce428d7cbcc4182,cold,enrich: gpt quotes,openai,gpt-6-luna,succeeded,reported,output,86,token,0.000000500000,0.0000430000
+openai-0cfaac941c1f44069a67785353aaaa5e,cold,verify,openai,gpt-6-luna,succeeded,reported,input_uncached,406,token,0.000000100000,0.0000406000
+openai-0cfaac941c1f44069a67785353aaaa5e,cold,verify,openai,gpt-6-luna,succeeded,reported,input_cached,1313,token,0.000000010000,0.0000131300
+openai-0cfaac941c1f44069a67785353aaaa5e,cold,verify,openai,gpt-6-luna,succeeded,reported,output,492,token,0.000000500000,0.0002460000
+openai-77704abf0b2e45ce9c2ddafb83b274f4,cold,group: discover,openai,gpt-6-luna,succeeded,reported,input_uncached,1086,token,0.000000100000,0.0001086000
+openai-77704abf0b2e45ce9c2ddafb83b274f4,cold,group: discover,openai,gpt-6-luna,succeeded,reported,input_cached,0,token,0.000000010000,0.0000000000
+openai-77704abf0b2e45ce9c2ddafb83b274f4,cold,group: discover,openai,gpt-6-luna,succeeded,reported,output,617,token,0.000000500000,0.0003085000
+openai-12cccb497d88403195a12afbf5f6ba7b,cold,group: assign,openai,gpt-6-luna,succeeded,reported,input_uncached,911,token,0.000000100000,0.0000911000
+openai-12cccb497d88403195a12afbf5f6ba7b,cold,group: assign,openai,gpt-6-luna,succeeded,reported,input_cached,0,token,0.000000010000,0.0000000000
+openai-12cccb497d88403195a12afbf5f6ba7b,cold,group: assign,openai,gpt-6-luna,succeeded,reported,output,156,token,0.000000500000,0.0000780000
+openai-2038fba56e784c5fb3063e88c96fea9a,cold,group: discover,openai,gpt-6-luna,succeeded,reported,input_uncached,968,token,0.000000100000,0.0000968000
+openai-2038fba56e784c5fb3063e88c96fea9a,cold,group: discover,openai,gpt-6-luna,succeeded,reported,input_cached,0,token,0.000000010000,0.0000000000
+openai-2038fba56e784c5fb3063e88c96fea9a,cold,group: discover,openai,gpt-6-luna,succeeded,reported,output,500,token,0.000000500000,0.0002500000
+openai-47bb52f634c44d74836e155c84f62ccd,cold,group: assign,openai,gpt-6-luna,succeeded,reported,input_uncached,864,token,0.000000100000,0.0000864000
+openai-47bb52f634c44d74836e155c84f62ccd,cold,group: assign,openai,gpt-6-luna,succeeded,reported,input_cached,0,token,0.000000010000,0.0000000000
+openai-47bb52f634c44d74836e155c84f62ccd,cold,group: assign,openai,gpt-6-luna,succeeded,reported,output,121,token,0.000000500000,0.0000605000
+openai-eb8f73d4fd11424fa12a2d163b7ac82d,cold,group: discover,openai,gpt-6-luna,succeeded,reported,input_uncached,1010,token,0.000000100000,0.0001010000
+openai-eb8f73d4fd11424fa12a2d163b7ac82d,cold,group: discover,openai,gpt-6-luna,succeeded,reported,input_cached,0,token,0.000000010000,0.0000000000
+openai-eb8f73d4fd11424fa12a2d163b7ac82d,cold,group: discover,openai,gpt-6-luna,succeeded,reported,output,492,token,0.000000500000,0.0002460000
+openai-ac155d466bf5466eb9fd00d185ffce26,cold,group: assign,openai,gpt-6-luna,succeeded,reported,input_uncached,728,token,0.000000100000,0.0000728000
+openai-ac155d466bf5466eb9fd00d185ffce26,cold,group: assign,openai,gpt-6-luna,succeeded,reported,input_cached,0,token,0.000000010000,0.0000000000
+openai-ac155d466bf5466eb9fd00d185ffce26,cold,group: assign,openai,gpt-6-luna,succeeded,reported,output,178,token,0.000000500000,0.0000890000
+openai-ff5d7bfd1b9d43f0b3685584f262d2fb,cold,memo,openai,gpt-6-luna,succeeded,reported,input_uncached,5036,token,0.000000100000,0.0005036000
+openai-ff5d7bfd1b9d43f0b3685584f262d2fb,cold,memo,openai,gpt-6-luna,succeeded,reported,input_cached,0,token,0.000000010000,0.0000000000
+openai-ff5d7bfd1b9d43f0b3685584f262d2fb,cold,memo,openai,gpt-6-luna,succeeded,reported,output,2034,token,0.000000500000,0.0010170000

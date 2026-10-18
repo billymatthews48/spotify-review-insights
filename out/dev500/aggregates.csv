@@ -1,0 +1,32 @@
+rank,issue_id,topic,name,complaint_count,severity_sum,mean_severity,priority_score,cancellation_count,severity_4plus_count,needs_review_count,definition
+1,OTH-99,other,Other other complaints,49,91,1.857143,91,6,1,4,"other complaints that fit none of the specific other issues (General praise or general criticism with no specific feature, unrelated content, politics/boycott slogans, or no supported specific topic.)"
+2,USB-01,usability,Excessive Ad Interruptions,27,77,2.851852,77,2,0,0,"Complaints that ads are too frequent, long, loud, or interrupt listening, including ads appearing before or between songs."
+3,BIL-99,billing,Other billing complaints,15,37,2.466667,37,1,1,4,"billing complaints that fit none of the specific billing issues (Price, charges, subscriptions, refunds, paywalls, premium entitlement; controls explicitly limited to premium (e.g. 'can't pick songs without premium', 'only 6 skips') go here.)"
+4,BIL-01,billing,Free-Tier Song Choice and Ordering,12,36,3.000000,36,2,0,0,"Free users are forced into shuffle or cannot choose specific songs, play tracks in order, or use a queue."
+5,PLB-05,playback,Wrong Songs or Playback Controls,10,33,3.300000,33,1,4,2,"Playback ignores the selected song or user controls, such as playing different tracks or failing to skip or shuffle as requested."
+6,BIL-02,billing,Free-Tier Playback Controls Restricted,11,32,2.909091,32,1,0,3,"Free users face limits on skipping, replaying, or seeking within songs, or cannot repeat tracks."
+7,USB-03,usability,Restricted Playback Controls,11,32,2.909091,32,2,0,1,"Complaints that users cannot reliably choose and play specific songs or control playback with options such as skip, seek, repeat, or playing tracks in order."
+8,OTH-01,other,Update Removes Basic Features,14,31,2.214286,31,5,1,5,Include complaints that recent app updates remove familiar features or make music streaming and basic listening worse.
+9,PLB-03,playback,App Crashes or Won't Load,7,28,4.000000,28,0,7,0,"The app crashes, shuts down, or gets stuck on a launch or loading screen, preventing playback or continued use."
+10,PLB-04,playback,False or Failed Network Connection,7,26,3.714286,26,0,5,0,"The app reports no connection or fails to access playback despite working internet, including when using particular network types."
+11,DWN-99,downloads,Other downloads complaints,6,24,4.000000,24,2,5,1,"downloads complaints that fit none of the specific downloads issues (Downloading songs, saved music, offline listening, downloads disappearing.)"
+12,PLB-99,playback,Other playback complaints,7,22,3.142857,22,1,3,1,"playback complaints that fit none of the specific playback issues (Playback failure, crashes, freezing, lag, songs stopping or skipping by themselves, connection failures, audio quality, battery/data/storage use.)"
+13,USB-99,usability,Other usability complaints,8,22,2.750000,22,0,1,3,"usability complaints that fit none of the specific usability issues (Navigation, controls, layout, UI changes, queue/playlist management, ad interruptions (e.g. 'new home screen is confusing', 'too many ads between songs').)"
+14,PLB-02,playback,Playback Stops Unexpectedly,6,20,3.333333,20,1,2,0,"Music or podcasts pause or stop mid-playback without user input, sometimes failing to resume correctly."
+15,BIL-04,billing,Premium Subscription Purchase or Access Fails,4,16,4.000000,16,0,4,0,"Users cannot complete a Premium purchase or sign-up, or a paid subscription does not unlock access."
+16,CAT-01,catalog,Missing or Removed Catalog Content,5,15,3.000000,15,0,1,1,"Songs, artists, or genres customers want are unavailable, missing from the catalog, or removed."
+17,USB-02,usability,Confusing Home Screen Navigation,6,15,2.500000,15,0,0,1,"Complaints that app layout or home-screen changes make it harder to find playlists, mixes, recently played items, or other content."
+18,CAT-02,catalog,Lyrics Missing or Failing to Load,5,14,2.800000,14,0,0,1,Lyrics are unavailable for songs or fail to display or load in the Android app.
+19,CAT-03,catalog,Unwanted or Repetitive Recommendations,5,13,2.600000,13,1,0,1,"Recommendations or DJ selections are irrelevant, repetitive, or continue appearing when customers do not want them or have disabled them."
+20,ACC-01,access,Login errors and connection detection,3,12,4.000000,12,0,3,0,Users cannot sign in because the app reports an error or falsely indicates there is no internet connection.
+21,PLB-06,playback,Playback Device Connection Fails,4,12,3.000000,12,1,1,1,"The app cannot reliably connect to or cast playback to another device, such as a smart speaker, console, or computer."
+22,OTH-03,other,Excessive Listening Restrictions,5,11,2.200000,11,1,0,3,Include complaints that limits or premium changes restrict basic music listening or make the service feel overly costly.
+23,USB-04,usability,Missing Playlist Management Tools,3,10,3.333333,10,0,1,2,"Complaints about missing or broken tools for searching, viewing, organizing, or queuing tracks in playlists and liked songs."
+24,ACC-03,access,Phone number sign-in failures,2,8,4.000000,8,0,2,0,Users cannot access their account because phone-number verification or sign-in rejects their number or repeatedly demands a new one.
+25,BIL-03,billing,Basic Features Moved Behind Premium,3,7,2.333333,7,0,0,1,"Features beyond song selection and playback controls, such as lyrics or higher audio quality, are restricted to Premium."
+26,ACC-05,access,Hacked account recovery,1,5,5.000000,5,0,1,0,Users report an account takeover and difficulty recovering access or account content.
+27,ACC-02,access,Password rejected,1,4,4.000000,4,0,1,0,The app refuses a password during account sign-in.
+28,ACC-04,access,Account access blocked,1,4,4.000000,4,0,1,0,"Users are prevented from entering their account without a more specific password, phone-number, or connection cause being identified."
+29,ACC-99,access,Other access complaints,1,4,4.000000,4,1,1,0,"access complaints that fit none of the specific access issues (Login, signup, password or account access problems (e.g. 'can't log in', 'account hacked', 'logged out every day').)"
+30,OTH-02,other,App Bugs and Unwanted Startup,2,4,2.000000,4,0,0,2,"Include reports of technical problems or confusing behavior, such as the app starting despite permissions being disabled."
+31,CAT-99,catalog,Other catalog complaints,1,3,3.000000,3,0,0,0,"catalog complaints that fit none of the specific catalog issues (Missing songs or artists, removed content, search and discovery, recommendations, lyrics availability, podcasts content.)"

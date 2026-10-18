@@ -1,0 +1,26 @@
+{
+  "input": {
+    "path": "spotify_reviews_18months.csv",
+    "bytes": 97400616,
+    "sha256": "1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6",
+    "matches_course_manifest": true
+  },
+  "rows": {
+    "parsed": 660622,
+    "unique_review_ids": 660622,
+    "duplicate_review_id_rows": 0,
+    "empty_review_text": 13,
+    "nonempty_to_classify": 660609,
+    "missing_app_version": 159701,
+    "invalid_rating": 0,
+    "nonnumeric_likes": 0
+  },
+  "scope": {
+    "rule": "lowest 100050 SHA-256('berkeley-fall-2026-assignment-5-v1:' + review_id) among nonempty IDs (course sampling order)",
+    "in_scope_ids": 100050,
+    "in_scope_distinct_texts": 78137,
+    "out_of_scope_ids_with_exact_text_match": 137937,
+    "out_of_scope_ids_without_match": 422622
+  },
+  "seconds": 186.2
+}

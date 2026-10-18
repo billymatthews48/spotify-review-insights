@@ -1,0 +1,26 @@
+{
+  "verify_config": "gpt-6-luna/none+verify-prompts-v1+labels-v1",
+  "sample_declared": 20,
+  "compared": 20,
+  "agreement": {
+    "topic": 1.0,
+    "intent": 0.95,
+    "severity": 0.9,
+    "all3": 0.9
+  },
+  "severity_mae": 0.1,
+  "sentiment_mae": 0.162,
+  "topic_confusion_enrich_vs_verifier": {},
+  "needs_review_vs_material_disagreement": {
+    "needs_review=False,disagree=False": 17,
+    "needs_review=False,disagree=True": 1,
+    "needs_review=True,disagree=False": 2
+  },
+  "disagreement_count": 2,
+  "planted_error_test": {
+    "cases": 20,
+    "detected": 20,
+    "note": "synthetic copy with deliberately wrong topic/severity; excluded from all business aggregates"
+  },
+  "verifier_failures": []
+}

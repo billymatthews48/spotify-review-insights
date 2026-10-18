@@ -1,0 +1,25 @@
+{
+  "_note": "Editable projection inputs. Measured pilot results never change when you edit these.",
+  "currency": "USD",
+  "budget_usd": 10.0,
+  "controls": {
+    "output_token_cap_per_request": 6000,
+    "max_jev_workers": 8,
+    "max_batch_workers": 4,
+    "max_reviews_per_enrich_request": 50,
+    "max_fallback_fraction": 0.05,
+    "fallback_model": "none (no stronger-model fallback is configured; a failed quote falls back to an exact text prefix in code at zero API cost)"
+  },
+  "volumes": {
+    "full_corpus": {"rows": 660622, "nonempty": 660609, "empty_quarantined": 13, "distinct_nonempty_texts": 484189},
+    "scope_100k": {"in_scope_ids": 100050, "distinct_texts": 78137, "out_of_scope_ids_reusing_exact_text": 137937}
+  },
+  "verify_fraction": 0.03,
+  "group_discovery": {"topics": 8, "examples_per_topic": 120},
+  "base": {"extra_attempt_rate": null, "long_text_share_multiplier": 1.0, "complaint_share_multiplier": 1.0, "memo_attempts": 1,
+           "enrich_throughput_source": "checkpoint_500"},
+  "conservative": {"extra_attempt_rate": 0.10, "long_text_share_multiplier": 1.25, "complaint_share_multiplier": 1.25,
+                   "memo_attempts": 2, "throughput_multiplier": 0.5},
+  "local_compute": {"api_free_local_cost": "unknown", "detail": "Pipeline code runs on a Windows laptop; electricity and hardware time are not metered, so they are reported as unknown rather than zero."},
+  "infrastructure": {"neon_postgres": "free tier, $0 list price (checked 2026-10-14)", "vercel_hosting": "Hobby tier, $0 list price (checked 2026-10-14)"}
+}

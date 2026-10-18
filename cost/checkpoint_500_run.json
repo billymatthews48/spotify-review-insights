@@ -1,0 +1,31 @@
+{
+  "input": "checkpoint_500.csv",
+  "stage": "enrich only",
+  "start": {
+    "label_config": "jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1",
+    "phase": "initial",
+    "pending_texts": 479,
+    "batches": 10,
+    "cache_hits_at_start": 0,
+    "spend_so_far": 0.0,
+    "cap": 10.0,
+    "batch_size": 50,
+    "batch_workers": 2,
+    "jev_workers": 8
+  },
+  "end": {
+    "completed": 479,
+    "quarantined": 0,
+    "left_pending": 0,
+    "cache_filled": 21,
+    "batches": 10,
+    "stop_reason": "finished",
+    "seconds": 31.48,
+    "spent_total_usd": 0.027017,
+    "record_status": {
+      "completed": 500
+    },
+    "run_id": "enrich-20261014T183249-723ace",
+    "label_config": "jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1"
+  }
+}

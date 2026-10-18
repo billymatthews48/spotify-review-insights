@@ -1,0 +1,34 @@
+# Secrets: never commit real keys
+.env
+.env.*
+!.env.example
+
+# Raw dataset (97.4 MB) and download: link + checksum are in the README instead
+data/download/
+data/dataset/*.csv
+data/dataset/*.zip
+
+# Local working state (exported to out/, grading/, cost/ and evals/ as JSONL/CSV)
+state/
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+
+# Checker output stays outside the submitted grading folder
+local-reference.json
+self-check.json
+
+# Python / Node
+__pycache__/
+*.pyc
+.venv/
+venv/
+node_modules/
+.vercel/
+.next/
+
+# Course ZIP contents live in data/ (not committed; copies of the course docs/checker are in tools/)
+data/
+# Checkpoint snapshots are committed once, under grading/
+out/full/checkpoint_*.json

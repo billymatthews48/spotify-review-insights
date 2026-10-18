@@ -1,0 +1,210 @@
+{
+  "input": {
+    "path": "spotify_reviews_18months.csv",
+    "bytes": 97400616,
+    "sha256": "1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6",
+    "matches_course_manifest": true
+  },
+  "rows": {
+    "parsed": 660622,
+    "unique_review_ids": 660622,
+    "duplicate_review_id_rows": 0,
+    "empty_review_text": 13,
+    "nonempty_to_classify": 660609,
+    "missing_app_version": 159701,
+    "invalid_rating": 0,
+    "nonnumeric_likes": 0
+  },
+  "exact_text_duplicates": {
+    "distinct_nonempty_texts": 484189,
+    "rows_reusing_an_earlier_identical_text": 176420,
+    "texts_appearing_more_than_once": 15922,
+    "most_common": [
+      {
+        "text": "Good",
+        "count": 12845
+      },
+      {
+        "text": "Nice",
+        "count": 5551
+      },
+      {
+        "text": "Excellent",
+        "count": 4096
+      },
+      {
+        "text": "Great",
+        "count": 3948
+      },
+      {
+        "text": "Awesome",
+        "count": 3359
+      },
+      {
+        "text": "Love it",
+        "count": 3136
+      },
+      {
+        "text": "Very good",
+        "count": 2769
+      },
+      {
+        "text": "Nice app",
+        "count": 2134
+      },
+      {
+        "text": "Amazing",
+        "count": 1973
+      },
+      {
+        "text": "Worst app",
+        "count": 1901
+      },
+      {
+        "text": "Good app",
+        "count": 1871
+      },
+      {
+        "text": "Super",
+        "count": 1837
+      },
+      {
+        "text": "Best",
+        "count": 1666
+      },
+      {
+        "text": "Great app",
+        "count": 1617
+      },
+      {
+        "text": "Hate this application 👎",
+        "count": 1417
+      }
+    ]
+  },
+  "text_length_chars": {
+    "min": 1,
+    "median": 32,
+    "p90": 207,
+    "p99": 490,
+    "max": 1693,
+    "mean": 74.83
+  },
+  "review_likes": {
+    "min": 0,
+    "median": 0,
+    "p90": 0,
+    "p99": 15,
+    "max": 13824,
+    "mean": 1.91
+  },
+  "reviews_by_rating": {
+    "1": 242620,
+    "2": 31034,
+    "3": 33268,
+    "4": 54140,
+    "5": 299560
+  },
+  "reviews_by_month": {
+    "2022-05": 15461,
+    "2022-06": 30338,
+    "2022-07": 32784,
+    "2022-08": 30732,
+    "2022-09": 26933,
+    "2022-10": 27572,
+    "2022-11": 27349,
+    "2022-12": 31744,
+    "2023-01": 28609,
+    "2023-02": 20889,
+    "2023-03": 27238,
+    "2023-04": 25014,
+    "2023-05": 28062,
+    "2023-06": 27117,
+    "2023-07": 85079,
+    "2023-08": 30438,
+    "2023-09": 41634,
+    "2023-10": 89104,
+    "2023-11": 34525
+  },
+  "first_review": "2022-05-17 00:01:07",
+  "last_review": "2023-11-15 23:16:10",
+  "quarantine": {
+    "reason": "empty_review_text",
+    "review_ids": [
+      "5d085a1f-1737-45a6-a3fb-5211b327ec27",
+      "be032618-08ae-4dde-b0b2-d2ddcd8ea5a6",
+      "f7c94991-0fc2-49a5-b47e-510e97a1632c",
+      "f5b40f1f-6621-456f-b1f2-0b3a9361c793",
+      "7121867d-b162-4b15-a45f-6352dcff92c1",
+      "f0df3892-1cfd-44f6-b3bb-a2eef7e69f6e",
+      "a3b536ac-b508-4e02-8550-ff7ea0bf79c2",
+      "b9587209-7961-4fd2-903c-fcd0fa924721",
+      "1687e070-9c26-4657-9ecc-0141405bcd4b",
+      "34bf6347-1625-46cd-b6fa-82913e2f665d",
+      "e4a05a09-be34-40a3-9b4a-e3976dea1b82",
+      "1bbad718-5df1-4669-841d-d1d6a040945a",
+      "7c26b1a0-8e0b-426d-976c-15b526f94e30"
+    ]
+  },
+  "duplicate_review_ids": [],
+  "scope": {
+    "rule": "lowest 100050 SHA-256('berkeley-fall-2026-assignment-5-v1:' + review_id) among nonempty IDs (course sampling order)",
+    "in_scope_ids": 100050,
+    "in_scope_distinct_texts": 78137,
+    "out_of_scope_ids_with_exact_text_match": 137937,
+    "out_of_scope_ids_without_match": 422622
+  },
+  "helper_profile_file": "ingestion.json (same folder)",
+  "seconds": 186.2,
+  "checks_vs_manifest": {
+    "records": {
+      "expected": 660622,
+      "actual": 660622,
+      "ok": true
+    },
+    "duplicate_review_ids": {
+      "expected": 0,
+      "actual": 0,
+      "ok": true
+    },
+    "empty_review_text": {
+      "expected": 13,
+      "actual": 13,
+      "ok": true
+    },
+    "missing_app_version": {
+      "expected": 159701,
+      "actual": 159701,
+      "ok": true
+    },
+    "reviews_by_rating": {
+      "ok": true
+    },
+    "reviews_by_month": {
+      "ok": true
+    },
+    "distinct_nonempty_texts": {
+      "expected": 484189,
+      "actual": 484189,
+      "ok": true
+    }
+  },
+  "sample_order_checks": {
+    "golden_50_to_label.csv": {
+      "rows": 50,
+      "matches_rank_order": true
+    },
+    "analysis_10000.csv": {
+      "rows": 10000,
+      "matches_rank_order": true
+    },
+    "checkpoint_500.csv": {
+      "rows": 500,
+      "matches_rank_order": true
+    },
+    "cost_100.csv": {
+      "rows": 100,
+      "matches_rank_order": true
+    }
+  }
+}

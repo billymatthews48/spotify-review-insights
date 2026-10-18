@@ -1,0 +1,16 @@
+rank,issue_id,topic,name,complaint_count,severity_sum,mean_severity,priority_score,cancellation_count,severity_4plus_count,needs_review_count,definition
+1,PLB-99,playback,Other playback complaints,6,21,3.500000,21,0,3,1,"playback complaints that fit none of the specific playback issues (Playback failure, crashes, freezing, lag, songs stopping or skipping by themselves, connection failures, audio quality, battery/data/storage use.)"
+2,USB-01,usability,Excessive Ad Interruptions,7,20,2.857143,20,1,0,0,"Free listening is interrupted by ads too frequently or with disruptive volume, making continuous music playback difficult."
+3,OTH-99,other,General dissatisfaction (no specific feature),10,18,1.800000,18,2,0,1,"Complaints that name no specific product problem, e.g. 'worst app', insults or vague anger"
+4,CAT-99,catalog,Other catalog complaints,6,15,2.500000,15,1,0,2,"catalog complaints that fit none of the specific catalog issues (Missing songs or artists, removed content, search and discovery, recommendations, lyrics availability, podcasts content.)"
+5,BIL-03,billing,Premium-Gated Playback Controls,4,12,3.000000,12,1,0,0,"Basic playback controls such as playing the next or previous song, queueing tracks, or seeking within a song are unavailable without Premium."
+6,BIL-01,billing,Forced Shuffle on Free Tier,3,9,3.000000,9,0,0,0,Free users are unable to directly choose and play a specific song because playback is forced into shuffle or a playlist.
+7,USB-02,usability,Missing Playback Controls,3,9,3.000000,9,2,0,1,"Updates remove or restrict controls such as seeking, repeating, or playing a specific part of a song."
+8,ACC-99,access,Other access complaints,2,8,4.000000,8,0,2,0,"access complaints that fit none of the specific access issues (Login, signup, password or account access problems (e.g. 'can't log in', 'account hacked', 'logged out every day').)"
+9,OTH-01,other,Update degraded app experience,3,8,2.666667,8,2,1,2,"Complaints that a recent update made the app worse, disappointing, or unusable belong here."
+10,DWN-99,downloads,Other downloads complaints,2,7,3.500000,7,1,1,0,"downloads complaints that fit none of the specific downloads issues (Downloading songs, saved music, offline listening, downloads disappearing.)"
+11,BIL-99,billing,Other billing complaints,2,5,2.500000,5,0,0,1,"billing complaints that fit none of the specific billing issues (Price, charges, subscriptions, refunds, paywalls, premium entitlement; controls explicitly limited to premium (e.g. 'can't pick songs without premium', 'only 6 skips') go here.)"
+12,USB-04,usability,Disruptive Home Screen Changes,2,5,2.500000,5,0,0,1,Home screen redesigns and automatically playing interface elements make browsing difficult or lack clear controls to disable them.
+13,USB-03,usability,Unwanted Random Playlist Playback,1,3,3.000000,3,0,0,0,Playlist playback is shuffled or randomized when listeners expect songs to play in their chosen order.
+14,OTH-02,other,Excessive app restrictions,1,2,2.000000,2,0,0,0,Complaints that restrictions in the app are too limiting belong here.
+15,OTH-03,other,Rude customer support,1,2,2.000000,2,0,0,0,Complaints that Spotify app support staff behave rudely belong here.

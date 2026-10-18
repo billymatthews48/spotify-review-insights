@@ -1,0 +1,291 @@
+{
+  "input": {
+    "input_path": "data\\dataset\\spotify_reviews_18months.csv",
+    "input_sha256": "1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6",
+    "input_bytes": "97400616",
+    "scope_size": "100050",
+    "ingested_at": "1791873507.4108315"
+  },
+  "label_config": "jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1",
+  "record_status": {
+    "completed/out_of_scope": 137937,
+    "completed/in_scope": 100050,
+    "pending/out_of_scope": 422622,
+    "quarantined/out_of_scope": 13
+  },
+  "completed_total": 237987,
+  "exact_text_reuse_records": 159850,
+  "distinct_texts_classified": 78137,
+  "calls_by_role_step_model_phase": {
+    "enrich/jev_labels/jev-1.13.0/initial": {
+      "attempts": 9242,
+      "succeeded": 9241,
+      "failed": 1,
+      "review_ids_sent": 9242,
+      "input_tokens": 11811325,
+      "cached_input_tokens": 0,
+      "output_tokens": 1966232,
+      "reasoning_tokens": 0,
+      "cost_usd": 0.496076,
+      "usage_unknown_attempts": 0
+    },
+    "enrich/jev_labels/jev-1.13.0/resume": {
+      "attempts": 68896,
+      "succeeded": 68896,
+      "failed": 0,
+      "review_ids_sent": 68896,
+      "input_tokens": 88155634,
+      "cached_input_tokens": 0,
+      "output_tokens": 14661396,
+      "reasoning_tokens": 0,
+      "cost_usd": 3.702537,
+      "usage_unknown_attempts": 0
+    },
+    "enrich/luna_quotes/gpt-6-luna/initial": {
+      "attempts": 199,
+      "succeeded": 198,
+      "failed": 1,
+      "review_ids_sent": 1176,
+      "input_tokens": 160616,
+      "cached_input_tokens": 1155,
+      "output_tokens": 26241,
+      "reasoning_tokens": 0,
+      "cost_usd": 0.029078,
+      "usage_unknown_attempts": 0
+    },
+    "enrich/luna_quotes/gpt-6-luna/resume": {
+      "attempts": 1450,
+      "succeeded": 1448,
+      "failed": 2,
+      "review_ids_sent": 9352,
+      "input_tokens": 1239211,
+      "cached_input_tokens": 0,
+      "output_tokens": 217638,
+      "reasoning_tokens": 0,
+      "cost_usd": 0.23274,
+      "usage_unknown_attempts": 0
+    },
+    "group/luna_assign_issue/gpt-6-luna/initial": {
+      "attempts": 811,
+      "succeeded": 811,
+      "failed": 0,
+      "review_ids_sent": 40344,
+      "input_tokens": 1926554,
+      "cached_input_tokens": 0,
+      "output_tokens": 470050,
+      "reasoning_tokens": 0,
+      "cost_usd": 0.42768,
+      "usage_unknown_attempts": 0
+    },
+    "group/luna_discover_issues/gpt-6-luna/initial": {
+      "attempts": 8,
+      "succeeded": 8,
+      "failed": 0,
+      "review_ids_sent": 918,
+      "input_tokens": 60093,
+      "cached_input_tokens": 0,
+      "output_tokens": 5610,
+      "reasoning_tokens": 924,
+      "cost_usd": 0.008814,
+      "usage_unknown_attempts": 0
+    },
+    "memo/luna_memo/gpt-6-luna/initial": {
+      "attempts": 2,
+      "succeeded": 2,
+      "failed": 0,
+      "review_ids_sent": 0,
+      "input_tokens": 12825,
+      "cached_input_tokens": 0,
+      "output_tokens": 2944,
+      "reasoning_tokens": 501,
+      "cost_usd": 0.002754,
+      "usage_unknown_attempts": 0
+    },
+    "verify/luna_relabel/gpt-6-luna/initial": {
+      "attempts": 52,
+      "succeeded": 47,
+      "failed": 5,
+      "review_ids_sent": 2595,
+      "input_tokens": 153757,
+      "cached_input_tokens": 76195,
+      "output_tokens": 78087,
+      "reasoning_tokens": 0,
+      "cost_usd": 0.047562,
+      "usage_unknown_attempts": 0
+    }
+  },
+  "actual_api_charges_usd": {
+    "total": 4.947241,
+    "typesafe (Jev)": 4.198612,
+    "openai (gpt-6-luna)": 0.748629
+  },
+  "charges_basis": "provider-reported usage x dated rates in config/rates.csv (not a provider invoice)",
+  "known_unlogged_or_estimated": [
+    {
+      "when": "2026-10-14 ~19:08 local",
+      "run_id": "enrich-20261014T184618-96a23c",
+      "what": "Phase A process was terminated by an agent-session restart mid-batch. Up to 4 in-flight batches (<= 200 Jev calls) may have been paid but were never logged; their texts stayed pending and were re-sent.",
+      "estimated_max_usd": 0.0108
+    },
+    {
+      "when": "2026-10-16 12:44 local",
+      "run_id": "enrich-20261016T124241-cbe311",
+      "what": "On the deliberate Ctrl+C, the interrupt handler dropped one finished batch before committing it (bug: popped before waiting; fixed). In-process ledger said $0.528059 vs $0.525200 logged.",
+      "measured_usd": 0.002859
+    }
+  ],
+  "spend_cap_usd": 10.0,
+  "runs": [
+    {
+      "run_id": "enrich-20261014T184618-96a23c",
+      "stage": "enrich",
+      "start": {
+        "label_config": "jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1",
+        "phase": "initial",
+        "pending_texts": 8492,
+        "batches": 170,
+        "cache_hits_at_start": 0,
+        "spend_so_far": 0.0,
+        "cap": 10.0,
+        "batch_size": 50,
+        "batch_workers": 4,
+        "jev_workers": 8
+      },
+      "end": null,
+      "seconds": null
+    },
+    {
+      "run_id": "enrich-20261014T193719-e82f1f",
+      "stage": "enrich",
+      "start": {
+        "label_config": "jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1",
+        "phase": "initial",
+        "pending_texts": 4742,
+        "batches": 95,
+        "cache_hits_at_start": 0,
+        "spend_so_far": 0.212672,
+        "cap": 10.0,
+        "batch_size": 50,
+        "batch_workers": 4,
+        "jev_workers": 8
+      },
+      "end": {
+        "completed": 4741,
+        "quarantined": 0,
+        "left_pending": 1,
+        "cache_filled": 15586,
+        "batches": 95,
+        "stop_reason": "finished",
+        "seconds": 136.21,
+        "spent_total_usd": 0.482581,
+        "record_status": {
+          "completed": 129564,
+          "pending": 531045,
+          "quarantined": 13
+        },
+        "run_id": "enrich-20261014T193719-e82f1f",
+        "label_config": "jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1"
+      },
+      "seconds": 118.28324747085571
+    },
+    {
+      "run_id": "enrich-20261016T124241-cbe311",
+      "stage": "enrich",
+      "start": {
+        "label_config": "jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1",
+        "phase": "initial",
+        "pending_texts": 69646,
+        "batches": 1393,
+        "cache_hits_at_start": 0,
+        "spend_so_far": 0.482581,
+        "cap": 10.0,
+        "batch_size": 50,
+        "batch_workers": 4,
+        "jev_workers": 8
+      },
+      "end": {
+        "completed": 750,
+        "quarantined": 0,
+        "left_pending": 0,
+        "cache_filled": 1601,
+        "batches": 15,
+        "stop_reason": "interrupted",
+        "seconds": 64.0,
+        "spent_total_usd": 0.528059,
+        "record_status": {
+          "completed": 131915,
+          "pending": 528694,
+          "quarantined": 13
+        },
+        "run_id": "enrich-20261016T124241-cbe311",
+        "label_config": "jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1"
+      },
+      "seconds": 28.423301696777344
+    },
+    {
+      "run_id": "enrich-20261016T124452-4e6451",
+      "stage": "enrich",
+      "start": {
+        "label_config": "jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1",
+        "phase": "resume",
+        "pending_texts": 68896,
+        "batches": 1378,
+        "cache_hits_at_start": 0,
+        "spend_so_far": 0.525154,
+        "cap": 10.0,
+        "batch_size": 50,
+        "batch_workers": 4,
+        "jev_workers": 8
+      },
+      "end": {
+        "completed": 68896,
+        "quarantined": 0,
+        "left_pending": 0,
+        "cache_filled": 37176,
+        "batches": 1378,
+        "stop_reason": "finished",
+        "seconds": 1722.85,
+        "spent_total_usd": 4.460431,
+        "record_status": {
+          "completed": 237987,
+          "pending": 422622,
+          "quarantined": 13
+        },
+        "run_id": "enrich-20261016T124452-4e6451",
+        "label_config": "jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1"
+      },
+      "seconds": 1705.9367425441742
+    },
+    {
+      "run_id": "analyze-20261017T144902-5d3cc7",
+      "stage": "verify",
+      "start": null,
+      "end": {
+        "sample": 2345,
+        "compared": 2295,
+        "failures": 50
+      },
+      "seconds": null
+    },
+    {
+      "run_id": "analyze-20261017T150239-d4d196",
+      "stage": "memo",
+      "start": null,
+      "end": {
+        "attempts": 1,
+        "problems": 0
+      },
+      "seconds": null
+    },
+    {
+      "run_id": "analyze-20261017T151448-cd4471",
+      "stage": "memo",
+      "start": null,
+      "end": {
+        "attempts": 1,
+        "problems": 0
+      },
+      "seconds": null
+    }
+  ]
+}

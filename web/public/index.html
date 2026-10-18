@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spotify Review Insights</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg: #f6f6f3; --panel: #ffffff; --ink: #191917; --muted: #66665f; --line: #e3e2dc; --chip: #efeee8;
+  --accent: #1d6b48; --accent-soft: #e2f1e9; --warn: #a8461b; --warn-soft: #fbe9e0; --ok: #1d6b48;
+  --c1: #1d6b48; --c2: #c46a1b; --c3: #3b5ba5; --c4: #9b3d7a; --c5: #6b7d1d; --c6: #2a8a9a; --c7: #8a5a2b; --c8: #8c8c84;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141413; --panel: #1e1e1c; --ink: #ebeae4; --muted: #a3a29b; --line: #33322e; --chip: #292926;
+    --accent: #56c08c; --accent-soft: #1d3329; --warn: #f0905f; --warn-soft: #3a2519; --ok: #56c08c;
+    --c1: #56c08c; --c2: #e59a52; --c3: #7f9de0; --c4: #d17ab3; --c5: #b3c45a; --c6: #5fc3d2; --c7: #c99a6b; --c8: #a3a29b;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141413; --panel: #1e1e1c; --ink: #ebeae4; --muted: #a3a29b; --line: #33322e; --chip: #292926;
+  --accent: #56c08c; --accent-soft: #1d3329; --warn: #f0905f; --warn-soft: #3a2519; --ok: #56c08c;
+  --c1: #56c08c; --c2: #e59a52; --c3: #7f9de0; --c4: #d17ab3; --c5: #b3c45a; --c6: #5fc3d2; --c7: #c99a6b; --c8: #a3a29b;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 24px 16px 64px; }
+header h1 { font-size: 24px; margin: 0 0 4px; letter-spacing: -0.01em; }
+header p { margin: 0; color: var(--muted); }
+.badge { display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 99px; background: var(--chip); color: var(--muted); margin-right: 6px; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin: 20px 0; }
+.kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.kpi .v { font-size: 22px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.kpi .l { font-size: 12px; color: var(--muted); }
+section { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px; margin-bottom: 16px; }
+section h2 { font-size: 17px; margin: 0 0 4px; }
+.sub { color: var(--muted); font-size: 13px; margin: 0 0 12px; }
+.rec { border-left: 4px solid var(--accent); padding-left: 14px; }
+.rec .area { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); font-weight: 700; }
+.rec h3 { font-size: 20px; margin: 4px 0 8px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid2 > * { min-width: 0; }  /* let grid columns shrink below their content (charts, tables) on phones */
+@media (max-width: 820px) { .grid2 { grid-template-columns: 1fr; } }
+canvas { max-width: 100%; }
+a { color: var(--accent); }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; font-size: 12px; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+tbody tr.click { cursor: pointer; }
+tbody tr.click:hover { background: var(--chip); }
+tr.sel { background: var(--accent-soft) !important; }
+.tablewrap { overflow-x: auto; }
+.ok { color: var(--ok); font-weight: 700; }
+.bad { color: var(--warn); font-weight: 700; }
+.mono { font-family: ui-monospace, Consolas, monospace; font-size: 12px; }
+.quote { background: var(--chip); border-radius: 8px; padding: 8px 10px; margin: 6px 0; font-size: 13.5px; }
+.quote .m { color: var(--muted); font-size: 12px; margin-top: 2px; }
+details summary { cursor: pointer; color: var(--accent); font-weight: 600; margin-top: 8px; }
+.memo { white-space: pre-wrap; font-size: 14px; background: var(--chip); border-radius: 8px; padding: 12px; }
+.warnbox { background: var(--warn-soft); color: var(--warn); border-radius: 8px; padding: 8px 12px; font-size: 13px; margin: 8px 0; }
+input[type=text] { width: 100%; max-width: 460px; font: inherit; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); }
+button { font: inherit; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: var(--panel); cursor: pointer; }
+.chartbox { position: relative; height: 300px; }
+.muted { color: var(--muted); }
+.pill { font-size: 11px; padding: 1px 7px; border-radius: 99px; background: var(--chip); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Spotify Review Insights</h1>
+    <p>Where should next quarter's product effort go? Evidence from classified Google Play reviews (May 2022 – Nov 2023).</p>
+    <p style="margin-top:8px"><span class="badge" id="scopeBadge">loading…</span><span class="badge">Data served live from Postgres via the backend API</span></p>
+  </header>
+
+  <div class="kpis" id="kpis"></div>
+
+  <section>
+    <h2>AI recommendation</h2>
+    <p class="sub">Written by the memo agent (gpt-6-luna) from saved aggregates only. Every number is re-checked against the ranking table on each page load.</p>
+    <div id="rec">loading…</div>
+  </section>
+
+  <section>
+    <h2>Issue ranking</h2>
+    <p class="sub">Baseline: priority score = complaint count × mean severity (= severity sum), complaint and cancellation reviews only; ties by issue ID. Click an issue for its reviews.</p>
+    <div class="tablewrap"><table id="ranking"><thead><tr>
+      <th class="num">#</th><th>Issue</th><th>Topic</th><th class="num">Complaints</th><th class="num">Mean sev.</th>
+      <th class="num">Score</th><th class="num">Cancel</th><th class="num">Sev 4+</th></tr></thead><tbody></tbody></table></div>
+    <div id="issueDetail" style="margin-top:14px"></div>
+  </section>
+
+  <div class="grid2">
+    <section>
+      <h2>Topics by intent</h2>
+      <p class="sub">Completed classifications (count of reviews).</p>
+      <div class="chartbox"><canvas id="topicChart"></canvas></div>
+    </section>
+    <section>
+      <h2>Complaints per month by topic</h2>
+      <p class="sub">First and last months are partial; volume spikes in Jul and Oct 2023.</p>
+      <div class="chartbox"><canvas id="trendChart"></canvas></div>
+    </section>
+  </div>
+
+  <section>
+    <h2>Evaluation and run evidence</h2>
+    <div id="evals" class="grid2">loading…</div>
+  </section>
+
+  <section>
+    <h2>Trace a review</h2>
+    <p class="sub">Paste any review_id from the memo, an issue, or records.jsonl.</p>
+    <form id="traceForm" style="display:flex;gap:8px;flex-wrap:wrap"><input type="text" id="traceId" placeholder="e.g. 0a1b2c3d-…"><button>Trace</button></form>
+    <div id="trace" style="margin-top:12px"></div>
+  </section>
+  <p class="muted" style="font-size:12px">Reviews are self-selected public app-store reviews; cancellation language is expressed intent, not observed churn. No revenue or causal claims.</p>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const fmt = (n) => (n == null ? "–" : Number(n).toLocaleString());
+const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const TOPICS = ["access", "usability", "playback", "downloads", "catalog", "billing", "support", "other"];
+const INTENTS = ["cancellation", "complaint", "request", "praise", "unclear"];
+async function api(path) { const r = await fetch(path); if (!r.ok) throw new Error(path + " " + r.status); return r.json(); }
+
+async function loadSummary() {
+  const s = await api("/api/summary");
+  const st = Object.fromEntries(s.status.map((r) => [r.status, r]));
+  const total = s.status.reduce((a, r) => a + r.n, 0);
+  const completed = st.completed?.n || 0;
+  const quarantined = st.quarantined?.n || 0;
+  const empty = s.quarantine_reasons.find((r) => r.reason === "empty_review_text")?.n || 0;
+  const outScope = s.quarantine_reasons.filter((r) => r.reason.startsWith("not_classified")).reduce((a, r) => a + r.n, 0);
+  $("scopeBadge").textContent = `Scope: ${fmt(s.meta.scope_size)} course-sampled reviews + exact-text reuse`;
+  const kp = [
+    [fmt(total), "source rows accounted for"], [fmt(completed), "completed classifications"],
+    [fmt(s.exact_text_reuse), "of those via exact-text reuse"], [fmt(empty), "empty texts quarantined"],
+    [fmt(outScope), "outside budget scope (not classified)"], [fmt(quarantined - empty - outScope), "other quarantines"],
+    [fmt(s.needs_review), "flagged needs_review"],
+  ];
+  $("kpis").innerHTML = kp.map(([v, l]) => `<div class="kpi"><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
+  topicChart(s.topic_intent);
+}
+
+async function loadRec() {
+  const d = await api("/api/recommendation");
+  const m = d.memo;
+  const allOk = d.claims.every((c) => c.matches);
+  const problems = m.problems || [];
+  $("rec").innerHTML = `
+    <div class="rec"><div class="area">Recommended priority: ${esc(m.area.replace("_", " / "))}</div>
+      <h3>${esc(m.headline)}</h3><p>${esc(m.rationale)}</p>
+      <p class="muted" style="font-size:13px">Issues cited: ${(m.issue_ids || []).map((i) => `<a href="#" data-issue="${esc(i)}">${esc(i)}</a>`).join(", ")}</p></div>
+    ${problems.length ? `<div class="warnbox">Automated memo checks reported ${problems.length} problem(s): ${problems.map(esc).join("; ")}</div>` : ""}
+    <div class="grid2" style="margin-top:12px">
+      <div><b>Supporting numbers</b> <span class="${allOk ? "ok" : "bad"}">${allOk ? "✓ all match saved calculations" : "✗ mismatch"}</span>
+        <table style="margin-top:6px"><thead><tr><th>Claim</th><th>Issue</th><th>Metric</th><th class="num">Value</th><th></th></tr></thead><tbody>
+        ${d.claims.map((c) => `<tr><td class="mono">${esc(c.claim_id)}</td><td><a href="#" data-issue="${esc(c.issue_id)}">${esc(c.issue_id)}</a> <span class="muted">${esc(c.name || "")}</span></td>
+          <td>${esc(c.metric)}</td><td class="num">${esc(c.value)}</td><td class="${c.matches ? "ok" : "bad"}">${c.matches ? "✓" : "✗ " + esc(c.saved_value)}</td></tr>`).join("")}
+        </tbody></table></div>
+      <div><b>Alternatives considered</b>${(m.alternatives || []).map((a) => `<p><span class="pill">${esc(a.area)}</span> ${esc(a.why_not_first)}</p>`).join("")}
+        <b>Limitations</b><ul style="margin:4px 0 0;padding-left:18px">${(m.limitations || []).map((l) => `<li>${esc(l)}</li>`).join("")}</ul></div>
+    </div>
+    <b style="display:block;margin-top:12px">Evidence reviews</b>
+    ${d.evidence.map((e) => `<div class="quote">“${esc(e.evidence_quote)}”<div class="m"><a href="#" data-review="${esc(e.review_id)}" class="mono">${esc(e.review_id)}</a> · ${esc(e.topic)} / ${esc(e.intent)} / severity ${e.severity} · ${esc(e.review_month)}</div></div>`).join("")}
+    <details><summary>Full memo</summary><div class="memo">${esc(m.memo_markdown)}</div></details>`;
+}
+
+let rankingRows = [];
+async function loadRanking() {
+  rankingRows = await api("/api/ranking");
+  $("ranking").querySelector("tbody").innerHTML = rankingRows.map((r) => `
+    <tr class="click" data-issue="${esc(r.issue_id)}"><td class="num">${r.rank}</td>
+      <td><span class="mono">${esc(r.issue_id)}</span> ${esc(r.name)}${r.issue_id.endsWith("-99") ? ' <span class="pill">catch-all</span>' : ""}</td>
+      <td>${esc(r.topic)}</td><td class="num">${fmt(r.complaint_count)}</td><td class="num">${esc(r.mean_severity)}</td>
+      <td class="num"><b>${fmt(r.priority_score)}</b></td><td class="num">${fmt(r.cancellation_count)}</td><td class="num">${fmt(r.severity_4plus_count)}</td></tr>`).join("");
+}
+
+async function showIssue(id) {
+  document.querySelectorAll("#ranking tr").forEach((tr) => tr.classList.toggle("sel", tr.dataset.issue === id));
+  $("issueDetail").innerHTML = "loading…";
+  const d = await api("/api/issue?id=" + encodeURIComponent(id));
+  const i = d.issue;
+  $("issueDetail").innerHTML = `<div class="rec"><div class="area">${esc(i.issue_id)} · rank ${i.rank} · ${esc(i.topic)}</div>
+    <h3>${esc(i.name)}</h3><p class="muted">${esc(i.definition)}</p>
+    <p>${fmt(i.complaint_count)} complaint/cancellation reviews · severity sum ${fmt(i.severity_sum)} · mean ${esc(i.mean_severity)} ·
+       ${fmt(i.cancellation_count)} cancellation · ${fmt(i.severity_4plus_count)} at severity 4+</p></div>
+    <p class="muted" style="font-size:12px">Reviews per month: ${d.months.map((m) => `${esc(m.month)}: ${m.n}`).join(" · ")}</p>
+    <b>Most-helpful member reviews (originals; exact-text copies omitted)</b>
+    ${d.reviews.map((r) => `<div class="quote">${esc(r.review_text)}<div class="m">quote: “${esc(r.evidence_quote)}” · severity ${r.severity} · ${esc(r.intent)} · ${esc(r.review_month)} · 👍 ${r.review_likes ?? 0}${r.needs_review ? " · needs_review" : ""} · <a href="#" data-review="${esc(r.review_id)}" class="mono">${esc(r.review_id)}</a></div></div>`).join("")}`;
+  $("issueDetail").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function topicChart(rows) {
+  const colors = [css("--c4"), css("--c2"), css("--c3"), css("--c1"), css("--c8")];
+  new Chart($("topicChart"), { type: "bar", data: { labels: TOPICS, datasets: INTENTS.map((it, k) => ({ label: it, backgroundColor: colors[k],
+    data: TOPICS.map((t) => rows.find((r) => r.topic === t && r.intent === it)?.n || 0) })) },
+    options: { maintainAspectRatio: false, scales: { x: { stacked: true, ticks: { color: css("--muted") } }, y: { stacked: true, ticks: { color: css("--muted") } } },
+      plugins: { legend: { labels: { color: css("--ink") } } } } });
+}
+
+async function loadTrend() {
+  const rows = await api("/api/trend");
+  const months = [...new Set(rows.map((r) => r.month))].sort();
+  const palette = ["--c1", "--c2", "--c3", "--c4", "--c5", "--c6", "--c7", "--c8"].map(css);
+  new Chart($("trendChart"), { type: "line", data: { labels: months, datasets: TOPICS.map((t, k) => ({ label: t, borderColor: palette[k], backgroundColor: palette[k],
+    pointRadius: 0, tension: 0.25, data: months.map((m) => rows.find((r) => r.month === m && r.topic === t)?.complaints || 0) })) },
+    options: { maintainAspectRatio: false, scales: { x: { ticks: { color: css("--muted"), maxRotation: 0, autoSkip: true } }, y: { ticks: { color: css("--muted") } } },
+      plugins: { legend: { labels: { color: css("--ink"), boxWidth: 10 } } } } });
+}
+
+async function loadEvals() {
+  const e = await api("/api/evals");
+  const v = e.verify || {}, g = e.golden || {}, s = e.system_tests || {}, c = e.cost_report || {};
+  const pct = (x) => (x == null ? "–" : (100 * x).toFixed(1) + "%");
+  const cold = c.measured?.cold || {};
+  const chosen = (c.scenarios || []).filter((x) => x.scenario.startsWith("100k"));
+  $("evals").innerHTML = `
+    <div><b>Golden set (50 human labels)</b>
+      ${g.n ? `<table><tbody><tr><td>Topic agreement</td><td class="num">${pct(g.agreement?.topic)}</td></tr><tr><td>Intent agreement</td><td class="num">${pct(g.agreement?.intent)}</td></tr>
+      <tr><td>Severity exact / MAE</td><td class="num">${pct(g.agreement?.severity)} / ${g.severity_mae ?? "–"}</td></tr><tr><td>Ambiguous cases</td><td class="num">${g.ambiguous ?? "–"}</td></tr></tbody></table>` : '<p class="muted">Not published yet.</p>'}
+      <b style="display:block;margin-top:10px">Independent verifier (blind re-label)</b>
+      <table><tbody><tr><td>Sample compared</td><td class="num">${fmt(v.compared)}</td></tr><tr><td>Topic / intent / severity agreement</td><td class="num">${pct(v.agreement?.topic)} / ${pct(v.agreement?.intent)} / ${pct(v.agreement?.severity)}</td></tr>
+      <tr><td>Planted errors detected</td><td class="num">${v.planted_error_test ? v.planted_error_test.detected + " / " + v.planted_error_test.cases : "–"}</td></tr></tbody></table></div>
+    <div><b>System tests (synthetic)</b><p>${s.passed ?? "–"} / ${s.total ?? "–"} passed (prompt injection, empty text, non-English, injected API failure, malformed output); spend-cap stop: ${s.spend_cap_test?.passed ? "passed" : "–"}.</p>
+      <b>Cost (measured 100-review pilot)</b><p>Cold: $${(cold.api_cost_usd ?? 0).toFixed(4)} in ${cold.wall_clock_seconds ?? "–"} s · warm: ${c.measured?.warm?.new_calls ?? "–"} new calls.
+      Projected 100k-scope run: ${chosen.map((x) => `${x.case} $${x.api_cost_usd.toFixed(2)}`).join(" · ")}.</p></div>`;
+}
+
+async function trace(id) {
+  $("trace").innerHTML = "loading…";
+  try {
+    const d = await api("/api/review?id=" + encodeURIComponent(id.trim()));
+    const r = d.record;
+    $("trace").innerHTML = `<table><tbody>
+      ${["review_id", "status", "reason", "topic", "intent", "severity", "sentiment", "needs_review", "evidence_quote", "label_config", "cache_source_id", "review_month", "review_rating"]
+        .map((k) => `<tr><th>${k}</th><td class="${k.includes("id") || k === "label_config" ? "mono" : ""}">${esc(r[k])}</td></tr>`).join("")}
+      <tr><th>issue</th><td>${d.issues.map((i) => `<a href="#" data-issue="${esc(i.issue_id)}">${esc(i.issue_id)}</a> ${esc(i.name)} (rank ${i.rank ?? "–"})`).join("<br>") || "–"}</td></tr>
+      ${r.review_text ? `<tr><th>review_text</th><td>${esc(r.review_text)}</td></tr>` : ""}</tbody></table>`;
+  } catch (err) { $("trace").textContent = "Not found or invalid ID."; }
+}
+
+document.addEventListener("click", (ev) => {
+  const t = ev.target.closest("[data-issue],[data-review]");
+  if (!t) return;
+  ev.preventDefault();
+  if (t.dataset.issue) showIssue(t.dataset.issue);
+  else { $("traceId").value = t.dataset.review; trace(t.dataset.review); $("trace").scrollIntoView({ behavior: "smooth" }); }
+});
+$("traceForm").addEventListener("submit", (ev) => { ev.preventDefault(); trace($("traceId").value); });
+
+Promise.allSettled([loadSummary(), loadRec(), loadRanking(), loadTrend(), loadEvals()]).then((rs) => {
+  rs.filter((r) => r.status === "rejected").forEach((r) => console.error(r.reason));
+});
+</script>
+</body>
+</html>

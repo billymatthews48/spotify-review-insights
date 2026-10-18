@@ -1,0 +1,135 @@
+{
+  "input": {
+    "file": "cost_100.csv",
+    "sha256": "c884ac3b9be5066995d5063f96ad9af6e5e082975788c1684c4f6b6ea661dd0e",
+    "rows": 100
+  },
+  "settings": {
+    "label_config": "jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1",
+    "batch_size": 50,
+    "batch_workers": 1,
+    "jev_workers": 1,
+    "verify_fraction": 0.03,
+    "verify_min_sample": 20,
+    "models": {
+      "enrich": "jev-1.13.0",
+      "quote": "gpt-6-luna/none",
+      "verify": "gpt-6-luna/none",
+      "group": "gpt-6-luna/low",
+      "memo": "gpt-6-luna/low"
+    },
+    "prompt_versions": {
+      "labels": "prompts-v1",
+      "group": "group-v2",
+      "memo": "memo-v2"
+    }
+  },
+  "runs": {
+    "cold": {
+      "wall_clock_seconds": 69.065,
+      "stage_seconds": {
+        "ingest": 0.07,
+        "enrich": 14.82,
+        "verify": 5.19,
+        "group": 28.83,
+        "rank": 0.01,
+        "memo": 20.13
+      },
+      "enrich": {
+        "completed": 100,
+        "quarantined": 0,
+        "left_pending": 0,
+        "cache_filled": 0,
+        "batches": 2,
+        "stop_reason": "finished",
+        "seconds": 14.24,
+        "spent_total_usd": 0.005602,
+        "record_status": {
+          "completed": 100
+        },
+        "run_id": "enrich-20261014T184216-6b68e3",
+        "label_config": "jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1"
+      },
+      "verify": {
+        "sample_declared": 20,
+        "compared": 20,
+        "agreement": {
+          "topic": 1.0,
+          "intent": 0.95,
+          "severity": 0.9,
+          "all3": 0.9
+        },
+        "severity_mae": 0.1
+      },
+      "group": {
+        "group_config": "gpt-6-luna/low+group-v2+[jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1]",
+        "issues": 17,
+        "memberships": 53,
+        "ungrouped_complaints": 0,
+        "assignment_methods": {
+          "luna": 37,
+          "only_issue": 16
+        }
+      },
+      "memo": {
+        "attempts": 1,
+        "problems": [],
+        "area": "usability"
+      },
+      "finished_at": "2026-10-14T18:43:25-0700"
+    },
+    "warm": {
+      "wall_clock_seconds": 0.671,
+      "stage_seconds": {
+        "ingest": 0.06,
+        "enrich": 0.52,
+        "verify": 0.02,
+        "group": 0.03,
+        "rank": 0.01,
+        "memo": 0.02
+      },
+      "enrich": {
+        "completed": 0,
+        "quarantined": 0,
+        "left_pending": 0,
+        "cache_filled": 100,
+        "batches": 0,
+        "stop_reason": "finished",
+        "seconds": 0.05,
+        "spent_total_usd": 0.0,
+        "record_status": {
+          "completed": 100
+        },
+        "run_id": "enrich-20261014T184325-6739b0",
+        "label_config": "jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1"
+      },
+      "verify": {
+        "sample_declared": 20,
+        "compared": 20,
+        "agreement": {
+          "topic": 1.0,
+          "intent": 0.95,
+          "severity": 0.9,
+          "all3": 0.9
+        },
+        "severity_mae": 0.1
+      },
+      "group": {
+        "group_config": "gpt-6-luna/low+group-v2+[jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1]",
+        "issues": 17,
+        "memberships": 53,
+        "ungrouped_complaints": 0,
+        "assignment_methods": {
+          "luna": 37,
+          "only_issue": 16
+        }
+      },
+      "memo": {
+        "attempts": 0,
+        "problems": [],
+        "area": "usability"
+      },
+      "finished_at": "2026-10-14T18:43:26-0700"
+    }
+  }
+}

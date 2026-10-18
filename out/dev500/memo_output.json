@@ -1,0 +1,709 @@
+{
+  "memo": {
+    "recommendation": {
+      "area": "playback",
+      "headline": "Prioritize playback reliability, including offline downloads",
+      "rationale": "Playback has a stronger severity-weighted signal than the alternatives, and the evidence includes concrete reports of crashes, failed playback, and offline listening problems. Focus next-quarter work on reliability and downloads, while treating these historical, self-selected reviews as directional evidence.",
+      "issue_ids": [
+        "PLB-03",
+        "PLB-04",
+        "DWN-99",
+        "PLB-05"
+      ]
+    },
+    "claims": [
+      {
+        "claim_id": "C1",
+        "issue_id": "PLB-03",
+        "metric": "priority_score",
+        "value": "28"
+      },
+      {
+        "claim_id": "C2",
+        "issue_id": "PLB-04",
+        "metric": "priority_score",
+        "value": "26"
+      },
+      {
+        "claim_id": "C3",
+        "issue_id": "DWN-99",
+        "metric": "priority_score",
+        "value": "24"
+      },
+      {
+        "claim_id": "C4",
+        "issue_id": "PLB-05",
+        "metric": "priority_score",
+        "value": "33"
+      },
+      {
+        "claim_id": "C5",
+        "issue_id": "USB-01",
+        "metric": "priority_score",
+        "value": "77"
+      },
+      {
+        "claim_id": "C6",
+        "issue_id": "BIL-01",
+        "metric": "priority_score",
+        "value": "36"
+      }
+    ],
+    "alternatives": [
+      {
+        "area": "usability",
+        "why_not_first": "Excessive ads are a substantial competing issue, but the playback evidence points to direct failures of the core listening experience, including crashes and offline problems.",
+        "issue_ids": [
+          "USB-01",
+          "USB-03"
+        ]
+      },
+      {
+        "area": "billing_support",
+        "why_not_first": "Complaints about free-tier controls and paywalls are meaningful, but they are less directly about reliability of playback for users trying to listen.",
+        "issue_ids": [
+          "BIL-01",
+          "BIL-02",
+          "BIL-99"
+        ]
+      }
+    ],
+    "evidence_review_ids": [
+      "065c418e-7f18-42a3-b241-fe693b7a2b0c",
+      "651e6e7b-f93e-4369-9631-15c73ddcd4ad",
+      "bcdf315e-c82d-41f0-9fcd-ba5933dfe77e",
+      "b03d6dc9-449a-4647-b112-559186656759",
+      "5be3399d-dcd2-405b-a931-29b02ffc966e",
+      "3bfefa06-133c-419b-a435-1fea919d6a44",
+      "66c56c76-ca94-46ef-b0a1-931654ead16d"
+    ],
+    "limitations": [
+      "The classification covers only the supplied records and issue taxonomy; this is not a complete measure of product problems or their prevalence among all Spotify users.",
+      "The records are historical, spanning 2022-05-19 to 2023-11-15, and reviews are self-selected.",
+      "There are no quarantined or pending-unclassified records in the supplied facts, but the classification scope may still omit or misclassify concerns.",
+      "Cancellation language indicates stated intent, not observed churn; the data does not establish causal effects."
+    ],
+    "memo_markdown": "# Decision memo: Prioritize playback reliability\n\n## Recommendation\nPrioritize playback reliability next quarter, including offline downloads. The severity-weighted issue ranking highlights crashes or loading failures (PLB-03, [C1]), false connection failures (PLB-04, [C2]), and download complaints (DWN-99, [C3]); wrong-song or control failures also rank strongly (PLB-05, [C4]). Treat this as a directional signal, not a population-wide estimate.\n\n## Why\nThese issues describe failures at the point of listening: the app will not open or play, reports a connection problem despite working internet, or fails to make downloaded content available. For example, one reviewer described a black screen and repeated reinstalling (065c418e-7f18-42a3-b241-fe693b7a2b0c); another said downloaded content was gone (5be3399d-dcd2-405b-a931-29b02ffc966e). Together, they support focusing on reliability and offline listening rather than a broader, less specific complaint category.\n\n## Alternatives considered\n**Usability:** Excessive ad interruptions are the highest-ranked specific issue in the supplied list, with priority score 77 (USB-01, [C5]). This merits attention, but playback failures more directly prevent the core listening task.\n\n**Billing/support:** Free-tier song choice and ordering has priority score 36 (BIL-01, [C6]), and reviews describe frustration with shuffle and controls behind a paywall (88439ec2-7c49-4c57-bedb-c5e098692aff; 66c56c76-ca94-46ef-b0a1-931654ead16d). It ranks below playback reliability for this quarter because it concerns access to controls or plan boundaries rather than service reliability itself.\n\n## Evidence\nThe supplied evidence includes reports of crashes (065c418e-7f18-42a3-b241-fe693b7a2b0c), network failures (bcdf315e-c82d-41f0-9fcd-ba5933dfe77e), and offline mode not working (b03d6dc9-449a-4647-b112-559186656759). The aggregate ranking places PLB-03, PLB-04, and DWN-99 among the leading playback-related issues.\n\n## Limitations\nThe classification covers only the supplied records and taxonomy, not all user problems. The reviews are self-selected and historical, from 2022-05-19 to 2023-11-15. The facts report no quarantined or pending-unclassified records, but that does not rule out omissions or classification error. Cancellation language is expressed intent, not observed churn; these data establish no causal effects."
+  },
+  "problems": [],
+  "attempts": 1,
+  "inputs": {
+    "facts": {
+      "source_rows": 500,
+      "completed_records": 500,
+      "quarantined_records": 0,
+      "pending_unclassified_records": 0,
+      "in_scope_records": 500,
+      "exact_text_reuse_records": 21,
+      "complaint_or_cancellation_records": 242,
+      "window": "2022-05-19 to 2023-11-15",
+      "areas": {
+        "access": {
+          "complaint_count": 9,
+          "severity_sum": 37,
+          "mean_severity": "4.111111",
+          "cancellation_count": 1
+        },
+        "usability": {
+          "complaint_count": 55,
+          "severity_sum": 156,
+          "mean_severity": "2.836364",
+          "cancellation_count": 4
+        },
+        "playback": {
+          "complaint_count": 47,
+          "severity_sum": 165,
+          "mean_severity": "3.510638",
+          "cancellation_count": 6
+        },
+        "billing_support": {
+          "complaint_count": 45,
+          "severity_sum": 128,
+          "mean_severity": "2.844444",
+          "cancellation_count": 4
+        },
+        "catalog": {
+          "complaint_count": 16,
+          "severity_sum": 45,
+          "mean_severity": "2.812500",
+          "cancellation_count": 1
+        },
+        "other": {
+          "complaint_count": 70,
+          "severity_sum": 137,
+          "mean_severity": "1.957143",
+          "cancellation_count": 12
+        }
+      }
+    },
+    "ranked_issues": [
+      {
+        "rank": 1,
+        "issue_id": "OTH-99",
+        "topic": "other",
+        "name": "Other other complaints",
+        "definition": "other complaints that fit none of the specific other issues (General praise or general criticism with no specific feature, unrelated content, politics/boycott slogans, or no supported specific topic.)",
+        "complaint_count": 49,
+        "severity_sum": 91,
+        "mean_severity": "1.857143",
+        "priority_score": 91,
+        "cancellation_count": 6,
+        "severity_4plus_count": 1
+      },
+      {
+        "rank": 2,
+        "issue_id": "USB-01",
+        "topic": "usability",
+        "name": "Excessive Ad Interruptions",
+        "definition": "Complaints that ads are too frequent, long, loud, or interrupt listening, including ads appearing before or between songs.",
+        "complaint_count": 27,
+        "severity_sum": 77,
+        "mean_severity": "2.851852",
+        "priority_score": 77,
+        "cancellation_count": 2,
+        "severity_4plus_count": 0
+      },
+      {
+        "rank": 3,
+        "issue_id": "BIL-99",
+        "topic": "billing",
+        "name": "Other billing complaints",
+        "definition": "billing complaints that fit none of the specific billing issues (Price, charges, subscriptions, refunds, paywalls, premium entitlement; controls explicitly limited to premium (e.g. 'can't pick songs without premium', 'only 6 skips') go here.)",
+        "complaint_count": 15,
+        "severity_sum": 37,
+        "mean_severity": "2.466667",
+        "priority_score": 37,
+        "cancellation_count": 1,
+        "severity_4plus_count": 1
+      },
+      {
+        "rank": 4,
+        "issue_id": "BIL-01",
+        "topic": "billing",
+        "name": "Free-Tier Song Choice and Ordering",
+        "definition": "Free users are forced into shuffle or cannot choose specific songs, play tracks in order, or use a queue.",
+        "complaint_count": 12,
+        "severity_sum": 36,
+        "mean_severity": "3.000000",
+        "priority_score": 36,
+        "cancellation_count": 2,
+        "severity_4plus_count": 0
+      },
+      {
+        "rank": 5,
+        "issue_id": "PLB-05",
+        "topic": "playback",
+        "name": "Wrong Songs or Playback Controls",
+        "definition": "Playback ignores the selected song or user controls, such as playing different tracks or failing to skip or shuffle as requested.",
+        "complaint_count": 10,
+        "severity_sum": 33,
+        "mean_severity": "3.300000",
+        "priority_score": 33,
+        "cancellation_count": 1,
+        "severity_4plus_count": 4
+      },
+      {
+        "rank": 6,
+        "issue_id": "BIL-02",
+        "topic": "billing",
+        "name": "Free-Tier Playback Controls Restricted",
+        "definition": "Free users face limits on skipping, replaying, or seeking within songs, or cannot repeat tracks.",
+        "complaint_count": 11,
+        "severity_sum": 32,
+        "mean_severity": "2.909091",
+        "priority_score": 32,
+        "cancellation_count": 1,
+        "severity_4plus_count": 0
+      },
+      {
+        "rank": 7,
+        "issue_id": "USB-03",
+        "topic": "usability",
+        "name": "Restricted Playback Controls",
+        "definition": "Complaints that users cannot reliably choose and play specific songs or control playback with options such as skip, seek, repeat, or playing tracks in order.",
+        "complaint_count": 11,
+        "severity_sum": 32,
+        "mean_severity": "2.909091",
+        "priority_score": 32,
+        "cancellation_count": 2,
+        "severity_4plus_count": 0
+      },
+      {
+        "rank": 8,
+        "issue_id": "OTH-01",
+        "topic": "other",
+        "name": "Update Removes Basic Features",
+        "definition": "Include complaints that recent app updates remove familiar features or make music streaming and basic listening worse.",
+        "complaint_count": 14,
+        "severity_sum": 31,
+        "mean_severity": "2.214286",
+        "priority_score": 31,
+        "cancellation_count": 5,
+        "severity_4plus_count": 1
+      },
+      {
+        "rank": 9,
+        "issue_id": "PLB-03",
+        "topic": "playback",
+        "name": "App Crashes or Won't Load",
+        "definition": "The app crashes, shuts down, or gets stuck on a launch or loading screen, preventing playback or continued use.",
+        "complaint_count": 7,
+        "severity_sum": 28,
+        "mean_severity": "4.000000",
+        "priority_score": 28,
+        "cancellation_count": 0,
+        "severity_4plus_count": 7
+      },
+      {
+        "rank": 10,
+        "issue_id": "PLB-04",
+        "topic": "playback",
+        "name": "False or Failed Network Connection",
+        "definition": "The app reports no connection or fails to access playback despite working internet, including when using particular network types.",
+        "complaint_count": 7,
+        "severity_sum": 26,
+        "mean_severity": "3.714286",
+        "priority_score": 26,
+        "cancellation_count": 0,
+        "severity_4plus_count": 5
+      },
+      {
+        "rank": 11,
+        "issue_id": "DWN-99",
+        "topic": "downloads",
+        "name": "Other downloads complaints",
+        "definition": "downloads complaints that fit none of the specific downloads issues (Downloading songs, saved music, offline listening, downloads disappearing.)",
+        "complaint_count": 6,
+        "severity_sum": 24,
+        "mean_severity": "4.000000",
+        "priority_score": 24,
+        "cancellation_count": 2,
+        "severity_4plus_count": 5
+      },
+      {
+        "rank": 12,
+        "issue_id": "PLB-99",
+        "topic": "playback",
+        "name": "Other playback complaints",
+        "definition": "playback complaints that fit none of the specific playback issues (Playback failure, crashes, freezing, lag, songs stopping or skipping by themselves, connection failures, audio quality, battery/data/storage use.)",
+        "complaint_count": 7,
+        "severity_sum": 22,
+        "mean_severity": "3.142857",
+        "priority_score": 22,
+        "cancellation_count": 1,
+        "severity_4plus_count": 3
+      }
+    ],
+    "ranking_rule": "priority_score = complaint_count x mean_severity = severity_sum; ties by issue_id",
+    "evidence_pack": {
+      "OTH-99": [
+        {
+          "review_id": "19effee5-bf96-4313-8cf9-1ac996c1c4f1",
+          "quote": "Worst appa i ever came across",
+          "severity": 2,
+          "intent": "complaint",
+          "month": "2023-11",
+          "helpful_votes": 1
+        },
+        {
+          "review_id": "06a45bd5-3ed9-43af-b7f2-8b9487e2ffff",
+          "quote": "Worst app",
+          "severity": 2,
+          "intent": "complaint",
+          "month": "2023-11",
+          "helpful_votes": 0
+        },
+        {
+          "review_id": "e09a9cf4-7ab2-49fb-b3f9-543ab70d6aec",
+          "quote": "👎👎👎👎",
+          "severity": 1,
+          "intent": "complaint",
+          "month": "2022-12",
+          "helpful_votes": 0
+        },
+        {
+          "review_id": "39e472ad-2038-4978-a559-d052e3844e59",
+          "quote": "Hate this application",
+          "severity": 2,
+          "intent": "complaint",
+          "month": "2023-07",
+          "helpful_votes": 0
+        }
+      ],
+      "USB-01": [
+        {
+          "review_id": "3bfefa06-133c-419b-a435-1fea919d6a44",
+          "quote": "WAY too many ads, I used a stopwatch and found that I got 10 minutes of music and 4 of ads, this is ridiculous. The only reasonable premium plans are for multiple people or students.",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2023-06",
+          "helpful_votes": 20
+        },
+        {
+          "review_id": "5e42046c-b29b-4035-ba83-a8e222789e98",
+          "quote": "Listen to my music almost everyday,this app is great. But the bad thing is that it gives too many ads, i would have hiven it 5 stars. Apart from that this app is great",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2023-06",
+          "helpful_votes": 2
+        },
+        {
+          "review_id": "a3c6d913-4b67-4025-b34e-3760e5f7795f",
+          "quote": "Too many ads",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2023-07",
+          "helpful_votes": 1
+        },
+        {
+          "review_id": "6a2cd434-9ad2-4e66-8968-ad066659d4df",
+          "quote": "Ads",
+          "severity": 2,
+          "intent": "complaint",
+          "month": "2023-11",
+          "helpful_votes": 0
+        }
+      ],
+      "BIL-99": [
+        {
+          "review_id": "f67fefbf-9055-4f7c-a777-80446653997c",
+          "quote": "I don't like this app, it forcing me to buy premium 😔🤥",
+          "severity": 2,
+          "intent": "complaint",
+          "month": "2023-11",
+          "helpful_votes": 0
+        },
+        {
+          "review_id": "be84cf74-541f-49c8-8262-fe6e9faedfb8",
+          "quote": "Worst ever 100 tyms asked to join premium 😖",
+          "severity": 2,
+          "intent": "complaint",
+          "month": "2023-10",
+          "helpful_votes": 0
+        },
+        {
+          "review_id": "f782a3f3-b0c8-475c-a34c-cda0fefa272e",
+          "quote": "I miss premium and over all its good. It's not I HATE it",
+          "severity": 1,
+          "intent": "complaint",
+          "month": "2022-11",
+          "helpful_votes": 0
+        },
+        {
+          "review_id": "2313bd8e-43bd-4777-bff9-3ae753288f0e",
+          "quote": "It is absolutely useless after the latest update. There's nothing I can do without the \"try premium\" option popping up every damn time.",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2023-11",
+          "helpful_votes": 0
+        }
+      ],
+      "BIL-01": [
+        {
+          "review_id": "88439ec2-7c49-4c57-bedb-c5e098692aff",
+          "quote": "I'll switch to some other apps .if it remains like this forever.!",
+          "severity": 3,
+          "intent": "cancellation",
+          "month": "2023-10",
+          "helpful_votes": 0
+        },
+        {
+          "review_id": "af53cf35-c680-4ccb-b30c-cfd85bb61c57",
+          "quote": "I don't agree to to auto shuffle and I want in order in free. Not in premium.",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2023-10",
+          "helpful_votes": 0
+        },
+        {
+          "review_id": "66c56c76-ca94-46ef-b0a1-931654ead16d",
+          "quote": "locking basic functionality behind a paywall is vile.",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2023-02",
+          "helpful_votes": 0
+        },
+        {
+          "review_id": "f66a61ed-c4f6-4e7f-8f3b-a4c0d9fbf6af",
+          "quote": "Playing music from playlist in a queue is now a premium feature. What a joke.",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2023-10",
+          "helpful_votes": 0
+        }
+      ],
+      "PLB-05": [
+        {
+          "review_id": "e393cec1-67e8-4f58-a484-8d9d76dc8fd6",
+          "quote": "I put my selection on shuffle plays same songs over and over",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2023-08",
+          "helpful_votes": 0
+        },
+        {
+          "review_id": "46ff0c74-5e86-4e5b-b4cd-36201aab0f9e",
+          "quote": "I am unable to use my Google assistant on the app.it says playing your Spotify playlist but do not play the songs",
+          "severity": 4,
+          "intent": "complaint",
+          "month": "2023-05",
+          "helpful_votes": 0
+        },
+        {
+          "review_id": "06d4c78d-73b4-4b54-9ef3-3d5a0d18cb96",
+          "quote": "when I want to play my playlist, it does NOT play?!",
+          "severity": 4,
+          "intent": "complaint",
+          "month": "2022-12",
+          "helpful_votes": 0
+        },
+        {
+          "review_id": "145ea602-b8fb-41c1-bfdd-79293a18681f",
+          "quote": "I doesn't have the song feature were you play the song on computer it starts that same song but on mobile I tried playing a song and it play the most inappropriate song",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2023-06",
+          "helpful_votes": 0
+        }
+      ],
+      "BIL-02": [
+        {
+          "review_id": "11ad400f-4487-4dfa-a9da-c8d624f4f107",
+          "quote": "getting premium is the only way you could actually enjoy this app",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2023-08",
+          "helpful_votes": 7
+        },
+        {
+          "review_id": "7a5919ad-16d4-4f29-8e6e-1041415d7eee",
+          "quote": "I need to pay to repeat the song I heard .I am uninstalling spotify",
+          "severity": 3,
+          "intent": "cancellation",
+          "month": "2023-10",
+          "helpful_votes": 1
+        },
+        {
+          "review_id": "61e0ddbb-6ec4-4d3a-acd3-41eb5f64afb7",
+          "quote": "Eyy fodey, charge me for breathing also. You mad or something? Now I need premium to repeat and skip the song to a certain part.",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2023-10",
+          "helpful_votes": 1
+        },
+        {
+          "review_id": "58511d69-67c2-4432-84d8-f3c556592f2b",
+          "quote": "I am not like now they are so much charges to listen music or replay again the music there is a charger so that's why I don't like it this app now 😕",
+          "severity": 2,
+          "intent": "complaint",
+          "month": "2023-11",
+          "helpful_votes": 0
+        }
+      ],
+      "USB-03": [
+        {
+          "review_id": "4f6a50a1-9440-468c-b35f-961bca94fd88",
+          "quote": "I want to listen to the music I click on NOT whatever other stuff you throw into my playlists.",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2022-09",
+          "helpful_votes": 1
+        },
+        {
+          "review_id": "c13dcedc-50da-48a8-a90d-cfb037a66478",
+          "quote": "they removed the mix old shuffle",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2023-11",
+          "helpful_votes": 0
+        },
+        {
+          "review_id": "0853c56b-0fa1-4d12-9cb9-6817d52233f5",
+          "quote": "This app is so hard to navigate on phone if I click a a song a have liked it goes to didn't song I never heard or it might play a demo of the song that is dumb it should play the song",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2022-07",
+          "helpful_votes": 0
+        },
+        {
+          "review_id": "f8a85378-c4dd-40e2-b548-beebcdf3b991",
+          "quote": "The new drop down menu where it only lets me shuffle. Bad design wrecking me here have a playlist in an order for reason",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2022-12",
+          "helpful_votes": 0
+        }
+      ],
+      "OTH-01": [
+        {
+          "review_id": "d3ddb3ad-e576-4638-a100-926ba56caabe",
+          "quote": "Worst update",
+          "severity": 2,
+          "intent": "complaint",
+          "month": "2023-10",
+          "helpful_votes": 1
+        },
+        {
+          "review_id": "68107809-52c1-469d-a78a-569280e49ed6",
+          "quote": "It's not even a basic music player anymore... Spotify more like Shity-fy",
+          "severity": 2,
+          "intent": "complaint",
+          "month": "2023-11",
+          "helpful_votes": 0
+        },
+        {
+          "review_id": "45c561b9-cc47-4d80-95d3-f0d20bc84af3",
+          "quote": "The update made the app useless .... Uninstall krdia ye app ab bekar hai ... Wynk hi theek h",
+          "severity": 4,
+          "intent": "cancellation",
+          "month": "2023-07",
+          "helpful_votes": 0
+        },
+        {
+          "review_id": "ca16e65d-d2ff-4453-a495-b8c422809330",
+          "quote": "Recent update 👎",
+          "severity": 2,
+          "intent": "complaint",
+          "month": "2023-09",
+          "helpful_votes": 0
+        }
+      ],
+      "PLB-03": [
+        {
+          "review_id": "065c418e-7f18-42a3-b241-fe693b7a2b0c",
+          "quote": "Black screen of death. Having to Uninstaller and reinstall after closing and opening app 5x to see if it would work.",
+          "severity": 4,
+          "intent": "complaint",
+          "month": "2023-03",
+          "helpful_votes": 11
+        },
+        {
+          "review_id": "651e6e7b-f93e-4369-9631-15c73ddcd4ad",
+          "quote": "the music randomly stops and won't play/pause on demand",
+          "severity": 4,
+          "intent": "complaint",
+          "month": "2023-10",
+          "helpful_votes": 5
+        },
+        {
+          "review_id": "4a806587-0dde-4fb4-b4f1-f5c7d197c927",
+          "quote": "Have been using Spotify for a very long time but now the app is just crashing since the latest update.",
+          "severity": 4,
+          "intent": "complaint",
+          "month": "2023-08",
+          "helpful_votes": 1
+        },
+        {
+          "review_id": "55cc3abf-c295-4591-8c3a-78085cfdefaa",
+          "quote": "The latest update has caused my app to crash I cant open the app please fix.",
+          "severity": 4,
+          "intent": "complaint",
+          "month": "2023-01",
+          "helpful_votes": 1
+        }
+      ],
+      "PLB-04": [
+        {
+          "review_id": "98d936e1-fd1d-475a-89ee-0e1517cb60d3",
+          "quote": "it absolutely refuses to play music.",
+          "severity": 4,
+          "intent": "complaint",
+          "month": "2023-07",
+          "helpful_votes": 32
+        },
+        {
+          "review_id": "4ab2089a-ffa8-49e7-a8a3-aeb583a96796",
+          "quote": "Iam a premium user. But this app if i using wifi not able to connect Internet. But if using mobile data it will work. Some songs quality also very poor comparing to the YouTube music.",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2023-02",
+          "helpful_votes": 0
+        },
+        {
+          "review_id": "3df77a78-ad9a-4456-8be8-8178ffd43d67",
+          "quote": "Always say no internet connection Most of my favourite Bollywood songs are not present",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2023-04",
+          "helpful_votes": 0
+        },
+        {
+          "review_id": "bcdf315e-c82d-41f0-9fcd-ba5933dfe77e",
+          "quote": "Keeps saying that there's no internet connection when my internet works fine for all other apps?",
+          "severity": 4,
+          "intent": "complaint",
+          "month": "2022-05",
+          "helpful_votes": 0
+        }
+      ],
+      "DWN-99": [
+        {
+          "review_id": "2ffdf599-a0d5-4c01-bf26-025215d44c06",
+          "quote": "has forced me to consider canceling my premium",
+          "severity": 3,
+          "intent": "cancellation",
+          "month": "2022-06",
+          "helpful_votes": 5
+        },
+        {
+          "review_id": "b03d6dc9-449a-4647-b112-559186656759",
+          "quote": "offline mode USELESS",
+          "severity": 5,
+          "intent": "complaint",
+          "month": "2022-05",
+          "helpful_votes": 4
+        },
+        {
+          "review_id": "dcff57c6-abd6-413b-b255-aec3dc34fcbd",
+          "quote": "Offline not workjng",
+          "severity": 4,
+          "intent": "complaint",
+          "month": "2023-07",
+          "helpful_votes": 0
+        },
+        {
+          "review_id": "5be3399d-dcd2-405b-a931-29b02ffc966e",
+          "quote": "i go to listen to downloaded content and it's ALL GONE.",
+          "severity": 4,
+          "intent": "cancellation",
+          "month": "2023-03",
+          "helpful_votes": 0
+        }
+      ],
+      "PLB-99": [
+        {
+          "review_id": "3899ed22-7b96-4c4f-9706-42985b8d8049",
+          "quote": "Paying for premium and certain podcasts are suddenly lagging. Unacceptable",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2023-08",
+          "helpful_votes": 1
+        },
+        {
+          "review_id": "4c34f240-76d4-451a-ac74-5bc6bd484825",
+          "quote": "Doesn't let me play songs",
+          "severity": 4,
+          "intent": "complaint",
+          "month": "2023-06",
+          "helpful_votes": 0
+        },
+        {
+          "review_id": "a862b037-7542-4a3e-94ef-836b7092f4ef",
+          "quote": "Waste of Data and Storage in our phone",
+          "severity": 2,
+          "intent": "complaint",
+          "month": "2023-09",
+          "helpful_votes": 0
+        },
+        {
+          "review_id": "d3b74f36-aa48-42af-ae4a-d4a8b0499a60",
+          "quote": "I have a Samsung and after a week of using this app it like wouldn't let me listen to music",
+          "severity": 4,
+          "intent": "complaint",
+          "month": "2023-06",
+          "helpful_votes": 0
+        }
+      ]
+    }
+  }
+}

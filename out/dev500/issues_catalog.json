@@ -1,0 +1,222 @@
+{
+  "group_config": "gpt-6-luna/low+group-prompts-v1+[jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1]",
+  "issues": [
+    {
+      "issue_id": "ACC-01",
+      "topic": "access",
+      "name": "Login errors and connection detection",
+      "definition": "Users cannot sign in because the app reports an error or falsely indicates there is no internet connection.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "ACC-02",
+      "topic": "access",
+      "name": "Password rejected",
+      "definition": "The app refuses a password during account sign-in.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "ACC-03",
+      "topic": "access",
+      "name": "Phone number sign-in failures",
+      "definition": "Users cannot access their account because phone-number verification or sign-in rejects their number or repeatedly demands a new one.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "ACC-04",
+      "topic": "access",
+      "name": "Account access blocked",
+      "definition": "Users are prevented from entering their account without a more specific password, phone-number, or connection cause being identified.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "ACC-05",
+      "topic": "access",
+      "name": "Hacked account recovery",
+      "definition": "Users report an account takeover and difficulty recovering access or account content.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "ACC-99",
+      "topic": "access",
+      "name": "Other access complaints",
+      "definition": "access complaints that fit none of the specific access issues (Login, signup, password or account access problems (e.g. 'can't log in', 'account hacked', 'logged out every day').)",
+      "source": "catch_all"
+    },
+    {
+      "issue_id": "BIL-01",
+      "topic": "billing",
+      "name": "Free-Tier Song Choice and Ordering",
+      "definition": "Free users are forced into shuffle or cannot choose specific songs, play tracks in order, or use a queue.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "BIL-02",
+      "topic": "billing",
+      "name": "Free-Tier Playback Controls Restricted",
+      "definition": "Free users face limits on skipping, replaying, or seeking within songs, or cannot repeat tracks.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "BIL-03",
+      "topic": "billing",
+      "name": "Basic Features Moved Behind Premium",
+      "definition": "Features beyond song selection and playback controls, such as lyrics or higher audio quality, are restricted to Premium.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "BIL-04",
+      "topic": "billing",
+      "name": "Premium Subscription Purchase or Access Fails",
+      "definition": "Users cannot complete a Premium purchase or sign-up, or a paid subscription does not unlock access.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "BIL-99",
+      "topic": "billing",
+      "name": "Other billing complaints",
+      "definition": "billing complaints that fit none of the specific billing issues (Price, charges, subscriptions, refunds, paywalls, premium entitlement; controls explicitly limited to premium (e.g. 'can't pick songs without premium', 'only 6 skips') go here.)",
+      "source": "catch_all"
+    },
+    {
+      "issue_id": "CAT-01",
+      "topic": "catalog",
+      "name": "Missing or Removed Catalog Content",
+      "definition": "Songs, artists, or genres customers want are unavailable, missing from the catalog, or removed.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "CAT-02",
+      "topic": "catalog",
+      "name": "Lyrics Missing or Failing to Load",
+      "definition": "Lyrics are unavailable for songs or fail to display or load in the Android app.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "CAT-03",
+      "topic": "catalog",
+      "name": "Unwanted or Repetitive Recommendations",
+      "definition": "Recommendations or DJ selections are irrelevant, repetitive, or continue appearing when customers do not want them or have disabled them.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "CAT-99",
+      "topic": "catalog",
+      "name": "Other catalog complaints",
+      "definition": "catalog complaints that fit none of the specific catalog issues (Missing songs or artists, removed content, search and discovery, recommendations, lyrics availability, podcasts content.)",
+      "source": "catch_all"
+    },
+    {
+      "issue_id": "DWN-99",
+      "topic": "downloads",
+      "name": "Other downloads complaints",
+      "definition": "downloads complaints that fit none of the specific downloads issues (Downloading songs, saved music, offline listening, downloads disappearing.)",
+      "source": "catch_all"
+    },
+    {
+      "issue_id": "OTH-01",
+      "topic": "other",
+      "name": "Update Removes Basic Features",
+      "definition": "Include complaints that recent app updates remove familiar features or make music streaming and basic listening worse.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "OTH-02",
+      "topic": "other",
+      "name": "App Bugs and Unwanted Startup",
+      "definition": "Include reports of technical problems or confusing behavior, such as the app starting despite permissions being disabled.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "OTH-03",
+      "topic": "other",
+      "name": "Excessive Listening Restrictions",
+      "definition": "Include complaints that limits or premium changes restrict basic music listening or make the service feel overly costly.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "OTH-99",
+      "topic": "other",
+      "name": "Other other complaints",
+      "definition": "other complaints that fit none of the specific other issues (General praise or general criticism with no specific feature, unrelated content, politics/boycott slogans, or no supported specific topic.)",
+      "source": "catch_all"
+    },
+    {
+      "issue_id": "PLB-02",
+      "topic": "playback",
+      "name": "Playback Stops Unexpectedly",
+      "definition": "Music or podcasts pause or stop mid-playback without user input, sometimes failing to resume correctly.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "PLB-03",
+      "topic": "playback",
+      "name": "App Crashes or Won't Load",
+      "definition": "The app crashes, shuts down, or gets stuck on a launch or loading screen, preventing playback or continued use.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "PLB-04",
+      "topic": "playback",
+      "name": "False or Failed Network Connection",
+      "definition": "The app reports no connection or fails to access playback despite working internet, including when using particular network types.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "PLB-05",
+      "topic": "playback",
+      "name": "Wrong Songs or Playback Controls",
+      "definition": "Playback ignores the selected song or user controls, such as playing different tracks or failing to skip or shuffle as requested.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "PLB-06",
+      "topic": "playback",
+      "name": "Playback Device Connection Fails",
+      "definition": "The app cannot reliably connect to or cast playback to another device, such as a smart speaker, console, or computer.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "PLB-99",
+      "topic": "playback",
+      "name": "Other playback complaints",
+      "definition": "playback complaints that fit none of the specific playback issues (Playback failure, crashes, freezing, lag, songs stopping or skipping by themselves, connection failures, audio quality, battery/data/storage use.)",
+      "source": "catch_all"
+    },
+    {
+      "issue_id": "USB-01",
+      "topic": "usability",
+      "name": "Excessive Ad Interruptions",
+      "definition": "Complaints that ads are too frequent, long, loud, or interrupt listening, including ads appearing before or between songs.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "USB-02",
+      "topic": "usability",
+      "name": "Confusing Home Screen Navigation",
+      "definition": "Complaints that app layout or home-screen changes make it harder to find playlists, mixes, recently played items, or other content.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "USB-03",
+      "topic": "usability",
+      "name": "Restricted Playback Controls",
+      "definition": "Complaints that users cannot reliably choose and play specific songs or control playback with options such as skip, seek, repeat, or playing tracks in order.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "USB-04",
+      "topic": "usability",
+      "name": "Missing Playlist Management Tools",
+      "definition": "Complaints about missing or broken tools for searching, viewing, organizing, or queuing tracks in playlists and liked songs.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "USB-99",
+      "topic": "usability",
+      "name": "Other usability complaints",
+      "definition": "usability complaints that fit none of the specific usability issues (Navigation, controls, layout, UI changes, queue/playlist management, ad interruptions (e.g. 'new home screen is confusing', 'too many ads between songs').)",
+      "source": "catch_all"
+    }
+  ]
+}

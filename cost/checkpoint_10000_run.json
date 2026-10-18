@@ -1,0 +1,59 @@
+{
+  "input": "spotify_reviews_18months.csv, first 10,050 course-ranked IDs (golden 50 + analysis_10000) = 8,492 distinct texts",
+  "segments": [
+    {
+      "label": "part 1 (before cache-fill fix; process ended by a session restart)",
+      "run_id": "enrich-20261014T184618-96a23c",
+      "start": {
+        "label_config": "jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1",
+        "phase": "initial",
+        "pending_texts": 8492,
+        "batches": 170,
+        "cache_hits_at_start": 0,
+        "spend_so_far": 0.0,
+        "cap": 10.0,
+        "batch_size": 50,
+        "batch_workers": 4,
+        "jev_workers": 8
+      },
+      "end": {
+        "completed": 3750,
+        "seconds": 1243.21,
+        "note": "seconds = first call start to last call end; no end event because the process was terminated"
+      }
+    },
+    {
+      "label": "part 2 (after fix)",
+      "run_id": "enrich-20261014T193719-e82f1f",
+      "start": {
+        "label_config": "jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1",
+        "phase": "initial",
+        "pending_texts": 4742,
+        "batches": 95,
+        "cache_hits_at_start": 0,
+        "spend_so_far": 0.212672,
+        "cap": 10.0,
+        "batch_size": 50,
+        "batch_workers": 4,
+        "jev_workers": 8
+      },
+      "end": {
+        "completed": 4741,
+        "quarantined": 0,
+        "left_pending": 1,
+        "cache_filled": 15586,
+        "batches": 95,
+        "stop_reason": "finished",
+        "seconds": 136.21,
+        "spent_total_usd": 0.482581,
+        "record_status": {
+          "completed": 129564,
+          "pending": 531045,
+          "quarantined": 13
+        },
+        "run_id": "enrich-20261014T193719-e82f1f",
+        "label_config": "jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1"
+      }
+    }
+  ]
+}

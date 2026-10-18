@@ -1,0 +1,587 @@
+{
+  "rates_multiplier": 1.0,
+  "measured": {
+    "input": {
+      "file": "cost_100.csv",
+      "sha256": "c884ac3b9be5066995d5063f96ad9af6e5e082975788c1684c4f6b6ea661dd0e",
+      "rows": 100
+    },
+    "records": 100,
+    "completed": 100,
+    "failed_or_quarantined": 0,
+    "distinct_texts_enriched": 100,
+    "result_cache_hits_warm": 100,
+    "cold": {
+      "wall_clock_seconds": 69.065,
+      "stage_seconds": {
+        "ingest": 0.07,
+        "enrich": 14.82,
+        "verify": 5.19,
+        "group": 28.83,
+        "rank": 0.01,
+        "memo": 20.13
+      },
+      "api_cost_usd": 0.009010783999999997,
+      "requests": 110,
+      "attempts": 110,
+      "failed_attempts": 0,
+      "cost_per_1000_inputs": 0.09010783999999997,
+      "cost_per_completed_record": 9.010783999999997e-05,
+      "throughput_records_per_s": 1.4479113878230652
+    },
+    "warm": {
+      "wall_clock_seconds": 0.671,
+      "stage_seconds": {
+        "ingest": 0.06,
+        "enrich": 0.52,
+        "verify": 0.02,
+        "group": 0.03,
+        "rank": 0.01,
+        "memo": 0.02
+      },
+      "api_cost_usd": 0,
+      "new_calls": 0,
+      "new_enrichment_calls": 0
+    },
+    "by_stage": {
+      "enrich: Jev labels": {
+        "requests": 100,
+        "attempts": 100,
+        "failed": 0,
+        "review_ids_sent": 100,
+        "input_tokens": 127787,
+        "cached_input_tokens": 0,
+        "output_tokens": 21275,
+        "reasoning_tokens": 0,
+        "cost": 0.005367053999999998,
+        "models": [
+          "jev-1.13.0"
+        ],
+        "usage_missing": 0,
+        "seconds_summed": 7.115000000000002
+      },
+      "enrich: gpt quotes": {
+        "requests": 2,
+        "attempts": 2,
+        "failed": 0,
+        "review_ids_sent": 9,
+        "input_tokens": 1417,
+        "cached_input_tokens": 0,
+        "output_tokens": 186,
+        "reasoning_tokens": 0,
+        "cost": 0.00023469999999999999,
+        "models": [
+          "gpt-6-luna (effort none)"
+        ],
+        "usage_missing": 0,
+        "seconds_summed": 5.434
+      },
+      "verify": {
+        "requests": 1,
+        "attempts": 1,
+        "failed": 0,
+        "review_ids_sent": 20,
+        "input_tokens": 1719,
+        "cached_input_tokens": 1313,
+        "output_tokens": 492,
+        "reasoning_tokens": 0,
+        "cost": 0.00029972999999999995,
+        "models": [
+          "gpt-6-luna (effort none)"
+        ],
+        "usage_missing": 0,
+        "seconds_summed": 5.122
+      },
+      "group: discover": {
+        "requests": 3,
+        "attempts": 3,
+        "failed": 0,
+        "review_ids_sent": 37,
+        "input_tokens": 3064,
+        "cached_input_tokens": 0,
+        "output_tokens": 1609,
+        "reasoning_tokens": 640,
+        "cost": 0.0011109,
+        "models": [
+          "gpt-6-luna (effort low)"
+        ],
+        "usage_missing": 0,
+        "seconds_summed": 19.273
+      },
+      "group: assign": {
+        "requests": 3,
+        "attempts": 3,
+        "failed": 0,
+        "review_ids_sent": 37,
+        "input_tokens": 2503,
+        "cached_input_tokens": 0,
+        "output_tokens": 455,
+        "reasoning_tokens": 0,
+        "cost": 0.00047779999999999996,
+        "models": [
+          "gpt-6-luna (effort none)"
+        ],
+        "usage_missing": 0,
+        "seconds_summed": 9.205
+      },
+      "memo": {
+        "requests": 1,
+        "attempts": 1,
+        "failed": 0,
+        "review_ids_sent": 0,
+        "input_tokens": 5036,
+        "cached_input_tokens": 0,
+        "output_tokens": 2034,
+        "reasoning_tokens": 432,
+        "cost": 0.0015206,
+        "models": [
+          "gpt-6-luna (effort low)"
+        ],
+        "usage_missing": 0,
+        "seconds_summed": 20.056
+      }
+    },
+    "unit_costs": {
+      "jev_per_text": 5.3670539999999976e-05,
+      "quote_per_long_text": 2.6077777777777775e-05,
+      "verify_per_text": 1.4986499999999998e-05,
+      "assign_per_text": 1.2913513513513512e-05,
+      "memo_per_call": 0.0015206,
+      "discover_fixed": 0.02882335135135135
+    },
+    "measured_rates": {
+      "retry_rate": 0.0,
+      "long_text_share": 0.09,
+      "complaint_share": 0.53
+    },
+    "settings": {
+      "label_config": "jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1",
+      "batch_size": 50,
+      "batch_workers": 1,
+      "jev_workers": 1,
+      "verify_fraction": 0.03,
+      "verify_min_sample": 20,
+      "models": {
+        "enrich": "jev-1.13.0",
+        "quote": "gpt-6-luna/none",
+        "verify": "gpt-6-luna/none",
+        "group": "gpt-6-luna/low",
+        "memo": "gpt-6-luna/low"
+      },
+      "prompt_versions": {
+        "labels": "prompts-v1",
+        "group": "group-v2",
+        "memo": "memo-v2"
+      }
+    }
+  },
+  "refreshes": [
+    {
+      "checkpoint": "pilot 100 (cold, 1 worker)",
+      "texts": 100,
+      "enrich_seconds": 14.82,
+      "texts_per_s": 6.747638326585695,
+      "jev_cost_per_text": 5.3670539999999976e-05,
+      "workers": "batch 1 / jev 1"
+    },
+    {
+      "checkpoint": "checkpoint_500",
+      "texts": 479,
+      "enrich_seconds": 31.48,
+      "texts_per_s": 15.216010165184244,
+      "jev_cost_per_text": 5.365653444676406e-05,
+      "workers": "batch 2 / jev 8"
+    },
+    {
+      "checkpoint": "checkpoint_10000 part 1 (before cache-fill fix; process ended by a session restart)",
+      "texts": 3750,
+      "enrich_seconds": 1243.21,
+      "texts_per_s": 3.0163850033381325,
+      "jev_cost_per_text": 5.3665763200000467e-05,
+      "workers": "batch 4 / jev 8"
+    },
+    {
+      "checkpoint": "checkpoint_10000 part 2 (after fix)",
+      "texts": 4741,
+      "enrich_seconds": 136.21,
+      "texts_per_s": 34.806548711548345,
+      "jev_cost_per_text": 5.3682483340363114e-05,
+      "workers": "batch 4 / jev 8"
+    }
+  ],
+  "scenarios": [
+    {
+      "scenario": "100k scope, exact-text reuse (chosen)",
+      "case": "base",
+      "distinct_texts_sent": 78137,
+      "source_ids_accounted": 660622,
+      "completed_classifications": 237987,
+      "lines": [
+        {
+          "stage": "enrich: Jev labels",
+          "work_units": 78137,
+          "api_cost_usd": 4.193654983979998
+        },
+        {
+          "stage": "enrich: gpt quotes",
+          "work_units": 7032,
+          "api_cost_usd": 0.183387539
+        },
+        {
+          "stage": "verify",
+          "work_units": 2345,
+          "api_cost_usd": 0.035143342499999994
+        },
+        {
+          "stage": "group: assign",
+          "work_units": 41413,
+          "api_cost_usd": 0.5347822988648648
+        },
+        {
+          "stage": "group: discover (fixed)",
+          "work_units": 8,
+          "api_cost_usd": 0.02882335135135135
+        },
+        {
+          "stage": "memo (fixed)",
+          "work_units": 1,
+          "api_cost_usd": 0.0015206
+        }
+      ],
+      "api_cost_usd": 4.977312115696215,
+      "enrich_throughput_texts_per_s": 34.806548711548345,
+      "enrich_hours": 0.6235815680001875,
+      "assumptions": {
+        "extra_attempt_rate": 0.0,
+        "long_text_share": 0.09,
+        "complaint_share": 0.53,
+        "verify_fraction": 0.03
+      },
+      "over_budget": false
+    },
+    {
+      "scenario": "100k scope, exact-text reuse (chosen)",
+      "case": "conservative",
+      "distinct_texts_sent": 78137,
+      "source_ids_accounted": 660622,
+      "completed_classifications": 237987,
+      "lines": [
+        {
+          "stage": "enrich: Jev labels",
+          "work_units": 78137,
+          "api_cost_usd": 4.6130204823779986
+        },
+        {
+          "stage": "enrich: gpt quotes",
+          "work_units": 8790,
+          "api_cost_usd": 0.25215786612499996
+        },
+        {
+          "stage": "verify",
+          "work_units": 2345,
+          "api_cost_usd": 0.038657676749999995
+        },
+        {
+          "stage": "group: assign",
+          "work_units": 51766,
+          "api_cost_usd": 0.7353256609391893
+        },
+        {
+          "stage": "group: discover (fixed)",
+          "work_units": 8,
+          "api_cost_usd": 0.02882335135135135
+        },
+        {
+          "stage": "memo (fixed)",
+          "work_units": 2,
+          "api_cost_usd": 0.0030412
+        }
+      ],
+      "api_cost_usd": 5.671026237543539,
+      "enrich_throughput_texts_per_s": 17.403274355774172,
+      "enrich_hours": 1.247163136000375,
+      "assumptions": {
+        "extra_attempt_rate": 0.1,
+        "long_text_share": 0.11249999999999999,
+        "complaint_share": 0.6625000000000001,
+        "verify_fraction": 0.03
+      },
+      "over_budget": false
+    },
+    {
+      "scenario": "Full corpus, exact-text reuse",
+      "case": "base",
+      "distinct_texts_sent": 484189,
+      "source_ids_accounted": 660622,
+      "completed_classifications": 660609,
+      "lines": [
+        {
+          "stage": "enrich: Jev labels",
+          "work_units": 484189,
+          "api_cost_usd": 25.98668509205999
+        },
+        {
+          "stage": "enrich: gpt quotes",
+          "work_units": 43577,
+          "api_cost_usd": 1.1363915829999998
+        },
+        {
+          "stage": "verify",
+          "work_units": 14526,
+          "api_cost_usd": 0.21769389899999997
+        },
+        {
+          "stage": "group: assign",
+          "work_units": 256620,
+          "api_cost_usd": 3.313868033135135
+        },
+        {
+          "stage": "group: discover (fixed)",
+          "work_units": 8,
+          "api_cost_usd": 0.02882335135135135
+        },
+        {
+          "stage": "memo (fixed)",
+          "work_units": 1,
+          "api_cost_usd": 0.0015206
+        }
+      ],
+      "api_cost_usd": 30.684982558546476,
+      "enrich_throughput_texts_per_s": 34.806548711548345,
+      "enrich_hours": 3.864127568609529,
+      "assumptions": {
+        "extra_attempt_rate": 0.0,
+        "long_text_share": 0.09,
+        "complaint_share": 0.53,
+        "verify_fraction": 0.03
+      },
+      "over_budget": true
+    },
+    {
+      "scenario": "Full corpus, exact-text reuse",
+      "case": "conservative",
+      "distinct_texts_sent": 484189,
+      "source_ids_accounted": 660622,
+      "completed_classifications": 660609,
+      "lines": [
+        {
+          "stage": "enrich: Jev labels",
+          "work_units": 484189,
+          "api_cost_usd": 28.58535360126599
+        },
+        {
+          "stage": "enrich: gpt quotes",
+          "work_units": 54471,
+          "api_cost_usd": 1.5625384266249998
+        },
+        {
+          "stage": "verify",
+          "work_units": 14526,
+          "api_cost_usd": 0.2394632889
+        },
+        {
+          "stage": "group: assign",
+          "work_units": 320775,
+          "api_cost_usd": 4.556568545560811
+        },
+        {
+          "stage": "group: discover (fixed)",
+          "work_units": 8,
+          "api_cost_usd": 0.02882335135135135
+        },
+        {
+          "stage": "memo (fixed)",
+          "work_units": 2,
+          "api_cost_usd": 0.0030412
+        }
+      ],
+      "api_cost_usd": 34.97578841370315,
+      "enrich_throughput_texts_per_s": 17.403274355774172,
+      "enrich_hours": 7.728255137219058,
+      "assumptions": {
+        "extra_attempt_rate": 0.1,
+        "long_text_share": 0.11249999999999999,
+        "complaint_share": 0.6625000000000001,
+        "verify_fraction": 0.03
+      },
+      "over_budget": true
+    },
+    {
+      "scenario": "Full corpus, NO reuse (comparison)",
+      "case": "base",
+      "distinct_texts_sent": 660609,
+      "source_ids_accounted": 660622,
+      "completed_classifications": 660609,
+      "lines": [
+        {
+          "stage": "enrich: Jev labels",
+          "work_units": 660609,
+          "api_cost_usd": 35.455241758859984
+        },
+        {
+          "stage": "enrich: gpt quotes",
+          "work_units": 59455,
+          "api_cost_usd": 1.5504493229999998
+        },
+        {
+          "stage": "verify",
+          "work_units": 19819,
+          "api_cost_usd": 0.2970174435
+        },
+        {
+          "stage": "group: assign",
+          "work_units": 350123,
+          "api_cost_usd": 4.5213151217837835
+        },
+        {
+          "stage": "group: discover (fixed)",
+          "work_units": 8,
+          "api_cost_usd": 0.02882335135135135
+        },
+        {
+          "stage": "memo (fixed)",
+          "work_units": 1,
+          "api_cost_usd": 0.0015206
+        }
+      ],
+      "api_cost_usd": 41.85436759849512,
+      "enrich_throughput_texts_per_s": 34.806548711548345,
+      "enrich_hours": 5.272068239822822,
+      "assumptions": {
+        "extra_attempt_rate": 0.0,
+        "long_text_share": 0.09,
+        "complaint_share": 0.53,
+        "verify_fraction": 0.03
+      },
+      "over_budget": true
+    },
+    {
+      "scenario": "Full corpus, NO reuse (comparison)",
+      "case": "conservative",
+      "distinct_texts_sent": 660609,
+      "source_ids_accounted": 660622,
+      "completed_classifications": 660609,
+      "lines": [
+        {
+          "stage": "enrich: Jev labels",
+          "work_units": 660609,
+          "api_cost_usd": 39.000765934745985
+        },
+        {
+          "stage": "enrich: gpt quotes",
+          "work_units": 74319,
+          "api_cost_usd": 2.1318678191249996
+        },
+        {
+          "stage": "verify",
+          "work_units": 19819,
+          "api_cost_usd": 0.32671918785
+        },
+        {
+          "stage": "group: assign",
+          "work_units": 437653,
+          "api_cost_usd": 6.216808292452703
+        },
+        {
+          "stage": "group: discover (fixed)",
+          "work_units": 8,
+          "api_cost_usd": 0.02882335135135135
+        },
+        {
+          "stage": "memo (fixed)",
+          "work_units": 2,
+          "api_cost_usd": 0.0030412
+        }
+      ],
+      "api_cost_usd": 47.70802578552504,
+      "enrich_throughput_texts_per_s": 17.403274355774172,
+      "enrich_hours": 10.544136479645644,
+      "assumptions": {
+        "extra_attempt_rate": 0.1,
+        "long_text_share": 0.11249999999999999,
+        "complaint_share": 0.6625000000000001,
+        "verify_fraction": 0.03
+      },
+      "over_budget": true
+    }
+  ],
+  "budget_usd": 10.0,
+  "controls": {
+    "output_token_cap_per_request": 6000,
+    "max_jev_workers": 8,
+    "max_batch_workers": 4,
+    "max_reviews_per_enrich_request": 50,
+    "max_fallback_fraction": 0.05,
+    "fallback_model": "none (no stronger-model fallback is configured; a failed quote falls back to an exact text prefix in code at zero API cost)"
+  },
+  "local_compute": {
+    "api_free_local_cost": "unknown",
+    "detail": "Pipeline code runs on a Windows laptop; electricity and hardware time are not metered, so they are reported as unknown rather than zero."
+  },
+  "infrastructure": {
+    "neon_postgres": "free tier, $0 list price (checked 2026-10-14)",
+    "vercel_hosting": "Hobby tier, $0 list price (checked 2026-10-14)"
+  },
+  "rate_sources": [
+    {
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "billing_item": "input_uncached",
+      "unit": "token",
+      "price_per_unit_usd": "0.0000001",
+      "price_quoted_as": "$0.10 per 1M tokens (standard)",
+      "checked_on": "2026-10-13",
+      "source_url": "https://developers.openai.com/api/docs/models/gpt-6-luna"
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "billing_item": "input_cached",
+      "unit": "token",
+      "price_per_unit_usd": "0.00000001",
+      "price_quoted_as": "$0.01 per 1M tokens (standard)",
+      "checked_on": "2026-10-13",
+      "source_url": "https://developers.openai.com/api/docs/models/gpt-6-luna"
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "billing_item": "cache_write",
+      "unit": "token",
+      "price_per_unit_usd": "0.000000125",
+      "price_quoted_as": "$0.125 per 1M tokens (standard)",
+      "checked_on": "2026-10-13",
+      "source_url": "https://developers.openai.com/api/docs/models/gpt-6-luna"
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "billing_item": "output",
+      "unit": "token",
+      "price_per_unit_usd": "0.0000005",
+      "price_quoted_as": "$0.50 per 1M tokens incl. reasoning (standard)",
+      "checked_on": "2026-10-13",
+      "source_url": "https://developers.openai.com/api/docs/models/gpt-6-luna"
+    },
+    {
+      "provider": "typesafe",
+      "model": "jev-1.13.0",
+      "billing_item": "input",
+      "unit": "token",
+      "price_per_unit_usd": "0.000000042",
+      "price_quoted_as": "$0.042 per 1M input tokens ($42 per 1B)",
+      "checked_on": "2026-10-13",
+      "source_url": "https://docs.typesafe.ai/models"
+    },
+    {
+      "provider": "typesafe",
+      "model": "jev-1.13.0",
+      "billing_item": "output",
+      "unit": "token",
+      "price_per_unit_usd": "0",
+      "price_quoted_as": "output tokens are free",
+      "checked_on": "2026-10-13",
+      "source_url": "https://docs.typesafe.ai/models"
+    }
+  ]
+}

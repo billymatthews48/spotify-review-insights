@@ -1,0 +1,8 @@
+claim_id,issue_id,metric,value
+C1,PLB-99,complaint_count,6
+C2,PLB-99,severity_sum,21
+C3,PLB-99,priority_score,21
+C4,USB-01,complaint_count,7
+C5,USB-01,severity_sum,20
+C6,USB-02,complaint_count,3
+C7,USB-02,severity_sum,9

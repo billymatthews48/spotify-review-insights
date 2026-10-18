@@ -1,0 +1,124 @@
+{
+  "group_config": "gpt-6-luna/low+group-v2+[jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1]",
+  "issues": [
+    {
+      "issue_id": "ACC-99",
+      "topic": "access",
+      "name": "Other access complaints",
+      "definition": "access complaints that fit none of the specific access issues (Login, signup, password or account access problems (e.g. 'can't log in', 'account hacked', 'logged out every day').)",
+      "source": "catch_all"
+    },
+    {
+      "issue_id": "BIL-01",
+      "topic": "billing",
+      "name": "Forced Shuffle on Free Tier",
+      "definition": "Free users are unable to directly choose and play a specific song because playback is forced into shuffle or a playlist.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "BIL-02",
+      "topic": "billing",
+      "name": "Free-Tier Skip Limit",
+      "definition": "Free users are restricted to a limited number of skips, preventing them from skipping songs as needed.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "BIL-03",
+      "topic": "billing",
+      "name": "Premium-Gated Playback Controls",
+      "definition": "Basic playback controls such as playing the next or previous song, queueing tracks, or seeking within a song are unavailable without Premium.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "BIL-99",
+      "topic": "billing",
+      "name": "Other billing complaints",
+      "definition": "billing complaints that fit none of the specific billing issues (Price, charges, subscriptions, refunds, paywalls, premium entitlement; controls explicitly limited to premium (e.g. 'can't pick songs without premium', 'only 6 skips') go here.)",
+      "source": "catch_all"
+    },
+    {
+      "issue_id": "CAT-99",
+      "topic": "catalog",
+      "name": "Other catalog complaints",
+      "definition": "catalog complaints that fit none of the specific catalog issues (Missing songs or artists, removed content, search and discovery, recommendations, lyrics availability, podcasts content.)",
+      "source": "catch_all"
+    },
+    {
+      "issue_id": "DWN-99",
+      "topic": "downloads",
+      "name": "Other downloads complaints",
+      "definition": "downloads complaints that fit none of the specific downloads issues (Downloading songs, saved music, offline listening, downloads disappearing.)",
+      "source": "catch_all"
+    },
+    {
+      "issue_id": "OTH-01",
+      "topic": "other",
+      "name": "Update degraded app experience",
+      "definition": "Complaints that a recent update made the app worse, disappointing, or unusable belong here.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "OTH-02",
+      "topic": "other",
+      "name": "Excessive app restrictions",
+      "definition": "Complaints that restrictions in the app are too limiting belong here.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "OTH-03",
+      "topic": "other",
+      "name": "Rude customer support",
+      "definition": "Complaints that Spotify app support staff behave rudely belong here.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "OTH-99",
+      "topic": "other",
+      "name": "General dissatisfaction (no specific feature)",
+      "definition": "Complaints that name no specific product problem, e.g. 'worst app', insults or vague anger",
+      "source": "catch_all"
+    },
+    {
+      "issue_id": "PLB-99",
+      "topic": "playback",
+      "name": "Other playback complaints",
+      "definition": "playback complaints that fit none of the specific playback issues (Playback failure, crashes, freezing, lag, songs stopping or skipping by themselves, connection failures, audio quality, battery/data/storage use.)",
+      "source": "catch_all"
+    },
+    {
+      "issue_id": "USB-01",
+      "topic": "usability",
+      "name": "Excessive Ad Interruptions",
+      "definition": "Free listening is interrupted by ads too frequently or with disruptive volume, making continuous music playback difficult.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "USB-02",
+      "topic": "usability",
+      "name": "Missing Playback Controls",
+      "definition": "Updates remove or restrict controls such as seeking, repeating, or playing a specific part of a song.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "USB-03",
+      "topic": "usability",
+      "name": "Unwanted Random Playlist Playback",
+      "definition": "Playlist playback is shuffled or randomized when listeners expect songs to play in their chosen order.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "USB-04",
+      "topic": "usability",
+      "name": "Disruptive Home Screen Changes",
+      "definition": "Home screen redesigns and automatically playing interface elements make browsing difficult or lack clear controls to disable them.",
+      "source": "luna_discovered"
+    },
+    {
+      "issue_id": "USB-99",
+      "topic": "usability",
+      "name": "Other usability complaints",
+      "definition": "usability complaints that fit none of the specific usability issues (Navigation, controls, layout, UI changes, queue/playlist management, ad interruptions (e.g. 'new home screen is confusing', 'too many ads between songs').)",
+      "source": "catch_all"
+    }
+  ]
+}

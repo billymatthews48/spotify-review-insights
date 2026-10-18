@@ -1,0 +1,7 @@
+provider,model,billing_item,unit,price_per_unit_usd,price_quoted_as,checked_on,source_url
+openai,gpt-6-luna,input_uncached,token,0.0000001,$0.10 per 1M tokens (standard),2026-10-13,https://developers.openai.com/api/docs/models/gpt-6-luna
+openai,gpt-6-luna,input_cached,token,0.00000001,$0.01 per 1M tokens (standard),2026-10-13,https://developers.openai.com/api/docs/models/gpt-6-luna
+openai,gpt-6-luna,cache_write,token,0.000000125,$0.125 per 1M tokens (standard),2026-10-13,https://developers.openai.com/api/docs/models/gpt-6-luna
+openai,gpt-6-luna,output,token,0.0000005,$0.50 per 1M tokens incl. reasoning (standard),2026-10-13,https://developers.openai.com/api/docs/models/gpt-6-luna
+typesafe,jev-1.13.0,input,token,0.000000042,$0.042 per 1M input tokens ($42 per 1B),2026-10-13,https://docs.typesafe.ai/models
+typesafe,jev-1.13.0,output,token,0,output tokens are free,2026-10-13,https://docs.typesafe.ai/models
