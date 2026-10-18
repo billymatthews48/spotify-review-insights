@@ -127,6 +127,7 @@ def main():
     ap.add_argument("--rates-multiplier", type=float, default=1.0, help="What-if: scale every API rate (usage fixed)")
     ap.add_argument("--out", type=Path, default=HERE)
     args = ap.parse_args()
+    args.out.mkdir(parents=True, exist_ok=True)
 
     rates, sources = load_rates(args.rates, args.rates_multiplier)
     a = json.loads(args.assumptions.read_text(encoding="utf-8"))

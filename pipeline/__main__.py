@@ -136,8 +136,8 @@ def main():
         cache = args.cache or args.state.with_name(args.state.stem + "_cache.sqlite")
         print(json.dumps(publish.run(args.state, cache, args.analysis), indent=2))
     elif args.command == "rerank":
-        from . import orchestrate
-        rows = orchestrate.rerank_from_files(args.records, args.membership, args.out)
+        from . import rank  # standard library only, so graders need no installs
+        rows = rank.rerank_from_files(args.records, args.membership, args.out)
         print(f"wrote {args.out}: {len(rows)} issues; top 3: {[(r['issue_id'], r['priority_score']) for r in rows[:3]]}")
 
 

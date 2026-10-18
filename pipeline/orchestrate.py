@@ -67,20 +67,3 @@ def run_all(input_csv, state, out_dir, scope_size=None, cache=None, batch_worker
     return summary
 
 
-def rerank_from_files(records_jsonl, membership_csv, out_csv):
-    """Offline, no DB, no model, no API key: rebuild the baseline ranking from exported files."""
-    import csv
-    import gzip
-    opener = gzip.open if str(records_jsonl).endswith(".gz") else open
-    records = {}
-    with opener(records_jsonl, "rt", encoding="utf-8") as f:
-        for line in f:
-            if line.strip():
-                r = json.loads(line)
-                if r.get("status") == "completed":
-                    records[r["review_id"]] = r
-    with open(membership_csv, encoding="utf-8", newline="") as f:
-        membership = [(row["issue_id"], row["review_id"]) for row in csv.DictReader(f)]
-    rows = rank.compute(records, membership)
-    rank.write_ranking(rows, out_csv)
-    return rows

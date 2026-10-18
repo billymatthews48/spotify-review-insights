@@ -56,6 +56,14 @@ Categories were drafted by the AI assistant (Claude) by applying the GRADING_CON
 
 **Tally:** A pipeline error 3 · B rule application 15 · C language 3 · D ambiguous 4.
 
+## Entities: inspection of unsupported additions
+
+The human labeller left the optional `entities` field blank on all 50 rows, so there is no human-vs-model entity agreement score (the report's `cases_with_entities_not_in_human_list: 19` only means "the pipeline listed something and the human listed nothing"). Instead, each predicted entity was inspected against the text:
+
+- **19 reviews, 29 entity mentions.** Entities come from a fixed term lexicon matched in code ([`ENTITY_TERMS`](../../pipeline/enrich.py)), so **every entity literally occurs in the review**; none can be invented.
+- **Wrong-sense matches: 2 of 29.** `update` for a post that starts "Update:" as an edit marker (#7, 723f07de), and `update` for "I updated my phone" (#6, 947821dc), which is not an app update.
+- **Misses (recall):** features outside the lexicon are not listed, e.g. "can't rewind songs" (dceb14e7) gets no `rewind` entity. Entities are descriptive metadata only; they feed no label, issue or ranking.
+
 ## What this means
 
 - **The pipeline applies the written precedence rules more literally than a first-time human labeller.** Most topic disagreements (15 of 25 rows) are ads/recommendations/price rules or "generic → other". This is why topic agreement (60%) is lower than intent (82%) and severity (80%).

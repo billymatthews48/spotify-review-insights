@@ -32,3 +32,6 @@ node_modules/
 data/
 # Checkpoint snapshots are committed once, under grading/
 out/full/checkpoint_*.json
+
+# Personal notes, not part of the submission
+MY_EXPLAINER.md

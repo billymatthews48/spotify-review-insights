@@ -45,6 +45,26 @@ def write_ranking(rows, path):
             w.writerow({c: r[c] for c in cols})
 
 
+def rerank_from_files(records_jsonl, membership_csv, out_csv):
+    """Offline, standard library only (no DB, no model, no API key): rebuild the baseline ranking from the
+    exported grading files. Used by `python -m pipeline rerank`."""
+    import gzip
+    import json
+    opener = gzip.open if str(records_jsonl).endswith(".gz") else open
+    records = {}
+    with opener(records_jsonl, "rt", encoding="utf-8") as f:
+        for line in f:
+            if line.strip():
+                r = json.loads(line)
+                if r.get("status") == "completed":
+                    records[r["review_id"]] = r
+    with open(membership_csv, encoding="utf-8", newline="") as f:
+        membership = [(row["issue_id"], row["review_id"]) for row in csv.DictReader(f)]
+    rows = compute(records, membership)
+    write_ranking(rows, out_csv)
+    return rows
+
+
 def load_from_db(conn, label_config, group_config):
     records = {r[0]: {"intent": r[1], "severity": r[2], "topic": r[3], "month": r[4], "cancel": r[1] == "cancellation"}
                for r in conn.execute("""
