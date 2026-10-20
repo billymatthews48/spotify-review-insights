@@ -1,5 +1,6 @@
 {
   "schema_version": "schema-v1",
+  "model_allowlist": ["jev-1.13.0", "gpt-6-luna"],
   "prompt_version": "prompts-v1",
   "enrich": {
     "provider": "typesafe",

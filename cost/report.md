@@ -23,14 +23,14 @@ Stage seconds (cold): ingest 0.07, enrich 14.82, verify 5.19, group 28.83, rank 
 
 ### Cold run by stage (actual usage x editable rates)
 
-| Stage | Model | Requests | Attempts | Failed | Review IDs sent | Input tok | Cached tok | Output tok | Cost |
-|---|---|---|---|---|---|---|---|---|---|
-| enrich: Jev labels | jev-1.13.0 | 100 | 100 | 0 | 100 | 127,787 | 0 | 21,275 | $0.005367 |
-| enrich: gpt quotes | gpt-6-luna (effort none) | 2 | 2 | 0 | 9 | 1,417 | 0 | 186 | $0.000235 |
-| verify | gpt-6-luna (effort none) | 1 | 1 | 0 | 20 | 1,719 | 1,313 | 492 | $0.000300 |
-| group: discover | gpt-6-luna (effort low) | 3 | 3 | 0 | 37 | 3,064 | 0 | 1,609 | $0.001111 |
-| group: assign | gpt-6-luna (effort none) | 3 | 3 | 0 | 37 | 2,503 | 0 | 455 | $0.000478 |
-| memo | gpt-6-luna (effort low) | 1 | 1 | 0 | 0 | 5,036 | 0 | 2,034 | $0.001521 |
+| Stage | Provider | Model (effort) | Prompt / schema | Batch limit | Workers | Requests | Attempts | Failed | Review IDs sent | Input tok | Cached tok | Output tok | Cost |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| enrich: Jev labels | TypeSafe | jev-1.13.0 | prompts-v1 (jev_questions_v1) / schema-v1 | 1 review per request; batches of 50 | Jev 1 | 100 | 100 | 0 | 100 | 127,787 | 0 | 21,275 | $0.005367 |
+| enrich: gpt quotes | OpenAI | gpt-6-luna (effort none) | prompts-v1 (quote_v1) / schema-v1 | <= 50 reviews per request | batch 1 | 2 | 2 | 0 | 9 | 1,417 | 0 | 186 | $0.000235 |
+| verify | OpenAI | gpt-6-luna (effort none) | prompts-v1 (verify_system) / schema-v1 | <= 50 reviews per request | 1 | 1 | 1 | 0 | 20 | 1,719 | 1,313 | 492 | $0.000300 |
+| group: discover | OpenAI | gpt-6-luna (effort low) | group-v2 / schema-v1 | <= 120 examples per topic | 1 | 3 | 3 | 0 | 37 | 3,064 | 0 | 1,609 | $0.001111 |
+| group: assign | OpenAI | gpt-6-luna (effort none) | group-v2 / schema-v1 | <= 50 reviews per request | 1 | 3 | 3 | 0 | 37 | 2,503 | 0 | 455 | $0.000478 |
+| memo | OpenAI | gpt-6-luna (effort low) | memo-v2 / schema-v1 | 1 request (aggregates only) | 1 | 1 | 1 | 0 | 0 | 5,036 | 0 | 2,034 | $0.001521 |
 
 Retries: 0 failed attempts in the pilot, so the base projection adds no retry allowance; the conservative case adds 10%. Verification: a declared seeded sample (3% of distinct texts, minimum 20; 20 in the pilot). Fallbacks: none configured (no stronger model); a quote failure falls back to an exact text prefix in code at zero API cost.
 

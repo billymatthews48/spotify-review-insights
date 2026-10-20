@@ -26,7 +26,7 @@
 | Quarantined | 13 empty texts (`empty_review_text`). Enrichment-invalid: 0 |
 | Not classified | **422,622** out-of-scope nonempty reviews with no exact-text match, exported as `quarantined` with reason `not_classified_outside_declared_100k_budget_scope`. They are **not** successful classifications and are excluded from every aggregate |
 | Golden set (50 human labels) | topic 60%, intent 82%, severity exact 80% (MAE 0.32), sentiment within ±0.5: 86%; 50/50 quotes are exact substrings ([analysis](evals/golden/error_analysis.md)) |
-| Independent verifier (blind gpt-6-luna, 3% seeded sample, n = 2,345) | topic 87.1%, intent 93.3%, severity 87.4% (MAE 0.14); planted errors caught 20/20 |
+| Independent verifier (blind gpt-6-luna, 3% seeded sample, n = 2,345) | topic 87.1%, intent 93.3%, severity 87.4% (MAE 0.14); **632 records with at least one disagreement** (303 topic, 158 intent, 295 severity, of which 261 are off by one), [investigated here](evals/verify/README.md); planted errors caught 20/20 |
 | System tests (synthetic) | 8/8 passed (4 prompt injections, empty text, non-English, injected HTTP 503 with retry, injected invalid label with retry) + spend-cap stop ([results](evals/system_tests/results.json)) |
 | Course checker | all checks pass except the expected `unfinished_classification: 422622`; coverage-point candidate **0.6162** |
 | Measured 100-review pilot | cold **$0.0090**, 69.1 s, 110 calls, 0 failures · warm **0 calls**, 0.67 s ([report](cost/report.md)) |
@@ -44,8 +44,8 @@ Measured numbers are from saved logs; projections are labelled as such in the ca
 4. *Recommendation, alternatives, limitations*: memo sections "Alternatives considered" and "Limitations", plus [Limitations](#limitations) below.
 
 **Testing and evaluation (3)**
-1. *50 human labels, per-field comparison, error analysis*: [`evals/golden/`](evals/golden/): labels, cases, report, and [error analysis](evals/golden/error_analysis.md) of all 25 disagreements (3 model errors, 15 rule-application, 3 language, 4 ambiguous) plus a gpt-only setup comparison.
-2. *Independent verification, planted errors, injection*: [`verify_summary.json`](out/full/verify_summary.json), [`disagreements.jsonl`](out/full/disagreements.jsonl), [`planted_error_cases.jsonl`](out/full/planted_error_cases.jsonl), [`evals/system_tests/`](evals/system_tests/).
+1. *50 human labels, per-field comparison, error analysis*: [`evals/golden/`](evals/golden/) holds the labels, cases, report, and [error analysis](evals/golden/error_analysis.md) of all 25 disagreements (3 model errors, 15 rule-application, 3 language, 4 ambiguous), plus quote-support and entity inspection and a gpt-only setup comparison. Golden results did not drive any prompt or config change. Index: [`evals/README.md`](evals/README.md).
+2. *Independent verification, planted errors, injection*: [`evals/verify/`](evals/verify/README.md) has the procedure, results and disagreement investigation; planted-error cases are 20/20 detected; [`evals/system_tests/`](evals/system_tests/) has the 4 prompt injections plus awkward-path tests.
 3. *Real cold/warm pilot, offline calculator, retry/spend/recovery controls*: [`cost/`](cost/) (pilot records/calls, rates, usage, report; the x2-rates check doubles API spend and leaves time unchanged). Retry: injected 503 and invalid-output tests, plus real failures in the log (Jev HTTP 499, GPT invalid JSON, `max_output_tokens`). Spend: ledger reservations plus the spend-cap test. Recovery: [recording](evals/recovery/interruption_resume_recording.mp4) and checkpoints.
 
 **Working result (3)**
@@ -146,6 +146,15 @@ Dataset: download the course ZIP ([Google Drive](https://drive.google.com/file/d
 
 Keys: `OPENAI_API_KEY` (gpt-6-luna), `TYPESAFE_API_KEY` (Jev), `DATABASE_URL` (Neon; publish step only). The dashboard reads `DATABASE_URL` from Vercel's encrypted env, never from browser code.
 
+### Database, backend and dashboard setup
+
+The live deployment already exists ([dashboard](https://spotify-review-insights-roan.vercel.app), public, no login). To reproduce it:
+
+1. **Database:** create a Postgres database. We used a free [Neon](https://console.neon.tech) project. Put its connection string in `.env` as `DATABASE_URL=postgresql://…`.
+2. **Load the data:** `python -m pipeline publish --state state/full.sqlite --analysis out/full`. This creates the tables ([DDL in `pipeline/publish.py`](pipeline/publish.py)) and loads all 660,622 records, issues, ranking, membership, claims, memo, monthly trend and eval summaries in **one transaction**. Rerunning replaces the data atomically.
+3. **Backend + dashboard:** in [`web/`](web/), `vercel link`, then `vercel env add DATABASE_URL production` (paste the same string; stored encrypted, server-side only), then `vercel deploy --prod`. The serverless routes in [`web/api/`](web/api/) query Postgres with parameterized, read-only SQL ([`@neondatabase/serverless`](web/package.json), pinned 1.1.0). The static page [`web/public/index.html`](web/public/index.html) calls only those routes.
+4. **Verify:** open `/api/recommendation`. Every claim row has `matches: true` when the published claims equal the published ranking.
+
 ## Commands
 
 **Free (no API key, no model calls):**
@@ -198,6 +207,16 @@ cd web && vercel deploy --prod                                               # d
    - The memo was regenerated twice: `memo-v3` fixed the evidence pack (prefer short reviews whose full text is shown) and required numbers for every alternative; `memo-v4` (Oct 19) required complaint_count, mean_severity and priority_score claims for the lead issue. Each passed every code check on the first attempt. Earlier versions are not used; all three calls are in the call log.
 8. **Real failures in the log:** 9 failed attempts out of 80,661, all retried: Jev HTTP 499 internal_error, GPT invalid JSON, GPT `max_output_tokens`.
 
+## Baseline ranking rules
+
+- **Records counted:** completed records with intent `complaint` or `cancellation` only; praise, requests and `unclear` are excluded. Scope is the 237,987 completed classifications; pending and quarantined rows are never counted.
+- **Membership:** each such review belongs to **exactly one** issue (`allow_multi_issue: false`), assigned from its exact text. Reviews reusing a label via `cache_source_id` are counted individually, as the contract requires.
+- **Score:** `priority_score = complaint_count × mean_severity = severity_sum` (integer arithmetic).
+- **Means:** 6 decimals, decimal half-up.
+- **Order:** descending score, then ascending issue ID; ranks start at 1.
+- **Catch-alls:** issues ending in `-99` are per-topic catch-alls. They stay in the baseline (`OTH-99` is rank 1) and the memo explains why it is not a feature target.
+- **Area totals** ([`area_totals.csv`](out/full/area_totals.csv)) sum the same membership by topic group (playback = playback + downloads; billing/support = billing + support). They are context for the memo, not part of the baseline score.
+
 ## Design choices
 
 - **Scope (budget):** the instructor's guidance was about $10 for 100k reviews; the calculator projects $31–48 for the full corpus. We classified the lowest 100,050 IDs by the course's seeded SHA-256 order (a uniform random sample, extending the course's own samples), then reused results for exact-text duplicates anywhere in the file.
@@ -209,6 +228,8 @@ cd web && vercel deploy --prod                                               # d
 - **Severity as a Choice over 5 defined levels** (integer, no conversion). **Sentiment as a 5-level Score:** `sentiment = score/2 - 1`.
 - **One issue per complaint** (`allow_multi_issue: false`), with per-topic catch-alls (`-99`) so no complaint is dropped.
 - **Exact-text cache key:** text SHA-256 plus the full `label_config` (`jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1`). Any model, prompt or schema change means new work.
+- **Model allowlist:** `model_allowlist: ["jev-1.13.0", "gpt-6-luna"]` in [`run_config.json`](config/run_config.json). Loading the config fails if any stage names another model. The allowlist check was added after the run; the call log confirms the run used only these two models (78,138 Jev calls, 2,523 gpt-6-luna calls). No stronger-model fallback is configured.
+- **Where code decides vs where models judge:** code chooses every next step: which texts are pending, batching, retries, quarantine, cache reuse, which sample to verify, when to stop, and all counting and arithmetic. Models only answer bounded questions about review language (labels, quote span, issue name/assignment, memo prose), and every answer is validated in code before it is saved.
 
 ## Trend (in-scope, comparable random sample; first and last months partial)
 
@@ -233,5 +254,7 @@ Monthly rows are in [`/api/trend`](https://spotify-review-insights-roan.vercel.a
 - **Incomplete classification:** 422,622 nonempty reviews (64%) were not classified because of the declared budget scope. They are visible in `records.jsonl.gz` with an explicit reason and excluded from all aggregates. The baseline counts cover 237,987 classified reviews, of which 137,937 are exact-text reuses that skew toward short generic texts.
 - **Label quality:** golden topic agreement is 60% (n = 50, mostly rule-application differences); the verifier agrees on 87% of topics. Topic is the weakest field, and catch-all issues (`OTH-99`, `BIL-99`, `PLB-99`) absorb vague complaints.
 - **Review bias:** self-selected, historical public reviews. No revenue, plan tier or confirmed churn; cancellation language is intent. Text was not translated; non-Latin scripts are flagged.
+- **Missing data:** 159,701 rows have no `app_version`. Classification uses `review_text` only (`classification_input_fields: ["review_text"]`), so a missing version never blocks or changes a label; version-level analysis is not attempted. Star ratings are kept as metadata and never used for labels (the traced example is a 5-star complaint). Timestamps have no timezone, and months are taken as written.
+- **Benchmark coverage:** the instructors' private label sample counts missing predictions as incorrect, so reviews outside our scope will score as misses there.
 - **Process gaps:** the two unlogged-cost incidents above (≤ about $0.014 combined). The memo was regenerated twice (evidence-pack fix, then lead-issue claims). The golden comparison came after the setup was chosen because the human labels arrived late.
 - **Charges** are usage × dated list prices, not provider invoices.

@@ -54,7 +54,14 @@ CREATE TABLE IF NOT EXISTS run_log(
 
 
 def load_config(path=CONFIG_PATH):
-    return common.read_json(path)
+    """Load run settings and enforce the model allowlist: every model a stage may call must be listed."""
+    cfg = common.read_json(path)
+    allowed = set(cfg.get("model_allowlist", []))
+    used = {cfg["enrich"]["model"], cfg["quote"]["model"], cfg["verify"]["model"], cfg["group"]["model_discover"],
+            cfg["memo"]["model"]}
+    if not used <= allowed:
+        raise SystemExit(f"run_config.json uses models outside model_allowlist: {sorted(used - allowed)}")
+    return cfg
 
 
 def label_config(cfg):

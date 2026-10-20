@@ -7,15 +7,19 @@
     "scope_size": "100050"
   },
   "code_version": {
-    "git_head_when_manifest_written": "dc49809d3297e9f1f7e5e0689f96f50194da1781",
+    "git_head_when_manifest_written": "6c3795637424f1b8a2569cf162c33d26ea2a4be8",
     "working_tree_dirty": true,
     "note": "The pipeline code was first committed after the run; fixes made during the run (cache-fill query, interrupt handler, grouping query, HTTP 499 retry) are listed in the README run log."
   },
   "config": {
     "file": "config/run_config.json",
-    "sha256": "b145a04dc4b76abb25f6260f4fbf2c52dac0846199850360f761cb662428a02a",
+    "sha256": "8f02a83aa7b8d18b263e94d1d5d03a36d5e855882ba1dd13ac48a35d809aaeef",
     "snapshot": {
       "schema_version": "schema-v1",
+      "model_allowlist": [
+        "jev-1.13.0",
+        "gpt-6-luna"
+      ],
       "prompt_version": "prompts-v1",
       "enrich": {
         "provider": "typesafe",
@@ -282,16 +286,16 @@
       "bytes": 34472
     },
     "cost/report.html": {
-      "sha256": "06c160558ff4f76e6a6479c235f7085c6d74740cfa74dd30adf473f64b969161",
-      "bytes": 10740
+      "sha256": "3f434a4c1976a53fb01f744531c7c1995b9c98caeb9b5ff076d11c0ccdf3d7b5",
+      "bytes": 11441
     },
     "cost/report.json": {
       "sha256": "30209c6dbb4d0b78acd16a3895e6c824bbdecbff96428fe87d1454e14f116429",
       "bytes": 16810
     },
     "cost/report.md": {
-      "sha256": "44c29c0fb71c774aa063201a20e61c041a24908f82432dfd3d19cb6ac827976c",
-      "bytes": 8215
+      "sha256": "5edc2d53085c17ac3fb683a5f5ec5c4efc37c09fb93ca807c5ad378ad7db1a33",
+      "bytes": 8752
     },
     "evals/golden/golden_50_labeled.csv": {
       "sha256": "cf3dc3c23669b7707c77e99d8967e2277a4e56ca5809ec4910d20b5d679e690c",
@@ -332,6 +336,10 @@
     "evals/recovery/interruption_resume_recording.mp4": {
       "sha256": "cc0dd7ea0feb902d1eb90995b45cd21ae07e0374cde641ead1370a7f260306ef",
       "bytes": 10723621
+    },
+    "evals/recovery/README.md": {
+      "sha256": "07086a7516fdf9f8be39b61f6b3d3a91ccefeee58dbc9bd67a45c777142a9311",
+      "bytes": 2102
     }
   }
 }

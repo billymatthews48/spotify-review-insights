@@ -270,11 +270,23 @@ def render_md(r):
          "Stage seconds (cold): " + ", ".join(f"{k} {v}" for k, v in m["cold"]["stage_seconds"].items()) + ". "
          "Stage seconds (warm): " + ", ".join(f"{k} {v}" for k, v in m["warm"]["stage_seconds"].items()) + ".", "",
          "### Cold run by stage (actual usage x editable rates)", "",
-         "| Stage | Model | Requests | Attempts | Failed | Review IDs sent | Input tok | Cached tok | Output tok | Cost |",
-         "|---|---|---|---|---|---|---|---|---|---|"]
+         "| Stage | Provider | Model (effort) | Prompt / schema | Batch limit | Workers | Requests | Attempts | Failed | Review IDs sent | Input tok | Cached tok | Output tok | Cost |",
+         "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
+    pv = m["settings"]["prompt_versions"]
+    jw, bw = m["settings"]["jev_workers"], m["settings"]["batch_workers"]
+    stage_meta = {  # what each pilot stage ran with (from pilot_runs.json settings and the pipeline design)
+        "enrich: Jev labels": ("TypeSafe", f"{pv['labels']} (jev_questions_v1) / schema-v1", "1 review per request; batches of 50", f"Jev {jw}"),
+        "enrich: gpt quotes": ("OpenAI", f"{pv['labels']} (quote_v1) / schema-v1", "<= 50 reviews per request", f"batch {bw}"),
+        "verify": ("OpenAI", f"{pv['labels']} (verify_system) / schema-v1", "<= 50 reviews per request", "1"),
+        "group: discover": ("OpenAI", f"{pv['group']} / schema-v1", "<= 120 examples per topic", "1"),
+        "group: assign": ("OpenAI", f"{pv['group']} / schema-v1", "<= 50 reviews per request", "1"),
+        "memo": ("OpenAI", f"{pv['memo']} / schema-v1", "1 request (aggregates only)", "1"),
+    }
     for k, s in m["by_stage"].items():
-        L.append(f"| {k} | {', '.join(s['models'])} | {s['requests']} | {s['attempts']} | {s['failed']} | {s['review_ids_sent']} | "
-                 f"{s['input_tokens']:,} | {s['cached_input_tokens']:,} | {s['output_tokens']:,} | {money(s['cost'])} |")
+        prov, prompt, batch, workers = stage_meta.get(k, ("", "", "", ""))
+        L.append(f"| {k} | {prov} | {', '.join(s['models'])} | {prompt} | {batch} | {workers} | {s['requests']} | {s['attempts']} | "
+                 f"{s['failed']} | {s['review_ids_sent']} | {s['input_tokens']:,} | {s['cached_input_tokens']:,} | "
+                 f"{s['output_tokens']:,} | {money(s['cost'])} |")
     L += ["", "Retries: 0 failed attempts in the pilot, so the base projection adds no retry allowance; the conservative case adds 10%. "
           "Verification: a declared seeded sample (3% of distinct texts, minimum 20; 20 in the pilot). Fallbacks: none configured "
           "(no stronger model); a quote failure falls back to an exact text prefix in code at zero API cost.", "",

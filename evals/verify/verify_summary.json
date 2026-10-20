@@ -1,0 +1,60 @@
+{
+  "verify_config": "gpt-6-luna/none+verify-prompts-v1+labels-v1",
+  "sample_declared": 2345,
+  "compared": 2345,
+  "agreement": {
+    "topic": 0.8708,
+    "intent": 0.9326,
+    "severity": 0.8742,
+    "all3": 0.7305
+  },
+  "severity_mae": 0.1437,
+  "sentiment_mae": 0.1752,
+  "topic_confusion_enrich_vs_verifier": {
+    "access->downloads": 2,
+    "access->playback": 3,
+    "billing->catalog": 3,
+    "billing->downloads": 2,
+    "billing->other": 13,
+    "billing->playback": 4,
+    "billing->usability": 8,
+    "catalog->billing": 2,
+    "catalog->downloads": 1,
+    "catalog->other": 18,
+    "catalog->playback": 8,
+    "catalog->usability": 7,
+    "downloads->billing": 1,
+    "downloads->catalog": 2,
+    "downloads->other": 3,
+    "downloads->playback": 2,
+    "downloads->usability": 1,
+    "other->billing": 21,
+    "other->catalog": 24,
+    "other->playback": 21,
+    "other->support": 1,
+    "other->usability": 30,
+    "playback->billing": 18,
+    "playback->catalog": 11,
+    "playback->downloads": 5,
+    "playback->other": 4,
+    "playback->usability": 18,
+    "usability->billing": 18,
+    "usability->catalog": 22,
+    "usability->downloads": 3,
+    "usability->other": 12,
+    "usability->playback": 15
+  },
+  "needs_review_vs_material_disagreement": {
+    "needs_review=False,disagree=False": 1673,
+    "needs_review=False,disagree=True": 282,
+    "needs_review=True,disagree=False": 231,
+    "needs_review=True,disagree=True": 159
+  },
+  "disagreement_count": 632,
+  "planted_error_test": {
+    "cases": 20,
+    "detected": 20,
+    "note": "synthetic copy with deliberately wrong topic/severity; excluded from all business aggregates"
+  },
+  "verifier_failures": []
+}
