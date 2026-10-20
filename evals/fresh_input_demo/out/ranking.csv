@@ -1,0 +1,8 @@
+rank,issue_id,complaint_count,severity_sum,mean_severity,priority_score
+1,BIL-99,6,18,3.000000,18
+2,USB-99,7,18,2.571429,18
+3,OTH-99,5,11,2.200000,11
+4,PLB-99,4,11,2.750000,11
+5,CAT-99,3,9,3.000000,9
+6,ACC-99,1,4,4.000000,4
+7,DWN-99,1,2,2.000000,2

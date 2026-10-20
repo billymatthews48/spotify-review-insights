@@ -1,0 +1,380 @@
+{
+  "memo": {
+    "recommendation": {
+      "area": "billing_support",
+      "headline": "Prioritize billing and premium-entitlement friction",
+      "rationale": "Billing/support leads the saved area totals, and the #1 ranked baseline issue is BIL-99. Although BIL-99 is a catch-all, its definition includes premium restrictions on controls, and the evidence pack shows repeated complaints about basic listening features being limited to premium. Treat this as an entitlement/pricing experience problem to investigate, not proof that any change caused cancellation.",
+      "issue_ids": [
+        "BIL-99"
+      ]
+    },
+    "claims": [
+      {
+        "claim_id": "C1",
+        "issue_id": "BIL-99",
+        "metric": "complaint_count",
+        "value": "6"
+      },
+      {
+        "claim_id": "C2",
+        "issue_id": "BIL-99",
+        "metric": "mean_severity",
+        "value": "3.000000"
+      },
+      {
+        "claim_id": "C3",
+        "issue_id": "BIL-99",
+        "metric": "priority_score",
+        "value": "18"
+      },
+      {
+        "claim_id": "C4",
+        "issue_id": "USB-99",
+        "metric": "priority_score",
+        "value": "18"
+      },
+      {
+        "claim_id": "C5",
+        "issue_id": "PLB-99",
+        "metric": "priority_score",
+        "value": "11"
+      },
+      {
+        "claim_id": "C6",
+        "issue_id": "OTH-99",
+        "metric": "priority_score",
+        "value": "11"
+      }
+    ],
+    "alternatives": [
+      {
+        "area": "usability",
+        "why_not_first": "Usability has the largest area complaint count, but its lead ranked issue is a broad catch-all tied on priority score with BIL-99. Billing/support is supported by a more directly actionable premium-entitlement signal in the evidence pack.",
+        "issue_ids": [
+          "USB-99"
+        ]
+      },
+      {
+        "area": "playback",
+        "why_not_first": "Playback is below billing/support on area complaint count and severity sum. Its leading listed issue is a catch-all with lower priority score than BIL-99.",
+        "issue_ids": [
+          "PLB-99"
+        ]
+      },
+      {
+        "area": "other",
+        "why_not_first": "This area includes general dissatisfaction without a named product problem, so it is not as directly actionable as billing/support. I keep it visible in the ranking rather than treating it as a feature area.",
+        "issue_ids": [
+          "OTH-99"
+        ]
+      }
+    ],
+    "evidence_review_ids": [
+      "608ce9f2-5238-44ae-b034-1d47654c8d63",
+      "d99c7236-c788-411f-9b98-648be3278983",
+      "7833aee5-f57c-465a-9fac-66952efb9dca",
+      "63cbb139-212c-486a-a98f-5e55bd7a0a29",
+      "31f81744-2fc2-4029-852e-ac499343dc40",
+      "35287a48-6142-41e7-9094-0c4b291177f5",
+      "3d5fe49d-36d3-4e83-8b21-55b9983b55a8"
+    ],
+    "limitations": [
+      "The dataset covers 40 in-scope records from 2022-06-26 to 2023-11-10; reviews are self-selected and historical, not a representative measure of all Spotify users.",
+      "Cancellation labels express intent, not observed churn or a causal effect.",
+      "Issue classifications are limited to the pipeline's categories; catch-alls can combine distinct concerns. BIL-99 is a catch-all, but its definition explicitly includes premium-limited controls. OTH-99 is general dissatisfaction naming no specific feature; I retain it in the ranking but do not treat it as a specific feature opportunity.",
+      "Facts report 0 quarantined and 0 pending unclassified records, but that does not establish that every complaint was classified at a granular issue level."
+    ],
+    "memo_markdown": "# Next-quarter product effort: billing and premium entitlement\n\nPrioritize billing/support, focusing discovery and product work on the premium restrictions represented in BIL-99. It is the #1 baseline issue, with complaint count 6 [C1], mean severity 3.000000 [C2], and priority score 18 [C3]. The area totals are 6 complaints, severity sum 18, mean severity 3.000000, and 1 cancellation-intent record.\n\n## Why\nBIL-99 ranks first in the saved issue ranking. It is a catch-all, but its definition specifically includes controls limited to premium; evidence reviews describe restrictions on song choice, queueing, and listening to specific parts of songs (608ce9f2-5238-44ae-b034-1d47654c8d63; 63cbb139-212c-486a-a98f-5e55bd7a0a29). This makes entitlement friction a concrete area to investigate. The #1 rank is the baseline comparison; BIL-99 ties USB-99 on priority score [C4].\n\n## Alternatives considered\nUsability has area totals of 7 complaints, severity sum 18, mean severity 2.571429, and 1 cancellation-intent record. Its ranked USB-99 issue has priority score 18 [C4], but is a broad catch-all. Playback has 5 complaints, severity sum 13, mean severity 2.600000, and 1 cancellation-intent record; PLB-99 has priority score 11 [C5], below BIL-99. Other has 5 complaints, severity sum 11, mean severity 2.200000, and no cancellation-intent records; OTH-99 has priority score 11 [C6] but names no specific feature. These are lower-priority alternatives for a focused feature effort, not evidence that their problems are unimportant.\n\n## Evidence\nThe billing reviews describe basic features becoming premium-only (d99c7236-c788-411f-9b98-648be3278983; 7833aee5-f57c-465a-9fac-66952efb9dca). One reviewer says they feel like uninstalling (608ce9f2-5238-44ae-b034-1d47654c8d63); this is expressed intent, not observed churn.\n\n## Limitations\nThese are saved aggregates of 40 in-scope, self-selected reviews dated 2022-06-26 to 2023-11-10, not a representative user sample. Cancellation language is intent, not observed churn or causal evidence. Catch-alls may combine distinct issues: BIL-99 includes premium controls, while OTH-99 is nonspecific. Facts report no quarantined or pending-unclassified records, but issue-level catch-alls remain. The available issue categories limit what can be inferred."
+  },
+  "problems": [],
+  "attempts": 1,
+  "cache_hit": false,
+  "memo_config": "gpt-6-luna/low+memo-v4",
+  "input_sha256": "a0d7ff9e9422a11e3b316b188e211942dfe76b6ac3894295f05f7228ffcb0b4d",
+  "inputs": {
+    "facts": {
+      "source_rows": 40,
+      "completed_records": 40,
+      "quarantined_records": 0,
+      "pending_unclassified_records": 0,
+      "in_scope_records": 40,
+      "exact_text_reuse_records": 0,
+      "complaint_or_cancellation_records": 27,
+      "window": "2022-06-26 to 2023-11-10",
+      "areas": {
+        "access": {
+          "complaint_count": 1,
+          "severity_sum": 4,
+          "mean_severity": "4.000000",
+          "cancellation_count": 0
+        },
+        "usability": {
+          "complaint_count": 7,
+          "severity_sum": 18,
+          "mean_severity": "2.571429",
+          "cancellation_count": 1
+        },
+        "playback": {
+          "complaint_count": 5,
+          "severity_sum": 13,
+          "mean_severity": "2.600000",
+          "cancellation_count": 1
+        },
+        "billing_support": {
+          "complaint_count": 6,
+          "severity_sum": 18,
+          "mean_severity": "3.000000",
+          "cancellation_count": 1
+        },
+        "catalog": {
+          "complaint_count": 3,
+          "severity_sum": 9,
+          "mean_severity": "3.000000",
+          "cancellation_count": 0
+        },
+        "other": {
+          "complaint_count": 5,
+          "severity_sum": 11,
+          "mean_severity": "2.200000",
+          "cancellation_count": 0
+        }
+      }
+    },
+    "ranked_issues": [
+      {
+        "rank": 1,
+        "issue_id": "BIL-99",
+        "topic": "billing",
+        "name": "Other billing complaints",
+        "definition": "billing complaints that fit none of the specific billing issues (Price, charges, subscriptions, refunds, paywalls, premium entitlement; controls explicitly limited to premium (e.g. 'can't pick songs without premium', 'only 6 skips') go here.)",
+        "complaint_count": 6,
+        "severity_sum": 18,
+        "mean_severity": "3.000000",
+        "priority_score": 18,
+        "cancellation_count": 1,
+        "severity_4plus_count": 0
+      },
+      {
+        "rank": 2,
+        "issue_id": "USB-99",
+        "topic": "usability",
+        "name": "Other usability complaints",
+        "definition": "usability complaints that fit none of the specific usability issues (Navigation, controls, layout, UI changes, queue/playlist management, ad interruptions (e.g. 'new home screen is confusing', 'too many ads between songs').)",
+        "complaint_count": 7,
+        "severity_sum": 18,
+        "mean_severity": "2.571429",
+        "priority_score": 18,
+        "cancellation_count": 1,
+        "severity_4plus_count": 0
+      },
+      {
+        "rank": 3,
+        "issue_id": "OTH-99",
+        "topic": "other",
+        "name": "General dissatisfaction (no specific feature)",
+        "definition": "Complaints that name no specific product problem, e.g. 'worst app', insults or vague anger",
+        "complaint_count": 5,
+        "severity_sum": 11,
+        "mean_severity": "2.200000",
+        "priority_score": 11,
+        "cancellation_count": 0,
+        "severity_4plus_count": 0
+      },
+      {
+        "rank": 4,
+        "issue_id": "PLB-99",
+        "topic": "playback",
+        "name": "Other playback complaints",
+        "definition": "playback complaints that fit none of the specific playback issues (Playback failure, crashes, freezing, lag, songs stopping or skipping by themselves, connection failures, audio quality, battery/data/storage use.)",
+        "complaint_count": 4,
+        "severity_sum": 11,
+        "mean_severity": "2.750000",
+        "priority_score": 11,
+        "cancellation_count": 1,
+        "severity_4plus_count": 0
+      },
+      {
+        "rank": 5,
+        "issue_id": "CAT-99",
+        "topic": "catalog",
+        "name": "Other catalog complaints",
+        "definition": "catalog complaints that fit none of the specific catalog issues (Missing songs or artists, removed content, search and discovery, recommendations, lyrics availability, podcasts content.)",
+        "complaint_count": 3,
+        "severity_sum": 9,
+        "mean_severity": "3.000000",
+        "priority_score": 9,
+        "cancellation_count": 0,
+        "severity_4plus_count": 0
+      },
+      {
+        "rank": 6,
+        "issue_id": "ACC-99",
+        "topic": "access",
+        "name": "Other access complaints",
+        "definition": "access complaints that fit none of the specific access issues (Login, signup, password or account access problems (e.g. 'can't log in', 'account hacked', 'logged out every day').)",
+        "complaint_count": 1,
+        "severity_sum": 4,
+        "mean_severity": "4.000000",
+        "priority_score": 4,
+        "cancellation_count": 0,
+        "severity_4plus_count": 1
+      },
+      {
+        "rank": 7,
+        "issue_id": "DWN-99",
+        "topic": "downloads",
+        "name": "Other downloads complaints",
+        "definition": "downloads complaints that fit none of the specific downloads issues (Downloading songs, saved music, offline listening, downloads disappearing.)",
+        "complaint_count": 1,
+        "severity_sum": 2,
+        "mean_severity": "2.000000",
+        "priority_score": 2,
+        "cancellation_count": 0,
+        "severity_4plus_count": 0
+      }
+    ],
+    "ranking_rule": "priority_score = complaint_count x mean_severity = severity_sum; ties by issue_id",
+    "evidence_pack": {
+      "BIL-99": [
+        {
+          "review_id": "608ce9f2-5238-44ae-b034-1d47654c8d63",
+          "quote": "Dude the recent update of spotify is literally so bad. You can't listen to your favorite parts of songs or your favorite songs without subscription.I really feel like uninstalling the app.",
+          "severity": 3,
+          "intent": "cancellation",
+          "month": "2023-10",
+          "helpful_votes": 2
+        },
+        {
+          "review_id": "d99c7236-c788-411f-9b98-648be3278983",
+          "quote": "It was the best app buttt now nothing to say...even basic features are premium...shame on u Spotify",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2023-10",
+          "helpful_votes": 0
+        },
+        {
+          "review_id": "7833aee5-f57c-465a-9fac-66952efb9dca",
+          "quote": "The new feature is a NO, the app is so restrictive without premium that it has become unpleasant to use it. Just go back to how it was man.",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2023-10",
+          "helpful_votes": 0
+        },
+        {
+          "review_id": "63cbb139-212c-486a-a98f-5e55bd7a0a29",
+          "quote": "adding song to queue, or listening specific part of song is not available in basic it's only available in premium",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2023-10",
+          "helpful_votes": 0
+        }
+      ],
+      "USB-99": [
+        {
+          "review_id": "31f81744-2fc2-4029-852e-ac499343dc40",
+          "quote": "Bring back the heart like button! It's worse now with the plus button. Why is it gone again? Fire the punk who took our hearts away! Stupid change for the worse! Gonna switch to YT Music",
+          "severity": 2,
+          "intent": "cancellation",
+          "month": "2023-10",
+          "helpful_votes": 1
+        },
+        {
+          "review_id": "097fd92f-f385-49bd-b1cf-86d7a11043d1",
+          "quote": "no functions for convenient listening (I can't even pick the concrete song in the playlist), no pluses at all, uncomfortable application",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2022-07",
+          "helpful_votes": 1
+        },
+        {
+          "review_id": "832e25b2-3ef8-4222-9dbd-8e2213f9256b",
+          "quote": "Nobody asked for Spotify to become Tik Tok. No explanation for the interface change. Truly no benefit with the recent updates. If I could go back to a previous version I would.",
+          "severity": 2,
+          "intent": "complaint",
+          "month": "2023-03",
+          "helpful_votes": 1
+        },
+        {
+          "review_id": "1ac7ac8f-533d-4a75-995e-c066b8730f37",
+          "quote": "It's good but you get 3 30 second ads every 2 songs",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2022-11",
+          "helpful_votes": 0
+        }
+      ],
+      "OTH-99": [
+        {
+          "review_id": "3d5fe49d-36d3-4e83-8b21-55b9983b55a8",
+          "quote": "Has been the worst successfully",
+          "severity": 2,
+          "intent": "complaint",
+          "month": "2023-11",
+          "helpful_votes": 0
+        }
+      ],
+      "PLB-99": [
+        {
+          "review_id": "35287a48-6142-41e7-9094-0c4b291177f5",
+          "quote": "the same 30 songs play over and over no matter how many times I hit shuffle.",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2022-09",
+          "helpful_votes": 2
+        },
+        {
+          "review_id": "a2d4e072-3635-4560-85b9-37773249fbd6",
+          "quote": "The application continually stutters or crashes requires multiple resets while listening to a session of music.",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2023-02",
+          "helpful_votes": 0
+        },
+        {
+          "review_id": "d81d353f-2c8b-44ff-bc0a-32253c6b1ca8",
+          "quote": "My music keeps freezing or just skipping all at random points.",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2023-04",
+          "helpful_votes": 0
+        }
+      ],
+      "CAT-99": [
+        {
+          "review_id": "7a768fcf-cd4b-42e8-93e6-85a6c9b37f11",
+          "quote": "I have unfollowed a podcast, but it still keeps pushing new episodes to me. I have cleared cache, delete data, delete the app and reinstall, but the podcast is still there.",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2023-03",
+          "helpful_votes": 1
+        },
+        {
+          "review_id": "cbcd1b94-8128-41ed-b711-803882ad417a",
+          "quote": "I love this app but one problem,i can't get access to every song, playlist or anything else. Please fix this issue cuz i don't like rating this app with 3 stars.",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2023-02",
+          "helpful_votes": 0
+        },
+        {
+          "review_id": "e40aa96e-5aaa-4fc9-975c-ce2f057f72d7",
+          "quote": "I never will hear the song I wanted to hear.",
+          "severity": 3,
+          "intent": "complaint",
+          "month": "2023-06",
+          "helpful_votes": 2
+        }
+      ],
+      "ACC-99": [
+        {
+          "review_id": "8dd4258d-d8b3-4b71-a418-055c80c9b2e9",
+          "quote": "Cant log in cuz its on offline mode. Tried redownloading and logging in couple of times still says im set to offline.",
+          "severity": 4,
+          "intent": "complaint",
+          "month": "2022-10",
+          "helpful_votes": 1
+        }
+      ]
+    }
+  }
+}

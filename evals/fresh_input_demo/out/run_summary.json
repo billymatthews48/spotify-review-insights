@@ -1,0 +1,107 @@
+{
+  "input": "evals\\fresh_input_demo\\fresh_40.csv",
+  "input_sha256": "eeca6e7899915787d82a963826dce9a71b7c306270790c0af6d1b5f77cd72531",
+  "state": "state\\demo\\fresh.sqlite",
+  "cache": "state\\demo\\fresh_cache.sqlite",
+  "label_config": "jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1",
+  "enrich": {
+    "completed": 40,
+    "quarantined": 0,
+    "left_pending": 0,
+    "cache_filled": 0,
+    "batches": 1,
+    "stop_reason": "finished",
+    "seconds": 9.39,
+    "spent_total_usd": 0.002326,
+    "record_status": {
+      "completed": 40
+    },
+    "run_id": "enrich-20261019T155005-a319ed",
+    "label_config": "jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1"
+  },
+  "verify": {
+    "verify_config": "gpt-6-luna/none+verify-prompts-v1+labels-v1",
+    "sample_declared": 20,
+    "compared": 20,
+    "agreement": {
+      "topic": 0.8,
+      "intent": 1.0,
+      "severity": 0.9,
+      "all3": 0.7
+    },
+    "severity_mae": 0.1,
+    "sentiment_mae": 0.2733,
+    "topic_confusion_enrich_vs_verifier": {
+      "other->billing": 1,
+      "other->playback": 2,
+      "usability->billing": 1
+    },
+    "needs_review_vs_material_disagreement": {
+      "needs_review=False,disagree=False": 11,
+      "needs_review=False,disagree=True": 2,
+      "needs_review=True,disagree=False": 5,
+      "needs_review=True,disagree=True": 2
+    },
+    "disagreement_count": 6,
+    "planted_error_test": {
+      "cases": 20,
+      "detected": 20,
+      "note": "synthetic copy with deliberately wrong topic/severity; excluded from all business aggregates"
+    },
+    "verifier_failures": []
+  },
+  "group": {
+    "group_config": "gpt-6-luna/low+group-v2+[jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1]",
+    "issues": 7,
+    "memberships": 27,
+    "ungrouped_complaints": 0,
+    "assignment_methods": {
+      "only_issue": 27
+    }
+  },
+  "rank": {
+    "issues": 7,
+    "top5": [
+      [
+        "BIL-99",
+        "Other billing complaints",
+        18
+      ],
+      [
+        "USB-99",
+        "Other usability complaints",
+        18
+      ],
+      [
+        "OTH-99",
+        "General dissatisfaction (no specific feature)",
+        11
+      ],
+      [
+        "PLB-99",
+        "Other playback complaints",
+        11
+      ],
+      [
+        "CAT-99",
+        "Other catalog complaints",
+        9
+      ]
+    ]
+  },
+  "memo": {
+    "attempts": 1,
+    "problems": [],
+    "area": "billing_support"
+  },
+  "stage_seconds": {
+    "ingest": 0.11,
+    "enrich": 10.05,
+    "verify": 5.88,
+    "group": 0.15,
+    "rank": 0.01,
+    "memo": 20.62
+  },
+  "wall_clock_seconds": 36.84,
+  "finished_at": "2026-10-19T15:50:42-1000"
+}

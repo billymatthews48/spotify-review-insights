@@ -2,6 +2,7 @@
 failures, usage, actual charges (usage x dated rates), spend cap and resume evidence."""
 
 import json
+import time
 from collections import defaultdict
 from pathlib import Path
 
@@ -19,6 +20,16 @@ UNLOGGED = [
              "before waiting; fixed). In-process ledger said $0.528059 vs $0.525200 logged.",
      "measured_usd": 0.002859},
 ]
+
+
+def _memo_inputs(out_dir):
+    path = Path(out_dir) / "memo_output.json"
+    if not path.exists():
+        return None
+    m = common.read_json(path)
+    return {"artifact": "memo_input.json (ranked aggregates, area totals, facts, evidence pack)",
+            "input_sha256": m.get("input_sha256"), "memo_config": m.get("memo_config"),
+            "note": "SHA-256 of the exact system prompt + input sent; the final memo call's review_ids list is empty by design"}
 
 
 def write(state, cache, out_dir):
@@ -47,6 +58,13 @@ def write(state, cache, out_dir):
         c["reasoning_tokens"] += reas or 0
         c["cost_usd"] += cost
         c["usage_unknown_attempts"] += status == "unknown_possible_charge"
+    # Wall-clock span of each role within each run, from exact call timestamps (first call start -> last call end).
+    # Used for the verify/group/memo stages of runs that predate per-stage timing events in run_log.
+    spans = [{"run_id": rid, "role": role, "calls": n, "first_call_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(lo)),
+              "wall_clock_seconds": round(hi - lo, 1)}
+             for rid, role, n, lo, hi in conn.execute(
+                 "SELECT run_id, role, COUNT(*), MIN(started_at), MAX(started_at + seconds) FROM calls "
+                 "GROUP BY run_id, role ORDER BY MIN(started_at)")]
     status = {f"{s}/{'in_scope' if i else 'out_of_scope'}": n for s, i, n in
               conn.execute("SELECT status, in_scope, COUNT(*) FROM records GROUP BY 1, 2")}
     total = sum(c["cost_usd"] for c in calls.values())
@@ -66,6 +84,16 @@ def write(state, cache, out_dir):
         "charges_basis": "provider-reported usage x dated rates in config/rates.csv (not a provider invoice)",
         "known_unlogged_or_estimated": UNLOGGED,
         "spend_cap_usd": cfg["limits"]["spend_cap_usd"],
+        "stage_wall_clock_from_calls": spans,
+        "aggregate_artifacts_consumed": {  # group/memo calls with empty review_ids read these saved files
+            "memo": _memo_inputs(out_dir),
+            "group_assign": "texts of completed complaint/cancellation records (review_ids listed per call)",
+        },
+        "timeouts_with_unknown_charge": sum(c["usage_unknown_attempts"] for c in calls.values()),
+        "openai_prompt_cache": {"cached_input_tokens": sum(c["cached_input_tokens"] for k, c in calls.items() if "luna" in k),
+                                "saving_vs_uncached_usd": round(sum(c["cached_input_tokens"] for k, c in calls.items() if "luna" in k)
+                                                                * (rates[("gpt-6-luna", "input_uncached")]
+                                                                   - rates[("gpt-6-luna", "input_cached")]), 6)},
         "runs": [{"run_id": rid, "stage": (ev.get("start") or ev.get("end"))["stage"],
                   "start": ev.get("start", {}).get("detail"), "end": ev.get("end", {}).get("detail"),
                   "seconds": (ev["end"]["at"] - ev["start"]["at"]) if "start" in ev and "end" in ev else None}

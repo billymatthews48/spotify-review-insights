@@ -1,6 +1,8 @@
 # Interruption and resume evidence
 
-**Recording:** [`interruption_resume_recording.mp4`](interruption_resume_recording.mp4) (13.9 min screen recording, sidebar cropped, compressed).
+**Recording (short, 4:00):** [`interruption_resume_short.mp4`](interruption_resume_short.mp4): start, Ctrl+C at about 1:00, saved summary at about 1:15, checkpoint at about 2:00, and from about 3:00 the resume printing the saved count and completing new batches.
+
+Full 13.9-minute take (the same session, with the resumed run continuing): [`interruption_resume_recording.mp4`](interruption_resume_recording.mp4). Both are sidebar-cropped and compressed.
 
 What it shows, in order (Oct 16, 2026):
 

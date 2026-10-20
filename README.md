@@ -11,9 +11,9 @@
 | Database | Neon Postgres: `records` (all 660,622), `issues`, `ranking`, `membership`, `claims`, `memo`, `monthly`, `evals`, `run_meta`. Loaded by [`pipeline/publish.py`](pipeline/publish.py) |
 | Grading export | [`grading/`](grading/) (records/calls gzipped). Course checker: [`out/full/self-check.json`](out/full/self-check.json) |
 | Result files | [`enriched.jsonl.gz`](out/full/enriched.jsonl.gz) (237,987 completed) · [`quarantine.jsonl.gz`](out/full/quarantine.jsonl.gz) (422,635 with reason + attempts) · [`issues_catalog.json`](out/full/issues_catalog.json) · [`membership.csv`](out/full/membership.csv) · [`aggregates.csv`](out/full/aggregates.csv) · [`ranking.csv`](out/full/ranking.csv) · [`run_log.jsonl`](out/full/run_log.jsonl) · [`run_summary.json`](out/full/run_summary.json) · [`run_manifest.json`](out/full/run_manifest.json) |
-| Schema and prompts | [`schema/output_schema.json`](schema/output_schema.json) · [`prompts/`](prompts/) (Jev questions, quote, verifier, group discover/assign, memo prompts, and all structured-output schemas) · labels and examples in [`pipeline/labels.py`](pipeline/labels.py) |
+| Labels, schema and prompts | **[`LABELS.md`](LABELS.md)** (definitions, rules, worked examples, issue subtopics) · [`schema/output_schema.json`](schema/output_schema.json) · [`prompts/`](prompts/) (Jev questions, quote, verifier, group discover/assign, memo prompts, and all structured-output schemas) · labels and examples in [`pipeline/labels.py`](pipeline/labels.py) |
 | Cost calculator | [`cost/`](cost/) · [report](cost/report.md) · offline replay: `python cost/calculator.py` |
-| Interruption/resume recording | [`evals/recovery/interruption_resume_recording.mp4`](evals/recovery/interruption_resume_recording.mp4) |
+| Interruption/resume recording | [4-minute clip](evals/recovery/interruption_resume_short.mp4) · [full take](evals/recovery/interruption_resume_recording.mp4) · [what it shows](evals/recovery/README.md) |
 
 ## Results summary
 
@@ -30,7 +30,8 @@
 | System tests (synthetic) | 8/8 passed (4 prompt injections, empty text, non-English, injected HTTP 503 with retry, injected invalid label with retry) + spend-cap stop ([results](evals/system_tests/results.json)) |
 | Course checker | all checks pass except the expected `unfinished_classification: 422622`; coverage-point candidate **0.6162** |
 | Measured 100-review pilot | cold **$0.0090**, 69.1 s, 110 calls, 0 failures · warm **0 calls**, 0.67 s ([report](cost/report.md)) |
-| Full-run API charges (actual usage × dated rates) | **$4.95** = Jev $4.20 + gpt-6-luna $0.75 ([`run_summary.json`](out/full/run_summary.json)); projection was $4.98 base / $5.67 conservative. Whole project including pilot, dev and tests: about $5.01 |
+| Full-run API charges (actual usage × dated rates) | **$4.95** = Jev $4.20 + gpt-6-luna $0.75 ([`run_summary.json`](out/full/run_summary.json)); projection was $4.98 base / $5.67 conservative. Whole project including pilot, dev runs, tests and the fresh-input demo: **$5.00** (Jev $4.23 + gpt-6-luna $0.77), plus the disclosed ≤ $0.014 unlogged |
+| Fresh-input demonstration | all six stages on 40 never-classified reviews from a new CSV: 40/40 completed, 43 calls, $0.0039, 36.8 s ([evidence](evals/fresh_input_demo/README.md)) |
 | Full-run enrichment time | 10k checkpoint segment 2: 4,741 texts in 136 s; resume: 68,896 texts in 1,723 s (40 texts/s, 4 batch × 8 Jev workers) |
 
 Measured numbers are from saved logs; projections are labelled as such in the calculator. "Accounted for" (660,622) is not the same as "completed classifications" (237,987).
@@ -39,18 +40,18 @@ Measured numbers are from saved logs; projections are labelled as such in the ca
 
 **Deliverable quality (4)**
 1. *Accessible code/setup and artifacts*: [Setup](#setup) and [Commands](#commands); all outputs are committed (`out/`, `grading/`, `cost/`, `evals/`); [`requirements.txt`](requirements.txt), [`.env.example`](.env.example).
-2. *Architecture, shared schema, provenance*: [Architecture](#architecture), the [stage table](#stages-input-output-owner-failure-behaviour-stop-condition) and a [traced example](#one-review-traced-end-to-end). Labels are in [`pipeline/labels.py`](pipeline/labels.py), the schema in [`schema/output_schema.json`](schema/output_schema.json), all role prompts in [`prompts/`](prompts/). Every record carries `source_sha256` (course `row_sha`) and `label_config`. [`run_manifest.json`](out/full/run_manifest.json) ties together the source checksum, code version, config, prompt hashes, model IDs, run IDs and output checksums.
+2. *Architecture, shared schema, provenance*: [Architecture](#architecture), the [stage table](#stages-input-output-owner-failure-behaviour-stop-condition) and a [traced example](#one-review-traced-end-to-end). Labels are in [`LABELS.md`](LABELS.md) (generated from [`pipeline/labels.py`](pipeline/labels.py)), the schema in [`schema/output_schema.json`](schema/output_schema.json), all role prompts in [`prompts/`](prompts/). Every record carries `source_sha256` (course `row_sha`) and `label_config`. [`run_manifest.json`](out/full/run_manifest.json) ties together the source checksum, code version, config, prompt hashes, model IDs, run IDs and output checksums.
 3. *Memo numbers linked to calculations and evidence*: [`out/full/memo.md`](out/full/memo.md) cites C1–C7 in [`grading/claims.csv`](grading/claims.csv), and the course checker recomputes them (0 mismatches). Area totals are in [`area_totals.csv`](out/full/area_totals.csv). Evidence review IDs are in [`memo_input.json`](out/full/memo_input.json). The memo agent's output passed every code check ([`memo_output.json`](out/full/memo_output.json) `problems: []`).
 4. *Recommendation, alternatives, limitations*: memo sections "Alternatives considered" and "Limitations", plus [Limitations](#limitations) below.
 
 **Testing and evaluation (3)**
 1. *50 human labels, per-field comparison, error analysis*: [`evals/golden/`](evals/golden/) holds the labels, cases, report, and [error analysis](evals/golden/error_analysis.md) of all 25 disagreements (3 model errors, 15 rule-application, 3 language, 4 ambiguous), plus quote-support and entity inspection and a gpt-only setup comparison. Golden results did not drive any prompt or config change. Index: [`evals/README.md`](evals/README.md).
 2. *Independent verification, planted errors, injection*: [`evals/verify/`](evals/verify/README.md) has the procedure, results and disagreement investigation; planted-error cases are 20/20 detected; [`evals/system_tests/`](evals/system_tests/) has the 4 prompt injections plus awkward-path tests.
-3. *Real cold/warm pilot, offline calculator, retry/spend/recovery controls*: [`cost/`](cost/) (pilot records/calls, rates, usage, report; the x2-rates check doubles API spend and leaves time unchanged). Retry: injected 503 and invalid-output tests, plus real failures in the log (Jev HTTP 499, GPT invalid JSON, `max_output_tokens`). Spend: ledger reservations plus the spend-cap test. Recovery: [recording](evals/recovery/interruption_resume_recording.mp4) and checkpoints.
+3. *Real cold/warm pilot, offline calculator, retry/spend/recovery controls*: [`cost/`](cost/) (pilot records/calls, rates, usage, report; the x2-rates check doubles API spend and leaves time unchanged). Retry: injected 503 and invalid-output tests, plus real failures in the log (Jev HTTP 499, GPT invalid JSON, `max_output_tokens`). Spend: ledger reservations plus the spend-cap test. Recovery: [recording](evals/recovery/interruption_resume_short.mp4) and checkpoints ([details](evals/recovery/README.md)).
 
 **Working result (3)**
 1. *Full ingestion, coverage, classification*: [`ingestion_report.json`](out/ingestion_report.json), [`grading/records.jsonl.gz`](grading/records.jsonl.gz), checker coverage above. The 100k scope and the 422,622 unclassified rows are disclosed.
-2. *Runnable staged program, bounded calls, saved handoffs, resume*: `python -m pipeline run --input any.csv …`; enrichment requests are <= 50 reviews (Jev: 1 per request; quotes/verify/assign: <= 50); [`grading/calls.jsonl.gz`](grading/calls.jsonl.gz) has 80,661 attempts. Checkpoints: 131,915 before ⊂ 237,987 after; resume phase calls never include a before-ID.
+2. *Runnable staged program, bounded calls, saved handoffs, resume*: `python -m pipeline run --input any.csv …` ([fresh-input demo](evals/fresh_input_demo/README.md) on a new CSV); enrichment requests are <= 50 reviews (Jev: 1 per request; quotes/verify/assign: <= 50); [`grading/calls.jsonl.gz`](grading/calls.jsonl.gz) has 80,661 attempts. Checkpoints: 131,915 before ⊂ 237,987 after; resume phase calls never include a before-ID.
 3. *Reproducible ranking and deployed dashboard*: `python -m pipeline rerank …` reproduces [`ranking.csv`](grading/ranking.csv) byte-for-byte; [dashboard](https://spotify-review-insights-roan.vercel.app) is served by the Vercel API from Neon with live claim checks.
 
 ## Architecture
@@ -206,6 +207,28 @@ cd web && vercel deploy --prod                                               # d
    - The group stage first hit a slow query (an EXISTS planned as a scan) and was stopped before any further paid calls, fixed and rerun. Verification was cached, so nothing was paid twice.
    - The memo was regenerated twice: `memo-v3` fixed the evidence pack (prefer short reviews whose full text is shown) and required numbers for every alternative; `memo-v4` (Oct 19) required complaint_count, mean_severity and priority_score claims for the lead issue. Each passed every code check on the first attempt. Earlier versions are not used; all three calls are in the call log.
 8. **Real failures in the log:** 9 failed attempts out of 80,661, all retried: Jev HTTP 499 internal_error, GPT invalid JSON, GPT `max_output_tokens`.
+
+## Concurrency, limits and run timing
+
+- **Chosen concurrency** for the full run: 4 batch workers × 8 Jev workers, with a shared rate limiter at 50 requests/s (Jev's documented limit is 80/s) and one shared spend ledger.
+  - It was stepped up from the pilot (1 × 1) to the 500 checkpoint (2 × 8) to the full run (4 × 8).
+  - Measured throughput was 35–40 texts/s with **0 rate-limit (429) errors**.
+  - These throughputs come from different review sets, so they are observations, not a controlled same-review worker comparison.
+- **Spending controls:**
+  - In code: a $10 cap with worst-case reservation before every call. The [spend-cap test](evals/system_tests/results.json) stopped before any spend.
+  - At the providers: a prepaid OpenAI balance with auto-recharge off, and a prepaid Jev balance. Neither provider can bill beyond its prepaid amount.
+- **Timeouts with unknown charges:** none occurred (`usage_status: unknown_possible_charge` count = 0). Failed attempts that were billed are counted at their reported usage.
+- **Provider prompt caching** (separate from our result cache): 77,350 cached gpt-6-luna input tokens, saving $0.007 vs uncached rates. Measured, already reflected in costs.
+- **Full-run stage wall clock** (first call start to last call end, [`run_summary.json`](out/full/run_summary.json) `stage_wall_clock_from_calls`):
+
+| Stage | Wall clock |
+|---|---|
+| Ingest | 175 s (all 660,622 rows: parse, hash, profile, dedupe, scope) |
+| Enrich | 1,243 s (phase A part 1, before the query fix) + 118 s (part 2) + 28 s (interrupted run) + 1,706 s (resume) ≈ 52 min |
+| Verify | 524 s |
+| Group | 564 s |
+| Rank | < 1 s |
+| Memo (final, v4) | 16 s |
 
 ## Baseline ranking rules
 

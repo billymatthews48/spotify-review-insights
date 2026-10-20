@@ -212,5 +212,7 @@ def run(ctx, out_dir, group_config, agg):
         header = "" if not problems else ("> **Code check warning:** this memo did not pass every automated check; "
                                           "see memo_output.json `problems`.\n\n")
         (out_dir / "memo.md").write_text(header + out["memo_markdown"].strip() + "\n", encoding="utf-8", newline="\n")
-    ctx.recorder.event("memo", "end", attempts=attempts, problems=len(problems))
+    # Memo calls send no review IDs (they read saved aggregates), so the run log names the artifact they consumed.
+    ctx.recorder.event("memo", "end", attempts=attempts, problems=len(problems), cache_hit=bool(cached),
+                       input_artifact=str(out_dir / "memo_input.json"), input_sha256=input_sha, memo_config=memo_config)
     return result

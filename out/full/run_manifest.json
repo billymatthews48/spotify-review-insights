@@ -7,7 +7,7 @@
     "scope_size": "100050"
   },
   "code_version": {
-    "git_head_when_manifest_written": "6c3795637424f1b8a2569cf162c33d26ea2a4be8",
+    "git_head_when_manifest_written": "d1c77875a6b36808638f20ef9c45f9d28fec4d52",
     "working_tree_dirty": true,
     "note": "The pipeline code was first committed after the run; fixes made during the run (cache-fill query, interrupt handler, grouping query, HTTP 499 retry) are listed in the README run log."
   },
@@ -190,7 +190,7 @@
       "bytes": 245211
     },
     "out/full/enriched.jsonl.gz": {
-      "sha256": "db29937601c5da39f26abed85f2574727b3180c5205ba3cf05a20154b4bcd445",
+      "sha256": "b4ff7ba74394274d31d6b941280274b79bbb3769aac621b0c04ff368d8ac71da",
       "bytes": 23389714
     },
     "out/full/issues_catalog.json": {
@@ -218,7 +218,7 @@
       "bytes": 4334
     },
     "out/full/quarantine.jsonl.gz": {
-      "sha256": "8df5e7e0dfbfb207b056ee6dba4946c74997ebccc8287a66bcb9b6914365d436",
+      "sha256": "bf21538bbc96c8062a21cfcb5c12910389dab76ccf82edb186c14c2f656913e8",
       "bytes": 9907916
     },
     "out/full/ranking.csv": {
@@ -230,8 +230,8 @@
       "bytes": 5248
     },
     "out/full/run_summary.json": {
-      "sha256": "502b0a55ce4ce8d00616a0a31e8f2234f7d6e0e656f97ad748a50a2ea086bfd2",
-      "bytes": 8685
+      "sha256": "0d0af3bb1faffce46096289e45138671a8153c847630f7e8d0b3e5ab627e9891",
+      "bytes": 11250
     },
     "out/full/self-check.json": {
       "sha256": "0758cf41fce8130be71e7900eccb33d50a35510e46c246b934f855f2fa0a669d",
@@ -337,9 +337,13 @@
       "sha256": "cc0dd7ea0feb902d1eb90995b45cd21ae07e0374cde641ead1370a7f260306ef",
       "bytes": 10723621
     },
+    "evals/recovery/interruption_resume_short.mp4": {
+      "sha256": "5e667a3686c9abc43037955b2e69f6703f32a82f43356a0b43899fffc6ca7c1f",
+      "bytes": 2296883
+    },
     "evals/recovery/README.md": {
-      "sha256": "07086a7516fdf9f8be39b61f6b3d3a91ccefeee58dbc9bd67a45c777142a9311",
-      "bytes": 2102
+      "sha256": "fc06f6b9c0d24a03c920940f96b9758eafa4bd16178b979cadba938bdf9d664c",
+      "bytes": 2410
     }
   }
 }

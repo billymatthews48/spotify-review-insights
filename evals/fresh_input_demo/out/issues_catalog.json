@@ -1,0 +1,54 @@
+{
+  "group_config": "gpt-6-luna/low+group-v2+[jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1]",
+  "issues": [
+    {
+      "issue_id": "ACC-99",
+      "topic": "access",
+      "name": "Other access complaints",
+      "definition": "access complaints that fit none of the specific access issues (Login, signup, password or account access problems (e.g. 'can't log in', 'account hacked', 'logged out every day').)",
+      "source": "catch_all"
+    },
+    {
+      "issue_id": "BIL-99",
+      "topic": "billing",
+      "name": "Other billing complaints",
+      "definition": "billing complaints that fit none of the specific billing issues (Price, charges, subscriptions, refunds, paywalls, premium entitlement; controls explicitly limited to premium (e.g. 'can't pick songs without premium', 'only 6 skips') go here.)",
+      "source": "catch_all"
+    },
+    {
+      "issue_id": "CAT-99",
+      "topic": "catalog",
+      "name": "Other catalog complaints",
+      "definition": "catalog complaints that fit none of the specific catalog issues (Missing songs or artists, removed content, search and discovery, recommendations, lyrics availability, podcasts content.)",
+      "source": "catch_all"
+    },
+    {
+      "issue_id": "DWN-99",
+      "topic": "downloads",
+      "name": "Other downloads complaints",
+      "definition": "downloads complaints that fit none of the specific downloads issues (Downloading songs, saved music, offline listening, downloads disappearing.)",
+      "source": "catch_all"
+    },
+    {
+      "issue_id": "OTH-99",
+      "topic": "other",
+      "name": "General dissatisfaction (no specific feature)",
+      "definition": "Complaints that name no specific product problem, e.g. 'worst app', insults or vague anger",
+      "source": "catch_all"
+    },
+    {
+      "issue_id": "PLB-99",
+      "topic": "playback",
+      "name": "Other playback complaints",
+      "definition": "playback complaints that fit none of the specific playback issues (Playback failure, crashes, freezing, lag, songs stopping or skipping by themselves, connection failures, audio quality, battery/data/storage use.)",
+      "source": "catch_all"
+    },
+    {
+      "issue_id": "USB-99",
+      "topic": "usability",
+      "name": "Other usability complaints",
+      "definition": "usability complaints that fit none of the specific usability issues (Navigation, controls, layout, UI changes, queue/playlist management, ad interruptions (e.g. 'new home screen is confusing', 'too many ads between songs').)",
+      "source": "catch_all"
+    }
+  ]
+}

@@ -36,6 +36,7 @@ def analyze(state, cache, out_dir, cfg=None, phase="initial"):
         timings["memo"] = round(time.time() - t, 2)
         results["memo"] = {"attempts": res["attempts"], "problems": res["problems"],
                            "area": (res["memo"] or {}).get("recommendation", {}).get("area")}
+        ctx.recorder.event("analyze", "end", stage_seconds=timings)  # stage timing lands in run_log.jsonl
     finally:
         ctx.close()
     return timings, results

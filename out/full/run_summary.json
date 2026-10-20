@@ -135,6 +135,92 @@
     }
   ],
   "spend_cap_usd": 10.0,
+  "stage_wall_clock_from_calls": [
+    {
+      "run_id": "enrich-20261014T184618-96a23c",
+      "role": "enrich",
+      "calls": 3830,
+      "first_call_utc": "2026-10-15T01:46:51Z",
+      "wall_clock_seconds": 1243.2
+    },
+    {
+      "run_id": "enrich-20261014T193719-e82f1f",
+      "role": "enrich",
+      "calls": 4845,
+      "first_call_utc": "2026-10-15T02:37:37Z",
+      "wall_clock_seconds": 117.9
+    },
+    {
+      "run_id": "enrich-20261016T124241-cbe311",
+      "role": "enrich",
+      "calls": 766,
+      "first_call_utc": "2026-10-16T22:43:18Z",
+      "wall_clock_seconds": 27.7
+    },
+    {
+      "run_id": "enrich-20261016T124452-4e6451",
+      "role": "enrich",
+      "calls": 70346,
+      "first_call_utc": "2026-10-16T22:45:09Z",
+      "wall_clock_seconds": 1705.6
+    },
+    {
+      "run_id": "analyze-20261017T144902-5d3cc7",
+      "role": "verify",
+      "calls": 51,
+      "first_call_utc": "2026-10-18T00:49:08Z",
+      "wall_clock_seconds": 514.7
+    },
+    {
+      "run_id": "analyze-20261017T150239-d4d196",
+      "role": "verify",
+      "calls": 1,
+      "first_call_utc": "2026-10-18T01:02:41Z",
+      "wall_clock_seconds": 9.6
+    },
+    {
+      "run_id": "analyze-20261017T150239-d4d196",
+      "role": "group",
+      "calls": 819,
+      "first_call_utc": "2026-10-18T01:02:51Z",
+      "wall_clock_seconds": 563.8
+    },
+    {
+      "run_id": "analyze-20261017T150239-d4d196",
+      "role": "memo",
+      "calls": 1,
+      "first_call_utc": "2026-10-18T01:13:17Z",
+      "wall_clock_seconds": 14.7
+    },
+    {
+      "run_id": "analyze-20261017T151448-cd4471",
+      "role": "memo",
+      "calls": 1,
+      "first_call_utc": "2026-10-18T01:15:30Z",
+      "wall_clock_seconds": 12.6
+    },
+    {
+      "run_id": "analyze-20261019T145827-a2e472",
+      "role": "memo",
+      "calls": 1,
+      "first_call_utc": "2026-10-20T01:00:04Z",
+      "wall_clock_seconds": 15.8
+    }
+  ],
+  "aggregate_artifacts_consumed": {
+    "memo": {
+      "artifact": "memo_input.json (ranked aggregates, area totals, facts, evidence pack)",
+      "input_sha256": "115a89b6210d636adb33a90371b4db6c96cbf23cfdb0158ef73740d7deb9d920",
+      "memo_config": "gpt-6-luna/low+memo-v4",
+      "note": "SHA-256 of the exact system prompt + input sent; the final memo call's review_ids list is empty by design"
+    },
+    "group_assign": "texts of completed complaint/cancellation records (review_ids listed per call)"
+  },
+  "timeouts_with_unknown_charge": 0,
+  "openai_prompt_cache": {
+    "cached_input_tokens": 77350,
+    "saving_vs_uncached_usd": 0.006961
+  },
   "runs": [
     {
       "run_id": "enrich-20261014T184618-96a23c",

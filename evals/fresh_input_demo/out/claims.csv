@@ -1,0 +1,7 @@
+claim_id,issue_id,metric,value
+C1,BIL-99,complaint_count,6
+C2,BIL-99,mean_severity,3.000000
+C3,BIL-99,priority_score,18
+C4,USB-99,priority_score,18
+C5,PLB-99,priority_score,11
+C6,OTH-99,priority_score,11
