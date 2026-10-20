@@ -1,7 +1,7 @@
 area,topics,complaint_count,severity_sum,mean_severity,cancellation_count
-access,access,1558,6168,3.958922,87
-usability,usability,13516,37865,2.801495,1095
-playback,playback+downloads,8199,27479,3.351506,781
-billing_support,billing+support,7859,22279,2.834839,1356
-catalog,catalog,2434,6687,2.747329,160
-other,other,41845,78237,1.869686,1246
+access,access,7997,31703,3.964362,448
+usability,usability,59647,169075,2.834594,6148
+playback,playback+downloads,42261,146374,3.463572,3665
+billing_support,billing+support,46820,136100,2.906877,8247
+catalog,catalog,15336,43700,2.849504,1145
+other,other,78831,151979,1.927909,5554

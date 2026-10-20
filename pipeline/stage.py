@@ -16,7 +16,10 @@ class Context:
         self.run_id = runtime.new_run_id(run_prefix)
         self.recorder = runtime.Recorder(self.conn, self.run_id, phase)
         self.ledger = runtime.Ledger(self.cfg["limits"]["spend_cap_usd"], self.recorder.spent())
-        self.label_config = runtime.label_config(self.cfg)
+        self.label_config = runtime.label_config(self.cfg)  # primary (Jev) config: anchors verify sample + issue catalog
+        # Every label config with completed records (Jev 100k scope, plus gpt-6-luna phase 2 when present).
+        self.label_configs = [r[0] for r in self.conn.execute(
+            "SELECT DISTINCT label_config FROM records WHERE status='completed' AND label_config IS NOT NULL")] or [self.label_config]
         self.db_lock = threading.Lock()  # one writer at a time when stages fan out calls to threads
         self._luna = None
 

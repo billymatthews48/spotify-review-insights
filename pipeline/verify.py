@@ -74,7 +74,7 @@ def run(ctx, out_dir):
     return report
 
 
-def compare(conn, label_config, vc, sample, out_dir):
+def compare(conn, label_config, vc, sample, out_dir, suffix=""):
     rows = conn.execute(f"""
         SELECT r.review_id, s.review_text, l.topic, l.intent, l.severity, l.sentiment, l.needs_review,
                v.topic, v.intent, v.severity, v.sentiment
@@ -104,8 +104,8 @@ def compare(conn, label_config, vc, sample, out_dir):
             disagreements.append({**rec, "text": text[:500], "fields": [f for f, a, b in (("topic", et, vt), ("intent", ei, vi),
                                                                                          ("severity", es, vs)) if a != b]})
     n = len(rows)
-    common.write_jsonl(out_dir / "verifier_predictions.jsonl", preds)
-    common.write_jsonl(out_dir / "disagreements.jsonl", disagreements)
+    common.write_jsonl(out_dir / f"verifier_predictions{suffix}.jsonl", preds)
+    common.write_jsonl(out_dir / f"disagreements{suffix}.jsonl", disagreements)
     report = {
         "verify_config": vc, "sample_declared": len(sample), "compared": n,
         "agreement": {k: round(agree[k] / n, 4) if n else None for k in ("topic", "intent", "severity", "all3")},
@@ -115,11 +115,11 @@ def compare(conn, label_config, vc, sample, out_dir):
         "needs_review_vs_material_disagreement": {f"needs_review={a},disagree={b}": c for (a, b), c in sorted(nr_hit.items())},
         "disagreement_count": len(disagreements),
     }
-    report["planted_error_test"] = planted_errors(preds, out_dir)
+    report["planted_error_test"] = planted_errors(preds, out_dir, suffix=suffix)
     return report
 
 
-def planted_errors(preds, out_dir, k=20):
+def planted_errors(preds, out_dir, k=20, suffix=""):
     """Synthetic test copy: take up to k verified records, deliberately corrupt the enrich label, and check
     whether the (blind) verifier prediction disagrees with the planted label. Never enters business data."""
     topics = list(labels.TOPICS)
@@ -133,6 +133,82 @@ def planted_errors(preds, out_dir, k=20):
                       "original": {"topic": true_topic, "severity": rec["enrich"]["severity"]},
                       "verifier": {"topic": rec["verifier"]["topic"], "severity": rec["verifier"]["severity"]},
                       "detected": detected})
-    common.write_jsonl(out_dir / "planted_error_cases.jsonl", cases)
+    common.write_jsonl(out_dir / f"planted_error_cases{suffix}.jsonl", cases)
     return {"cases": len(cases), "detected": sum(c["detected"] for c in cases),
             "note": "synthetic copy with deliberately wrong topic/severity; excluded from all business aggregates"}
+
+
+def jev_verify_config(cfg):
+    return f"{cfg['enrich']['model']}+verify-jev-questions-{cfg['prompt_version']}+{labels.LABELS_VERSION}"
+
+
+def run_jev(ctx, label_config, out_dir, suffix="_phase2"):
+    """Verifier for a gpt-6-luna-labelled phase: a different model family (Jev) blindly re-labels a declared seeded
+    sample with the same fixed-option questions the main enricher used; code compares. Saved with a file suffix."""
+    from concurrent.futures import ThreadPoolExecutor
+
+    from . import enrich
+    from .providers import FatalProviderError, Jev, run_with_retries
+    cfg, v = ctx.cfg, ctx.cfg["verify"]
+    conn = ctx.conn
+    conn.executescript(SCHEMA)
+    vc = jev_verify_config(cfg)
+    sample = sample_ids(conn, label_config, v["sample_fraction"], v["sample_seed"] + suffix, v.get("min_sample", 20))
+    done = {r[0] for r in conn.execute("SELECT review_id FROM cache.verify_preds WHERE verify_config=?", (vc,))}
+    todo = [rid for rid in sample if rid not in done]
+    texts = dict(conn.execute(f"SELECT review_id, review_text FROM source_rows WHERE review_id IN ({','.join('?' * len(todo))})",
+                              todo).fetchall()) if todo else {}
+    jev = Jev(cfg["limits"]["request_timeout_seconds"]) if todo else None
+    questions, model = enrich.jev_questions(), cfg["enrich"]["model"]
+    limiter = enrich.RateLimiter(cfg["enrich"].get("max_requests_per_second", 30))
+    reserve = 4000 * ctx.rates[(model, "input")]
+    failures, stop = [], None
+
+    def one(rid):
+        recs, out = [], None
+        for _ in range(cfg["limits"]["max_attempts_per_batch"]):
+            try:
+                reservation = ctx.ledger.reserve(reserve)
+            except Exception as e:  # BudgetExceeded: stop admitting verification work
+                return rid, None, recs, ("budget", str(e))
+            spent = 0.0
+            try:
+                def attempt(n):
+                    limiter.wait()
+                    return jev.ask(model, enrich.jev_state(texts[rid]), questions, role="verify", step="jev_relabel",
+                                   review_ids=[rid], rates=ctx.rates, label_config=vc, attempt=len(recs) + n)
+                try:
+                    body, attempt_recs, err = run_with_retries(attempt, cfg["limits"])
+                except FatalProviderError as e:
+                    recs += e.records
+                    return rid, None, recs, ("fatal", str(e))
+                spent = sum(r["cost_usd"] for r in attempt_recs)
+                recs += attempt_recs
+                if body is None:
+                    return rid, None, recs, ("transient", err)
+                try:
+                    out = enrich.parse_jev(body)
+                    return rid, out, recs, None
+                except ValueError as e:
+                    recs[-1]["outcome"], recs[-1]["error"] = "failed", f"invalid output: {e}"
+            finally:
+                ctx.ledger.settle(reservation, spent)
+        return rid, None, recs, ("invalid", "verifier output invalid after retry")
+
+    with ThreadPoolExecutor(cfg["enrich"]["workers"]) as pool:
+        for rid, out, recs, err in pool.map(one, todo):
+            with ctx.db_lock, conn:
+                for r in recs:
+                    ctx.recorder.call(r)
+                if out:
+                    conn.execute("INSERT OR REPLACE INTO cache.verify_preds VALUES (?,?,?,?,?,?,?)",
+                                 (rid, vc, ctx.run_id, out["topic"], out["intent"], out["severity"], out["sentiment"]))
+            if err:
+                failures.append({"review_id": rid, "reason": err[1][:200]})
+                stop = stop or (err[0] if err[0] in ("budget", "fatal") else None)
+    report = compare(conn, label_config, vc, sample, out_dir, suffix=suffix)
+    report.update({"label_config_verified": label_config, "verifier": f"{model} (TypeSafe Jev, fixed-option questions)",
+                   "verifier_failures": failures, "stopped": stop})
+    common.write_json(out_dir / f"verify_summary{suffix}.json", report)
+    ctx.recorder.event("verify", "end", phase=suffix, sample=len(sample), compared=report["compared"], failures=len(failures))
+    return report

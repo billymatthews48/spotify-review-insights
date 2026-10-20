@@ -3,7 +3,7 @@
 | Folder / file | What it holds |
 |---|---|
 | [`golden/`](golden/) | **50 human labels** ([`golden_50_labeled.csv`](golden/golden_50_labeled.csv); superseded first pass kept), labeling tool, per-case results ([`golden_eval_cases.jsonl`](golden/golden_eval_cases.jsonl)), per-field report ([`golden_eval_report.json`](golden/golden_eval_report.json)), gpt-only setup comparison, and the [error analysis](golden/error_analysis.md) (all 25 disagreements, quote support, entities) |
-| [`verify/`](verify/) | **independent verifier**: procedure and disagreement analysis ([README](verify/README.md)), predictions, disagreements, **planted-error cases** (synthetic, 20/20 detected) |
+| [`verify/`](verify/) | **independent verifiers for both phases** (gpt-6-luna checks Jev; Jev checks gpt-6-luna): procedure and disagreement analysis ([README](verify/README.md)), predictions, disagreements, **planted-error cases** (synthetic, 20/20 detected in each phase) |
 | [`system_tests/`](system_tests/) | **synthetic** tests: 4 prompt injections, empty text, non-English, injected HTTP 503 (retry), injected invalid label (retry), spend-cap stop. [`results.json`](system_tests/results.json): 8/8 + spend cap passed; inputs in [`synthetic_reviews.csv`](system_tests/synthetic_reviews.csv); calls logged |
 | [`recovery/`](recovery/) | **interruption/resume** recording (4-minute clip + full take) and [what it shows](recovery/README.md), with checkpoint counts before and after |
 | [`fresh_input_demo/`](fresh_input_demo/README.md) | the full six-stage program run on a **new CSV** of 40 never-classified reviews (40/40 completed, $0.0039, 36.8 s), with all handoffs |

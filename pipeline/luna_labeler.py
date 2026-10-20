@@ -52,11 +52,23 @@ def user_message(items):
     return json.dumps([{"i": i, "text": t} for i, t in items], ensure_ascii=False)
 
 
+def items_of(payload, key="items"):
+    """The item list from a structured response. Tolerates a bare top-level list (seen once from gpt-6-luna) and
+    anything else malformed (returns []); every item is still validated by the caller."""
+    if isinstance(payload, dict):
+        value = payload.get(key, [])
+    elif isinstance(payload, list):
+        value = payload
+    else:
+        value = []
+    return [x for x in value if isinstance(x, dict)] if isinstance(value, list) else []
+
+
 def validate(payload, index):
     """Returns ({i: labels}, {i: error}) checking ids, enums and ranges in code."""
     good, bad = {}, {}
     seen = set()
-    for item in (payload or {}).get("items", []):
+    for item in items_of(payload):
         i = item.get("i")
         if i not in index or i in seen:
             continue

@@ -182,7 +182,9 @@
       "enrich_seconds": 14.82,
       "texts_per_s": 6.747638326585695,
       "jev_cost_per_text": 5.3670539999999976e-05,
-      "workers": "batch 1 / jev 1"
+      "workers": "batch 1 / jev 1",
+      "enrich_cost_per_text": 5.601753999999998e-05,
+      "backend": "jev"
     },
     {
       "checkpoint": "checkpoint_500",
@@ -190,6 +192,8 @@
       "enrich_seconds": 31.48,
       "texts_per_s": 15.216010165184244,
       "jev_cost_per_text": 5.365653444676406e-05,
+      "enrich_cost_per_text": 5.640392484342377e-05,
+      "backend": "jev",
       "workers": "batch 2 / jev 8"
     },
     {
@@ -198,6 +202,8 @@
       "enrich_seconds": 1243.21,
       "texts_per_s": 3.0163850033381325,
       "jev_cost_per_text": 5.3665763200000467e-05,
+      "enrich_cost_per_text": 5.6712643200000465e-05,
+      "backend": "jev",
       "workers": "batch 4 / jev 8"
     },
     {
@@ -206,7 +212,49 @@
       "enrich_seconds": 136.21,
       "texts_per_s": 34.806548711548345,
       "jev_cost_per_text": 5.3682483340363114e-05,
+      "enrich_cost_per_text": 5.6930686774942395e-05,
+      "backend": "jev",
       "workers": "batch 4 / jev 8"
+    },
+    {
+      "checkpoint": "full_phase2_gpt test (4 batches)",
+      "texts": 200,
+      "enrich_seconds": 53.77,
+      "texts_per_s": 3.7195462153617256,
+      "jev_cost_per_text": null,
+      "enrich_cost_per_text": 1.8875949999999997e-05,
+      "backend": "gpt-6-luna",
+      "workers": "batch 4 / jev 8"
+    },
+    {
+      "checkpoint": "full_phase2_gpt run 1 (stopped to fix head-of-line blocking)",
+      "texts": 8800,
+      "enrich_seconds": 211.74,
+      "texts_per_s": 41.560404269386986,
+      "jev_cost_per_text": null,
+      "enrich_cost_per_text": 2.1285529545454548e-05,
+      "backend": "gpt-6-luna",
+      "workers": "batch 48 / jev 8"
+    },
+    {
+      "checkpoint": "full_phase2_gpt run 2 (crashed on a malformed response at 13:40)",
+      "texts": 212100,
+      "enrich_seconds": 2246.38,
+      "texts_per_s": 94.41857566395711,
+      "jev_cost_per_text": null,
+      "enrich_cost_per_text": 2.0692449269213423e-05,
+      "backend": "gpt-6-luna",
+      "workers": "batch 48 / jev 8"
+    },
+    {
+      "checkpoint": "full_phase2_gpt run 3 (to the spend cap)",
+      "texts": 101900,
+      "enrich_seconds": 558.27,
+      "texts_per_s": 182.52816737420963,
+      "jev_cost_per_text": null,
+      "enrich_cost_per_text": 2.1020350245337895e-05,
+      "backend": "gpt-6-luna",
+      "workers": "batch 48 / jev 8"
     }
   ],
   "scenarios": [

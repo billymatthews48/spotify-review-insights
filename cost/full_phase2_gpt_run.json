@@ -1,0 +1,125 @@
+{
+  "input": "remaining nonempty texts after the 100k Jev scope, course sample order (gpt-6-luna labels)",
+  "segments": [
+    {
+      "label": "test (4 batches)",
+      "run_id": "enrich-20261020T125628-80fc06",
+      "start": {
+        "label_config": "gpt-6-luna/none+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1",
+        "phase": "initial",
+        "pending_texts": 406052,
+        "batches": 4,
+        "cache_hits_at_start": 0,
+        "spend_so_far": 4.948634,
+        "cap": 5.0,
+        "batch_size": 50,
+        "batch_workers": 4,
+        "jev_workers": 8
+      },
+      "end": {
+        "completed": 200,
+        "quarantined": 0,
+        "left_pending": 0,
+        "cache_filled": 34,
+        "batches": 4,
+        "stop_reason": "finished",
+        "seconds": 53.77,
+        "spent_total_usd": 4.952409,
+        "record_status": {
+          "completed": 238221,
+          "pending": 422388,
+          "quarantined": 13
+        },
+        "run_id": "enrich-20261020T125628-80fc06",
+        "label_config": "gpt-6-luna/none+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1"
+      }
+    },
+    {
+      "label": "run 1 (stopped to fix head-of-line blocking)",
+      "run_id": "enrich-20261020T125752-1c7b7a",
+      "start": {
+        "label_config": "gpt-6-luna/none+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1",
+        "phase": "initial",
+        "pending_texts": 405852,
+        "batches": 8118,
+        "cache_hits_at_start": 0,
+        "spend_so_far": 4.952409,
+        "cap": 11.55,
+        "batch_size": 50,
+        "batch_workers": 48,
+        "jev_workers": 8
+      },
+      "end": {
+        "completed": 8800,
+        "quarantined": 177,
+        "left_pending": 0,
+        "cache_filled": 1504,
+        "batches": 179,
+        "stop_reason": "interrupted",
+        "seconds": 211.74,
+        "spent_total_usd": 5.139722,
+        "record_status": {
+          "completed": 248525,
+          "pending": 411907,
+          "quarantined": 190
+        },
+        "run_id": "enrich-20261020T125752-1c7b7a",
+        "label_config": "gpt-6-luna/none+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1"
+      }
+    },
+    {
+      "label": "run 2 (crashed on a malformed response at 13:40)",
+      "run_id": "enrich-20261020T130208-a47b1a",
+      "start": {
+        "label_config": "gpt-6-luna/none+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1",
+        "phase": "initial",
+        "pending_texts": 397052,
+        "batches": 7942,
+        "cache_hits_at_start": 0,
+        "spend_so_far": 5.139722,
+        "cap": 11.55,
+        "batch_size": 50,
+        "batch_workers": 48,
+        "jev_workers": 8
+      },
+      "end": {
+        "completed": 212100,
+        "seconds": 2246.38,
+        "note": "no end event (process crashed); completed = texts in succeeded label calls; seconds = first call start to last call end"
+      }
+    },
+    {
+      "label": "run 3 (to the spend cap)",
+      "run_id": "enrich-20261020T134548-498978",
+      "start": {
+        "label_config": "gpt-6-luna/none+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1",
+        "phase": "initial",
+        "pending_texts": 184902,
+        "batches": 3699,
+        "cache_hits_at_start": 0,
+        "spend_so_far": 9.52859,
+        "cap": 11.8,
+        "batch_size": 50,
+        "batch_workers": 48,
+        "jev_workers": 8
+      },
+      "end": {
+        "completed": 101900,
+        "quarantined": 50,
+        "left_pending": 50,
+        "cache_filled": 2022,
+        "batches": 2040,
+        "stop_reason": "spend_cap_reached",
+        "seconds": 558.27,
+        "spent_total_usd": 11.670564,
+        "record_status": {
+          "completed": 577230,
+          "pending": 83227,
+          "quarantined": 165
+        },
+        "run_id": "enrich-20261020T134548-498978",
+        "label_config": "gpt-6-luna/none+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1"
+      }
+    }
+  ]
+}

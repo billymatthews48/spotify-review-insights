@@ -27,6 +27,14 @@ This runs the real pipeline on the unchanged `cost_100.csv` (checksum verified a
 | `rates.csv`, `usage.csv` | billing items: every charged item per call = billed units x price per unit |
 | `report.md`, `report.html`, `report.json` | measured-100 tables, refreshes, base/conservative projections, controls, budget warnings |
 
-The full run's actual charges ($4.95) are in [`../out/full/run_summary.json`](../out/full/run_summary.json), against the calculator's $4.98 base projection for the 100k scope.
+Actual charges are in [`../out/full/run_summary.json`](../out/full/run_summary.json) (provider-reported usage × dated rates):
+
+| Run | Actual | Projection |
+|---|---|---|
+| Phase 1: 100,050-review scope, Jev labels + gpt-6-luna quotes, verify, group, memo | $4.95 | $4.98 base (calculator) |
+| Phase 2: remaining reviews labelled by gpt-6-luna until the credit ran out, plus the Jev verifier and re-analysis | $9.08 | not projected in advance (see below) |
+| **Full state total** | **$14.03** (Jev $4.72 + gpt-6-luna $9.31) | |
+
+Phase 2 classified 339,243 more reviews (322,950 distinct texts). Its enrichment (labels + quotes) cost $6.72, about $0.000021 per distinct text, roughly a third of phase 1's $0.000057 (Jev labels + quotes: $4.46 for 78,137 texts). The rest of the phase-2 spend is issue assignment for the new complaints, the Jev verifier ($0.52) and the re-run memo. Its call log is [`full_phase2_gpt_calls.jsonl.gz`](full_phase2_gpt_calls.jsonl.gz) and its run segments are in [`full_phase2_gpt_run.json`](full_phase2_gpt_run.json). The phase-2 spend was not estimated before it started, which was a process mistake; the calculator's refresh table now includes a `backend` column so a gpt-6-luna run is projected from its own measured cost per text.
 
 Note: the pilot ran with memo prompt `memo-v2` and a 3% verify fraction with a minimum of 20. The final run used `memo-v4` (stricter evidence and claim rules); everything else was unchanged.

@@ -4,356 +4,356 @@
   "automatic_grade": null,
   "calculated_ranking": [
     {
-      "complaint_count": 35769,
+      "complaint_count": 61635,
       "issue_id": "OTH-99",
-      "mean_severity": "1.830747",
-      "priority_score": 65484,
+      "mean_severity": "1.888537",
+      "priority_score": 116400,
       "rank": 1,
-      "severity_sum": 65484
+      "severity_sum": 116400
     },
     {
-      "complaint_count": 7520,
+      "complaint_count": 28764,
       "issue_id": "USB-01",
-      "mean_severity": "2.798271",
-      "priority_score": 21043,
+      "mean_severity": "2.894938",
+      "priority_score": 83270,
       "rank": 2,
-      "severity_sum": 21043
+      "severity_sum": 83270
     },
     {
-      "complaint_count": 4883,
-      "issue_id": "OTH-01",
-      "mean_severity": "2.019865",
-      "priority_score": 9863,
-      "rank": 3,
-      "severity_sum": 9863
-    },
-    {
-      "complaint_count": 3700,
+      "complaint_count": 19458,
       "issue_id": "BIL-99",
-      "mean_severity": "2.516757",
-      "priority_score": 9312,
-      "rank": 4,
-      "severity_sum": 9312
+      "mean_severity": "2.648525",
+      "priority_score": 51535,
+      "rank": 3,
+      "severity_sum": 51535
     },
     {
-      "complaint_count": 1927,
-      "issue_id": "PLB-05",
-      "mean_severity": "3.153607",
-      "priority_score": 6077,
-      "rank": 5,
-      "severity_sum": 6077
-    },
-    {
-      "complaint_count": 1734,
-      "issue_id": "USB-03",
-      "mean_severity": "2.993080",
-      "priority_score": 5190,
-      "rank": 6,
-      "severity_sum": 5190
-    },
-    {
-      "complaint_count": 1478,
-      "issue_id": "PLB-01",
-      "mean_severity": "3.301759",
-      "priority_score": 4880,
-      "rank": 7,
-      "severity_sum": 4880
-    },
-    {
-      "complaint_count": 1141,
-      "issue_id": "PLB-02",
-      "mean_severity": "3.727432",
-      "priority_score": 4253,
-      "rank": 8,
-      "severity_sum": 4253
-    },
-    {
-      "complaint_count": 1354,
-      "issue_id": "PLB-99",
-      "mean_severity": "3.096750",
-      "priority_score": 4193,
-      "rank": 9,
-      "severity_sum": 4193
-    },
-    {
-      "complaint_count": 1399,
+      "complaint_count": 9937,
       "issue_id": "BIL-02",
-      "mean_severity": "2.987848",
-      "priority_score": 4180,
-      "rank": 10,
-      "severity_sum": 4180
+      "mean_severity": "3.001610",
+      "priority_score": 29827,
+      "rank": 4,
+      "severity_sum": 29827
     },
     {
-      "complaint_count": 1272,
+      "complaint_count": 9206,
       "issue_id": "BIL-01",
-      "mean_severity": "3.091195",
-      "priority_score": 3932,
+      "mean_severity": "3.019661",
+      "priority_score": 27799,
+      "rank": 5,
+      "severity_sum": 27799
+    },
+    {
+      "complaint_count": 13734,
+      "issue_id": "OTH-01",
+      "mean_severity": "2.005388",
+      "priority_score": 27542,
+      "rank": 6,
+      "severity_sum": 27542
+    },
+    {
+      "complaint_count": 7860,
+      "issue_id": "PLB-01",
+      "mean_severity": "3.428499",
+      "priority_score": 26948,
+      "rank": 7,
+      "severity_sum": 26948
+    },
+    {
+      "complaint_count": 7857,
+      "issue_id": "PLB-05",
+      "mean_severity": "3.198804",
+      "priority_score": 25133,
+      "rank": 8,
+      "severity_sum": 25133
+    },
+    {
+      "complaint_count": 7461,
+      "issue_id": "PLB-99",
+      "mean_severity": "3.173167",
+      "priority_score": 23675,
+      "rank": 9,
+      "severity_sum": 23675
+    },
+    {
+      "complaint_count": 6149,
+      "issue_id": "PLB-02",
+      "mean_severity": "3.839649",
+      "priority_score": 23610,
+      "rank": 10,
+      "severity_sum": 23610
+    },
+    {
+      "complaint_count": 7777,
+      "issue_id": "USB-03",
+      "mean_severity": "3.001929",
+      "priority_score": 23346,
       "rank": 11,
-      "severity_sum": 3932
+      "severity_sum": 23346
     },
     {
-      "complaint_count": 1461,
+      "complaint_count": 9130,
       "issue_id": "USB-06",
-      "mean_severity": "2.512663",
-      "priority_score": 3671,
+      "mean_severity": "2.446331",
+      "priority_score": 22335,
       "rank": 12,
-      "severity_sum": 3671
+      "severity_sum": 22335
     },
     {
-      "complaint_count": 974,
+      "complaint_count": 5131,
       "issue_id": "PLB-04",
-      "mean_severity": "3.693018",
-      "priority_score": 3597,
+      "mean_severity": "3.698694",
+      "priority_score": 18978,
       "rank": 13,
-      "severity_sum": 3597
+      "severity_sum": 18978
     },
     {
-      "complaint_count": 1188,
+      "complaint_count": 6147,
       "issue_id": "USB-04",
-      "mean_severity": "2.860269",
-      "priority_score": 3398,
+      "mean_severity": "2.952334",
+      "priority_score": 18148,
       "rank": 14,
-      "severity_sum": 3398
+      "severity_sum": 18148
     },
     {
-      "complaint_count": 687,
+      "complaint_count": 3533,
       "issue_id": "ACC-02",
-      "mean_severity": "3.988355",
-      "priority_score": 2740,
+      "mean_severity": "3.972262",
+      "priority_score": 14034,
       "rank": 15,
-      "severity_sum": 2740
+      "severity_sum": 14034
     },
     {
-      "complaint_count": 711,
+      "complaint_count": 3766,
       "issue_id": "BIL-04",
-      "mean_severity": "3.669480",
-      "priority_score": 2609,
+      "mean_severity": "3.654806",
+      "priority_score": 13764,
       "rank": 16,
-      "severity_sum": 2609
+      "severity_sum": 13764
     },
     {
-      "complaint_count": 818,
-      "issue_id": "USB-05",
-      "mean_severity": "3.047677",
-      "priority_score": 2493,
-      "rank": 17,
-      "severity_sum": 2493
-    },
-    {
-      "complaint_count": 834,
-      "issue_id": "OTH-02",
-      "mean_severity": "2.666667",
-      "priority_score": 2224,
-      "rank": 18,
-      "severity_sum": 2224
-    },
-    {
-      "complaint_count": 780,
+      "complaint_count": 4301,
       "issue_id": "CAT-01",
-      "mean_severity": "2.752564",
-      "priority_score": 2147,
-      "rank": 19,
-      "severity_sum": 2147
+      "mean_severity": "2.907463",
+      "priority_score": 12505,
+      "rank": 17,
+      "severity_sum": 12505
     },
     {
-      "complaint_count": 739,
-      "issue_id": "CAT-02",
-      "mean_severity": "2.792963",
-      "priority_score": 2064,
-      "rank": 20,
-      "severity_sum": 2064
-    },
-    {
-      "complaint_count": 698,
+      "complaint_count": 4102,
       "issue_id": "BIL-03",
-      "mean_severity": "2.951289",
-      "priority_score": 2060,
-      "rank": 21,
-      "severity_sum": 2060
+      "mean_severity": "2.994149",
+      "priority_score": 12282,
+      "rank": 18,
+      "severity_sum": 12282
     },
     {
-      "complaint_count": 669,
+      "complaint_count": 4243,
+      "issue_id": "CAT-02",
+      "mean_severity": "2.870139",
+      "priority_score": 12178,
+      "rank": 19,
+      "severity_sum": 12178
+    },
+    {
+      "complaint_count": 3760,
+      "issue_id": "USB-05",
+      "mean_severity": "3.051596",
+      "priority_score": 11474,
+      "rank": 20,
+      "severity_sum": 11474
+    },
+    {
+      "complaint_count": 3535,
       "issue_id": "USB-99",
-      "mean_severity": "2.545590",
-      "priority_score": 1703,
-      "rank": 22,
-      "severity_sum": 1703
+      "mean_severity": "2.525035",
+      "priority_score": 8926,
+      "rank": 21,
+      "severity_sum": 8926
     },
     {
-      "complaint_count": 449,
-      "issue_id": "PLB-03",
-      "mean_severity": "3.167038",
-      "priority_score": 1422,
-      "rank": 23,
-      "severity_sum": 1422
-    },
-    {
-      "complaint_count": 336,
-      "issue_id": "ACC-01",
-      "mean_severity": "4.002976",
-      "priority_score": 1345,
-      "rank": 24,
-      "severity_sum": 1345
-    },
-    {
-      "complaint_count": 433,
+      "complaint_count": 3014,
       "issue_id": "CAT-03",
-      "mean_severity": "2.609700",
-      "priority_score": 1130,
-      "rank": 25,
-      "severity_sum": 1130
+      "mean_severity": "2.759456",
+      "priority_score": 8317,
+      "rank": 22,
+      "severity_sum": 8317
     },
     {
-      "complaint_count": 317,
+      "complaint_count": 2254,
+      "issue_id": "PLB-03",
+      "mean_severity": "3.202307",
+      "priority_score": 7218,
+      "rank": 23,
+      "severity_sum": 7218
+    },
+    {
+      "complaint_count": 1841,
       "issue_id": "DWN-03",
-      "mean_severity": "3.564669",
-      "priority_score": 1130,
+      "mean_severity": "3.775665",
+      "priority_score": 6951,
+      "rank": 24,
+      "severity_sum": 6951
+    },
+    {
+      "complaint_count": 1724,
+      "issue_id": "ACC-01",
+      "mean_severity": "4.012761",
+      "priority_score": 6918,
+      "rank": 25,
+      "severity_sum": 6918
+    },
+    {
+      "complaint_count": 2612,
+      "issue_id": "OTH-02",
+      "mean_severity": "2.437213",
+      "priority_score": 6366,
       "rank": 26,
-      "severity_sum": 1130
+      "severity_sum": 6366
     },
     {
-      "complaint_count": 277,
+      "complaint_count": 1701,
       "issue_id": "DWN-01",
-      "mean_severity": "3.523466",
-      "priority_score": 976,
+      "mean_severity": "3.451499",
+      "priority_score": 5871,
       "rank": 27,
-      "severity_sum": 976
+      "severity_sum": 5871
     },
     {
-      "complaint_count": 197,
-      "issue_id": "ACC-05",
-      "mean_severity": "3.908629",
-      "priority_score": 770,
-      "rank": 28,
-      "severity_sum": 770
-    },
-    {
-      "complaint_count": 233,
+      "complaint_count": 1646,
       "issue_id": "CAT-04",
-      "mean_severity": "3.103004",
-      "priority_score": 723,
-      "rank": 29,
-      "severity_sum": 723
+      "mean_severity": "3.051640",
+      "priority_score": 5023,
+      "rank": 28,
+      "severity_sum": 5023
     },
     {
-      "complaint_count": 359,
-      "issue_id": "OTH-03",
-      "mean_severity": "1.855153",
-      "priority_score": 666,
-      "rank": 30,
-      "severity_sum": 666
-    },
-    {
-      "complaint_count": 157,
-      "issue_id": "DWN-02",
-      "mean_severity": "3.751592",
-      "priority_score": 589,
-      "rank": 31,
-      "severity_sum": 589
-    },
-    {
-      "complaint_count": 148,
-      "issue_id": "ACC-03",
-      "mean_severity": "3.871622",
-      "priority_score": 573,
-      "rank": 32,
-      "severity_sum": 573
-    },
-    {
-      "complaint_count": 216,
+      "complaint_count": 1857,
       "issue_id": "CAT-99",
-      "mean_severity": "2.504630",
-      "priority_score": 541,
+      "mean_severity": "2.673129",
+      "priority_score": 4964,
+      "rank": 29,
+      "severity_sum": 4964
+    },
+    {
+      "complaint_count": 1043,
+      "issue_id": "DWN-02",
+      "mean_severity": "4.377756",
+      "priority_score": 4566,
+      "rank": 30,
+      "severity_sum": 4566
+    },
+    {
+      "complaint_count": 1071,
+      "issue_id": "ACC-05",
+      "mean_severity": "3.985994",
+      "priority_score": 4269,
+      "rank": 31,
+      "severity_sum": 4269
+    },
+    {
+      "complaint_count": 798,
+      "issue_id": "ACC-03",
+      "mean_severity": "3.870927",
+      "priority_score": 3089,
+      "rank": 32,
+      "severity_sum": 3089
+    },
+    {
+      "complaint_count": 695,
+      "issue_id": "DWN-99",
+      "mean_severity": "3.519424",
+      "priority_score": 2446,
       "rank": 33,
-      "severity_sum": 541
+      "severity_sum": 2446
     },
     {
-      "complaint_count": 132,
+      "complaint_count": 635,
       "issue_id": "ACC-99",
-      "mean_severity": "3.545455",
-      "priority_score": 468,
+      "mean_severity": "3.590551",
+      "priority_score": 2280,
       "rank": 34,
-      "severity_sum": 468
+      "severity_sum": 2280
     },
     {
-      "complaint_count": 126,
-      "issue_id": "USB-02",
-      "mean_severity": "2.912698",
-      "priority_score": 367,
+      "complaint_count": 850,
+      "issue_id": "OTH-03",
+      "mean_severity": "1.965882",
+      "priority_score": 1671,
       "rank": 35,
-      "severity_sum": 367
+      "severity_sum": 1671
     },
     {
-      "complaint_count": 58,
-      "issue_id": "ACC-04",
-      "mean_severity": "4.689655",
-      "priority_score": 272,
+      "complaint_count": 534,
+      "issue_id": "USB-02",
+      "mean_severity": "2.951311",
+      "priority_score": 1576,
       "rank": 36,
+      "severity_sum": 1576
+    },
+    {
+      "complaint_count": 236,
+      "issue_id": "ACC-04",
+      "mean_severity": "4.716102",
+      "priority_score": 1113,
+      "rank": 37,
+      "severity_sum": 1113
+    },
+    {
+      "complaint_count": 269,
+      "issue_id": "DWN-04",
+      "mean_severity": "3.635688",
+      "priority_score": 978,
+      "rank": 38,
+      "severity_sum": 978
+    },
+    {
+      "complaint_count": 275,
+      "issue_id": "CAT-05",
+      "mean_severity": "2.592727",
+      "priority_score": 713,
+      "rank": 39,
+      "severity_sum": 713
+    },
+    {
+      "complaint_count": 101,
+      "issue_id": "SUP-01",
+      "mean_severity": "2.693069",
+      "priority_score": 272,
+      "rank": 40,
       "severity_sum": 272
     },
     {
-      "complaint_count": 76,
-      "issue_id": "DWN-99",
-      "mean_severity": "2.684211",
-      "priority_score": 204,
-      "rank": 37,
-      "severity_sum": 204
-    },
-    {
-      "complaint_count": 49,
-      "issue_id": "DWN-04",
-      "mean_severity": "3.224490",
-      "priority_score": 158,
-      "rank": 38,
-      "severity_sum": 158
-    },
-    {
-      "complaint_count": 33,
-      "issue_id": "CAT-05",
-      "mean_severity": "2.484848",
-      "priority_score": 82,
-      "rank": 39,
-      "severity_sum": 82
-    },
-    {
-      "complaint_count": 22,
+      "complaint_count": 88,
       "issue_id": "SUP-03",
-      "mean_severity": "2.636364",
-      "priority_score": 58,
-      "rank": 40,
-      "severity_sum": 58
-    },
-    {
-      "complaint_count": 20,
-      "issue_id": "SUP-01",
-      "mean_severity": "2.600000",
-      "priority_score": 52,
+      "mean_severity": "2.761364",
+      "priority_score": 243,
       "rank": 41,
-      "severity_sum": 52
+      "severity_sum": 243
     },
     {
-      "complaint_count": 13,
-      "issue_id": "SUP-02",
-      "mean_severity": "2.307692",
-      "priority_score": 30,
-      "rank": 42,
-      "severity_sum": 30
-    },
-    {
-      "complaint_count": 16,
+      "complaint_count": 79,
       "issue_id": "SUP-99",
-      "mean_severity": "1.875000",
-      "priority_score": 30,
-      "rank": 43,
-      "severity_sum": 30
+      "mean_severity": "2.265823",
+      "priority_score": 179,
+      "rank": 42,
+      "severity_sum": 179
     },
     {
-      "complaint_count": 8,
+      "complaint_count": 57,
+      "issue_id": "SUP-02",
+      "mean_severity": "2.473684",
+      "priority_score": 141,
+      "rank": 43,
+      "severity_sum": 141
+    },
+    {
+      "complaint_count": 26,
       "issue_id": "SUP-04",
-      "mean_severity": "2.000000",
-      "priority_score": 16,
+      "mean_severity": "2.230769",
+      "priority_score": 58,
       "rank": 44,
-      "severity_sum": 16
+      "severity_sum": 58
     }
   ],
   "coverage": {
@@ -362,32 +362,32 @@
     "expected": 660622,
     "invalid_or_unresolved": 0,
     "labelable": 660609,
-    "labelable_completion_fraction": 0.360254,
+    "labelable_completion_fraction": 0.873785,
     "missing": 0,
-    "quarantined": 422635,
+    "quarantined": 83392,
     "received_lines": 660622,
     "unique_expected_ids": 660622,
-    "valid_cache_reuses": 159850,
-    "valid_completed": 237987,
-    "valid_completion_fraction": 0.360247
+    "valid_cache_reuses": 176143,
+    "valid_completed": 577230,
+    "valid_completion_fraction": 0.873767
   },
   "examples": [
     {
       "code": "unfinished_classification",
-      "detail": "422622"
+      "detail": "83379"
     }
   ],
   "hash_convention": "Reference/benchmark: canonical UTF-8 JSON via canonical(); input files and audit script: exact bytes.",
   "input_files_sha256": {
-    "calls.jsonl.gz": "261b28d437c5fca8eb925735a1facc4adc8fa360b425f37f5f7105e129479589",
-    "checkpoint_after.json": "5a5e6250ce3407a0a1d98475f3cf63416fac547cb1ddcaa5e96ac8773cc0052b",
-    "checkpoint_before.json": "f9afe28e554a0b9c8c065e80ac43616d97e6ba5e5ea2d97fd8747e957f51283f",
-    "claims.csv": "74de3028048cafe89c9d85ab1d83ecbcd2cfaf9c9352777a2c345fd98ff101f2",
-    "ingestion.json": "8350d83785561fbfa1065b29b91dc8b16e01570824d336c767b9b460697fbdc3",
-    "membership.csv": "0b55289ad60255cfe54aeb205249b8dbe81ca6ebb6faff1229346f6d5d622b18",
-    "ranking.csv": "7e4e6cae015c13a8925d5de57cc1b7cf1a34c499b0dfa08b683052c52b55e8ff",
-    "records.jsonl.gz": "6a7438f8b6df0db72cbf245f155627a30199aea12941227795163c314cb4b09b",
-    "run.json": "47f8a720c624e3567197f41461cfd39d14f45f00c1c09110d8d2d0032caca497"
+    "calls.jsonl.gz": "0b25e87815b7f9739c2058e89548f010dbb83030becd5444ff804e03a16cd13f",
+    "checkpoint_after.json": "5bf7b9a39d84b708265faad585edb6857792a1d489aaa847218a2745afaaaf60",
+    "checkpoint_before.json": "bd75033c164ddbe4b00168157de76068540808f65494ed2c605536ee9c825789",
+    "claims.csv": "8f10d1132114f2a7913eccf49426aeef6df5dee19a5fd5a10dae66c52bac14fc",
+    "ingestion.json": "3e5e01083c3d0a338bb584f71b3a5420485783f5ca9d085b8cac89a51b42752a",
+    "membership.csv": "985c5e25870ff472cb73535c240f7f06c053b2f8f7d0a83ab1cbda14e77d31af",
+    "ranking.csv": "5249673eee8020c139541bf282afc5ec242d208f9d06aee9efb8c3eb9c14ae31",
+    "records.jsonl.gz": "246860fbd61ad5f0a498c4cba4d46e562ae83cb5834f868f19698e968d389c15",
+    "run.json": "425475ec4bbc8551582c2edbafaadc534cfe1cbcff209bc2234e8a0f859b2d91"
   },
   "issue_counts": {
     "unfinished_classification": 1
@@ -403,9 +403,9 @@
     "status": "not_supplied"
   },
   "reference_sha256": "bb31d47db9b9a85cd97b3ba6e880915aff41a6127c3accee719c139ab34b7e97",
-  "reported_calls": 80661,
-  "reported_input_tokens": 103526834,
-  "reported_output_tokens": 17429619,
+  "reported_calls": 109875,
+  "reported_input_tokens": 150197140,
+  "reported_output_tokens": 31398052,
   "status": "review_required",
-  "working_coverage_point_candidate": 0.6162
+  "working_coverage_point_candidate": 0.9243
 }

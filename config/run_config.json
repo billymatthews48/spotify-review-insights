@@ -10,6 +10,14 @@
     "max_requests_per_second": 50,
     "needs_review_confidence": 0.5
   },
+  "enrich_phase2": {
+    "backend": "luna",
+    "model": "gpt-6-luna",
+    "reasoning_effort": "none",
+    "batch_size": 50,
+    "max_output_tokens": 6000,
+    "note": "Phase 2 (after the 100k Jev scope): remaining texts labelled by gpt-6-luna with the shared rubric prompt, chosen after the golden comparison (66% vs 60% topic) because Jev credit was exhausted"
+  },
   "quote": {
     "provider": "openai",
     "model": "gpt-6-luna",

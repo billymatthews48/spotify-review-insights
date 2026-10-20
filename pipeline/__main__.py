@@ -32,6 +32,9 @@ def main():
     p.add_argument("--batch-workers", type=int, default=4)
     p.add_argument("--jev-workers", type=int, default=None, help="Override enrich.workers in run_config.json")
     p.add_argument("--spend-cap", type=float, default=None, help="Override limits.spend_cap_usd")
+    p.add_argument("--backend", choices=["jev", "luna"], default="jev",
+                   help="jev: Jev labels (the 100k scope); luna: gpt-6-luna labels (phase 2, enrich_phase2 settings)")
+    p.add_argument("--extend-scope", action="store_true", help="Queue every remaining nonempty review (course sample order)")
 
     p = sub.add_parser("snapshot", help="Save completed_ids for interruption/resume evidence (no model calls)")
     p.add_argument("--state", type=Path, default=common.DB_PATH)
@@ -52,6 +55,7 @@ def main():
     p.add_argument("--state", required=True, type=Path)
     p.add_argument("--cache", type=Path, default=None)
     p.add_argument("--out", required=True, type=Path)
+    p.add_argument("--spend-cap", type=float, default=None, help="Override limits.spend_cap_usd (total for this state)")
 
     p = sub.add_parser("pilot", help="PAID: measured cold+warm 100-review pilot -> cost/ evidence files")
     p.add_argument("--input", type=Path, default=common.ROOT / "data" / "dataset" / "cost_100.csv")
@@ -98,7 +102,7 @@ def main():
             cfg["limits"]["spend_cap_usd"] = args.spend_cap
         cache = args.cache or args.state.with_name(args.state.stem + "_cache.sqlite")
         summary = enrich.run(args.state, cache, args.phase, args.max_batches, args.limit_texts, args.batch_size,
-                             args.batch_workers, cfg)
+                             args.batch_workers, cfg, backend=args.backend, extend_scope=args.extend_scope)
         print(json.dumps(summary, indent=2))
     elif args.command == "snapshot":
         from . import enrich
@@ -152,8 +156,11 @@ def main():
                                       args.batch_workers, args.jev_workers)
         print(json.dumps({k: summary[k] for k in ("stage_seconds", "wall_clock_seconds", "memo")}, indent=2, default=str))
     elif args.command == "analyze":
-        from . import orchestrate
-        timings, results = orchestrate.analyze(args.state, args.cache, args.out)
+        from . import orchestrate, runtime
+        cfg = runtime.load_config()
+        if args.spend_cap is not None:
+            cfg["limits"]["spend_cap_usd"] = args.spend_cap
+        timings, results = orchestrate.analyze(args.state, args.cache, args.out, cfg)
         print(json.dumps({"stage_seconds": timings, **results}, indent=2, default=str))
     elif args.command == "pilot":
         if not args.confirm_paid:

@@ -58,16 +58,21 @@ def load_config(path=CONFIG_PATH):
     cfg = common.read_json(path)
     allowed = set(cfg.get("model_allowlist", []))
     used = {cfg["enrich"]["model"], cfg["quote"]["model"], cfg["verify"]["model"], cfg["group"]["model_discover"],
-            cfg["memo"]["model"]}
+            cfg["memo"]["model"], cfg.get("enrich_phase2", {}).get("model", cfg["enrich"]["model"])}
     if not used <= allowed:
         raise SystemExit(f"run_config.json uses models outside model_allowlist: {sorted(used - allowed)}")
     return cfg
 
 
-def label_config(cfg):
-    """Every setting that changes enrichment output; exact-text cache reuse requires an identical string."""
+def label_config(cfg, backend="jev"):
+    """Every setting that changes enrichment output; exact-text cache reuse requires an identical string.
+    backend 'jev': Jev labels + gpt quotes (the 100k scope). 'luna': gpt-6-luna labels + gpt quotes (phase 2)."""
     e, q = cfg["enrich"], cfg["quote"]
-    return f"{e['model']}+{q['model']}/{q['reasoning_effort']}+{cfg['prompt_version']}+{cfg['schema_version']}+{LABELS_VERSION}"
+    tail = f"{q['model']}/{q['reasoning_effort']}+{cfg['prompt_version']}+{cfg['schema_version']}+{LABELS_VERSION}"
+    if backend == "luna":
+        p = cfg["enrich_phase2"]
+        return f"{p['model']}/{p['reasoning_effort']}+{tail}"
+    return f"{e['model']}+{tail}"
 
 
 def load_rates(path=RATES_PATH):
@@ -132,7 +137,8 @@ class Recorder:
                 "attempt", "outcome", "error", "input_tokens", "cached_input_tokens", "output_tokens", "reasoning_tokens",
                 "usage_status", "cost_usd", "started_at", "seconds", "provider_request_id"]
         rec["review_ids"] = json.dumps(rec["review_ids"])
-        self.conn.execute(f"INSERT INTO calls({','.join(cols)}) VALUES ({','.join('?' * len(cols))})",
+        # OR IGNORE: request_ids are unique per attempt, so re-committing the same batch is a no-op, not a duplicate.
+        self.conn.execute(f"INSERT OR IGNORE INTO calls({','.join(cols)}) VALUES ({','.join('?' * len(cols))})",
                           [rec.get(c) for c in cols])
 
     def event(self, stage, event, **detail):

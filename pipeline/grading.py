@@ -21,11 +21,14 @@ def write(state, cache, analysis_dir, checkpoints_dir, out_dir):
     common.write_json(out_dir / "run.json", {
         "version": "a5-audit-v1", "analysis_count": total, "analysis_sha256": meta["input_sha256"],
         "classification_input_fields": ["review_text"], "allow_multi_issue": False,
-        "declared_scope": {"classified": f"lowest {meta['scope_size']} course-sample-rank nonempty IDs, plus exact-text "
-                                         "reuse for any other ID with identical text",
-                           "out_of_scope_reason": export.OUT_OF_SCOPE_REASON,
-                           "note": "Out-of-scope rows are accounted for as quarantined with an explicit reason; they are "
-                                   "NOT successful classifications and are excluded from every business aggregate."}})
+        "declared_scope": {
+            "phase_1": f"lowest {meta['scope_size']} course-sample-rank nonempty IDs labelled by Jev (label_config "
+                       "jev-1.13.0+…), plus exact-text reuse for any other ID with identical text",
+            "phase_2": ("all remaining nonempty IDs queued in course-sample order and labelled by gpt-6-luna (label_config "
+                        "gpt-6-luna/none+…) until the API credit limit; exact-text reuse as above") if "scope_extended" in meta else None,
+            "unclassified_reasons": [export.BUDGET_REASON, export.OUT_OF_SCOPE_REASON, "pending_after_transient: …"],
+            "note": "Rows never classified are accounted for as quarantined with an explicit reason; they are NOT "
+                    "successful classifications and are excluded from every business aggregate."}})
     export.copy(common.OUT_DIR / "ingestion.json", out_dir / "ingestion.json")
     for old in ("records.jsonl", "calls.jsonl"):
         (out_dir / old).unlink(missing_ok=True)  # never leave both plain and .gz copies

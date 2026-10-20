@@ -136,7 +136,17 @@ class Luna:
             raise AttemptFailed(rec, transient=False)  # billed, but output unusable: counts against the batch retry
         try:
             payload = json.loads(r.output_text)
-        except (json.JSONDecodeError, TypeError) as e:
+        except json.JSONDecodeError as e:
+            # gpt-6-luna occasionally emits a complete, schema-valid object followed by trailing text ("Extra data").
+            # Keep the first complete JSON value; every item is still validated by the caller.
+            try:
+                if e.msg != "Extra data":
+                    raise
+                payload, _ = json.JSONDecoder().raw_decode(r.output_text)
+            except (json.JSONDecodeError, TypeError) as e2:
+                rec = _record(**base, outcome="failed", error=f"invalid JSON: {e2}", **common_fields)
+                raise AttemptFailed(rec, transient=False)
+        except TypeError as e:
             rec = _record(**base, outcome="failed", error=f"invalid JSON: {e}", **common_fields)
             raise AttemptFailed(rec, transient=False)
         return payload, _record(**base, outcome="succeeded", error=None, **common_fields)

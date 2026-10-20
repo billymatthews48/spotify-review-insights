@@ -136,11 +136,12 @@ async function loadSummary() {
   const quarantined = st.quarantined?.n || 0;
   const empty = s.quarantine_reasons.find((r) => r.reason === "empty_review_text")?.n || 0;
   const outScope = s.quarantine_reasons.filter((r) => r.reason.startsWith("not_classified")).reduce((a, r) => a + r.n, 0);
-  $("scopeBadge").textContent = `Scope: ${fmt(s.meta.scope_size)} course-sampled reviews + exact-text reuse`;
+  const nonempty = total - empty;
+  $("scopeBadge").textContent = `Classified ${fmt(completed)} of ${fmt(nonempty)} nonempty reviews (${(100 * completed / nonempty).toFixed(1)}%): Jev for the first ${fmt(s.meta.scope_size)} course-sampled, gpt-6-luna for the rest until the credit limit`;
   const kp = [
     [fmt(total), "source rows accounted for"], [fmt(completed), "completed classifications"],
     [fmt(s.exact_text_reuse), "of those via exact-text reuse"], [fmt(empty), "empty texts quarantined"],
-    [fmt(outScope), "outside budget scope (not classified)"], [fmt(quarantined - empty - outScope), "other quarantines"],
+    [fmt(outScope), "not classified (API credit limit)"], [fmt(quarantined - empty - outScope), "other quarantines"],
     [fmt(s.needs_review), "flagged needs_review"],
   ];
   $("kpis").innerHTML = kp.map(([v, l]) => `<div class="kpi"><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
@@ -216,7 +217,7 @@ async function loadTrend() {
 
 async function loadEvals() {
   const e = await api("/api/evals");
-  const v = e.verify || {}, g = e.golden || {}, s = e.system_tests || {}, c = e.cost_report || {};
+  const v = e.verify || {}, v2 = e.verify_phase2 || {}, g = e.golden || {}, s = e.system_tests || {}, c = e.cost_report || {};
   const pct = (x) => (x == null ? "–" : (100 * x).toFixed(1) + "%");
   const cold = c.measured?.cold || {};
   const chosen = (c.scenarios || []).filter((x) => x.scenario.startsWith("100k"));
@@ -224,9 +225,11 @@ async function loadEvals() {
     <div><b>Golden set (50 human labels)</b>
       ${g.n ? `<table><tbody><tr><td>Topic agreement</td><td class="num">${pct(g.agreement?.topic)}</td></tr><tr><td>Intent agreement</td><td class="num">${pct(g.agreement?.intent)}</td></tr>
       <tr><td>Severity exact / MAE</td><td class="num">${pct(g.agreement?.severity)} / ${g.severity_mae ?? "–"}</td></tr><tr><td>Ambiguous cases</td><td class="num">${g.ambiguous ?? "–"}</td></tr></tbody></table>` : '<p class="muted">Not published yet.</p>'}
-      <b style="display:block;margin-top:10px">Independent verifier (blind re-label)</b>
-      <table><tbody><tr><td>Sample compared</td><td class="num">${fmt(v.compared)}</td></tr><tr><td>Topic / intent / severity agreement</td><td class="num">${pct(v.agreement?.topic)} / ${pct(v.agreement?.intent)} / ${pct(v.agreement?.severity)}</td></tr>
-      <tr><td>Planted errors detected</td><td class="num">${v.planted_error_test ? v.planted_error_test.detected + " / " + v.planted_error_test.cases : "–"}</td></tr></tbody></table></div>
+      <b style="display:block;margin-top:10px">Independent verifiers (blind re-label by the other model family)</b>
+      <table><tbody><tr><th></th><th class="num">Phase 1: GPT checks Jev</th><th class="num">Phase 2: Jev checks GPT</th></tr>
+      <tr><td>Sample compared</td><td class="num">${fmt(v.compared)}</td><td class="num">${fmt(v2.compared)}</td></tr>
+      <tr><td>Topic / intent / severity agreement</td><td class="num">${pct(v.agreement?.topic)} / ${pct(v.agreement?.intent)} / ${pct(v.agreement?.severity)}</td><td class="num">${pct(v2.agreement?.topic)} / ${pct(v2.agreement?.intent)} / ${pct(v2.agreement?.severity)}</td></tr>
+      <tr><td>Planted errors detected</td><td class="num">${v.planted_error_test ? v.planted_error_test.detected + " / " + v.planted_error_test.cases : "–"}</td><td class="num">${v2.planted_error_test ? v2.planted_error_test.detected + " / " + v2.planted_error_test.cases : "–"}</td></tr></tbody></table></div>
     <div><b>System tests (synthetic)</b><p>${s.passed ?? "–"} / ${s.total ?? "–"} passed (prompt injection, empty text, non-English, injected API failure, malformed output); spend-cap stop: ${s.spend_cap_test?.passed ? "passed" : "–"}.</p>
       <b>Cost (measured 100-review pilot)</b><p>Cold: $${(cold.api_cost_usd ?? 0).toFixed(4)} in ${cold.wall_clock_seconds ?? "–"} s · warm: ${c.measured?.warm?.new_calls ?? "–"} new calls.
       Projected 100k-scope run: ${chosen.map((x) => `${x.case} $${x.api_cost_usd.toFixed(2)}`).join(" · ")}.</p></div>`;

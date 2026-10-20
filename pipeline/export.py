@@ -9,6 +9,7 @@ from pathlib import Path
 from . import common
 
 OUT_OF_SCOPE_REASON = "not_classified_outside_declared_100k_budget_scope"
+BUDGET_REASON = "not_classified_api_credit_limit_reached"
 
 
 def records(conn, out_of_scope_as="quarantined"):
@@ -36,9 +37,10 @@ def records(conn, out_of_scope_as="quarantined"):
             yield rec
         elif status == "quarantined":
             yield {"review_id": rid, "source_sha256": src, "status": "quarantined", "reason": reason}
-        else:  # pending
-            if not in_scope and out_of_scope_as == "quarantined":
-                yield {"review_id": rid, "source_sha256": src, "status": "quarantined", "reason": OUT_OF_SCOPE_REASON}
+        else:  # pending: never sent to a model (or a transient failure left it unlabelled)
+            if out_of_scope_as == "quarantined":
+                why = OUT_OF_SCOPE_REASON if not in_scope else (reason or BUDGET_REASON)
+                yield {"review_id": rid, "source_sha256": src, "status": "quarantined", "reason": why}
             else:
                 yield {"review_id": rid, "source_sha256": src, "status": "pending",
                        "reason": reason or "pending_not_yet_classified"}

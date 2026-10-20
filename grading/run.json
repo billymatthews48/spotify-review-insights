@@ -7,8 +7,13 @@
   ],
   "allow_multi_issue": false,
   "declared_scope": {
-    "classified": "lowest 100050 course-sample-rank nonempty IDs, plus exact-text reuse for any other ID with identical text",
-    "out_of_scope_reason": "not_classified_outside_declared_100k_budget_scope",
-    "note": "Out-of-scope rows are accounted for as quarantined with an explicit reason; they are NOT successful classifications and are excluded from every business aggregate."
+    "phase_1": "lowest 100050 course-sample-rank nonempty IDs labelled by Jev (label_config jev-1.13.0+…), plus exact-text reuse for any other ID with identical text",
+    "phase_2": "all remaining nonempty IDs queued in course-sample order and labelled by gpt-6-luna (label_config gpt-6-luna/none+…) until the API credit limit; exact-text reuse as above",
+    "unclassified_reasons": [
+      "not_classified_api_credit_limit_reached",
+      "not_classified_outside_declared_100k_budget_scope",
+      "pending_after_transient: …"
+    ],
+    "note": "Rows never classified are accounted for as quarantined with an explicit reason; they are NOT successful classifications and are excluded from every business aggregate."
   }
 }

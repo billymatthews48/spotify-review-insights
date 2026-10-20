@@ -65,13 +65,15 @@ def rerank_from_files(records_jsonl, membership_csv, out_csv):
     return rows
 
 
-def load_from_db(conn, label_config, group_config):
+def load_from_db(conn, label_configs, group_config):
+    """label_configs: every label config whose completed records count (one string or a list)."""
+    lcs = [label_configs] if isinstance(label_configs, str) else list(label_configs)
     records = {r[0]: {"intent": r[1], "severity": r[2], "topic": r[3], "month": r[4], "cancel": r[1] == "cancellation"}
-               for r in conn.execute("""
+               for r in conn.execute(f"""
         SELECT r.review_id, l.intent, l.severity, l.topic, substr(s.review_timestamp, 1, 7)
         FROM records r JOIN source_rows s USING(review_id)
         JOIN cache.labels l ON l.text_sha256 = s.text_sha256 AND l.label_config = r.label_config
-        WHERE r.status = 'completed' AND r.label_config = ?""", (label_config,))}
+        WHERE r.status = 'completed' AND r.label_config IN ({','.join('?' * len(lcs))})""", lcs)}
     membership = [tuple(r) for r in conn.execute(
         "SELECT issue_id, review_id FROM membership WHERE group_config = ? ORDER BY issue_id, review_id", (group_config,))]
     return records, membership
@@ -97,7 +99,7 @@ def aggregates(conn, label_config, group_config, rows):
 
 
 def run(ctx, out_dir, group_config):
-    records, membership = load_from_db(ctx.conn, ctx.label_config, group_config)
+    records, membership = load_from_db(ctx.conn, ctx.label_configs, group_config)
     rows = compute(records, membership)
     write_ranking(rows, out_dir / "ranking.csv")
     agg = aggregates(ctx.conn, ctx.label_config, group_config, rows)

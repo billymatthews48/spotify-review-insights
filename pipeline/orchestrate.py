@@ -23,6 +23,13 @@ def analyze(state, cache, out_dir, cfg=None, phase="initial"):
         t = time.time()
         results["verify"] = verify.run(ctx, out_dir)
         timings["verify"] = round(time.time() - t, 2)
+        luna_lc = runtime.label_config(ctx.cfg, "luna") if "enrich_phase2" in ctx.cfg else None
+        if luna_lc in ctx.label_configs:  # gpt-labelled phase present: verify it with the other model family (Jev)
+            t = time.time()
+            r2 = verify.run_jev(ctx, luna_lc, out_dir)
+            results["verify_phase2"] = {k: r2.get(k) for k in ("sample_declared", "compared", "agreement", "severity_mae",
+                                                                "planted_error_test", "stopped")}
+            timings["verify_phase2"] = round(time.time() - t, 2)
         t = time.time()
         results["group"] = group.run(ctx, out_dir)
         timings["group"] = round(time.time() - t, 2)

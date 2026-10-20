@@ -7,13 +7,13 @@
     "scope_size": "100050"
   },
   "code_version": {
-    "git_head_when_manifest_written": "d1c77875a6b36808638f20ef9c45f9d28fec4d52",
+    "git_head_when_manifest_written": "3a8b4dfbd711889636aa17d28bd906c8b05107e1",
     "working_tree_dirty": true,
     "note": "The pipeline code was first committed after the run; fixes made during the run (cache-fill query, interrupt handler, grouping query, HTTP 499 retry) are listed in the README run log."
   },
   "config": {
     "file": "config/run_config.json",
-    "sha256": "8f02a83aa7b8d18b263e94d1d5d03a36d5e855882ba1dd13ac48a35d809aaeef",
+    "sha256": "c30d739f804c685fc749077592504f4eb1f22a40889d1444c5d63753ccb7d772",
     "snapshot": {
       "schema_version": "schema-v1",
       "model_allowlist": [
@@ -33,6 +33,14 @@
         "workers": 8,
         "max_requests_per_second": 50,
         "needs_review_confidence": 0.5
+      },
+      "enrich_phase2": {
+        "backend": "luna",
+        "model": "gpt-6-luna",
+        "reasoning_effort": "none",
+        "batch_size": 50,
+        "max_output_tokens": 6000,
+        "note": "Phase 2 (after the 100k Jev scope): remaining texts labelled by gpt-6-luna with the shared rubric prompt, chosen after the golden comparison (66% vs 60% topic) because Jev credit was exhausted"
       },
       "quote": {
         "provider": "openai",
@@ -134,12 +142,36 @@
       "stage": "enrich",
       "phase": "resume",
       "started_at_unix": 1792190709.9568765
+    },
+    {
+      "run_id": "enrich-20261020T125628-80fc06",
+      "stage": "enrich",
+      "phase": "initial",
+      "started_at_unix": 1792526225.024727
+    },
+    {
+      "run_id": "enrich-20261020T125752-1c7b7a",
+      "stage": "enrich",
+      "phase": "initial",
+      "started_at_unix": 1792526303.4859102
+    },
+    {
+      "run_id": "enrich-20261020T130208-a47b1a",
+      "stage": "enrich",
+      "phase": "initial",
+      "started_at_unix": 1792526558.923787
+    },
+    {
+      "run_id": "enrich-20261020T134548-498978",
+      "stage": "enrich",
+      "phase": "initial",
+      "started_at_unix": 1792529163.3574994
     }
   ],
   "outputs": {
     "grading/calls.jsonl.gz": {
-      "sha256": "261b28d437c5fca8eb925735a1facc4adc8fa360b425f37f5f7105e129479589",
-      "bytes": 7203556
+      "sha256": "0b25e87815b7f9739c2058e89548f010dbb83030becd5444ff804e03a16cd13f",
+      "bytes": 23732137
     },
     "grading/checkpoint_after.json": {
       "sha256": "5bf7b9a39d84b708265faad585edb6857792a1d489aaa847218a2745afaaaf60",
@@ -150,100 +182,116 @@
       "bytes": 5804288
     },
     "grading/claims.csv": {
-      "sha256": "74de3028048cafe89c9d85ab1d83ecbcd2cfaf9c9352777a2c345fd98ff101f2",
-      "bytes": 251
+      "sha256": "8f10d1132114f2a7913eccf49426aeef6df5dee19a5fd5a10dae66c52bac14fc",
+      "bytes": 315
     },
     "grading/ingestion.json": {
       "sha256": "3e5e01083c3d0a338bb584f71b3a5420485783f5ca9d085b8cac89a51b42752a",
       "bytes": 954
     },
     "grading/membership.csv": {
-      "sha256": "0b55289ad60255cfe54aeb205249b8dbe81ca6ebb6faff1229346f6d5d622b18",
-      "bytes": 3318103
+      "sha256": "985c5e25870ff472cb73535c240f7f06c053b2f8f7d0a83ab1cbda14e77d31af",
+      "bytes": 11039267
     },
     "grading/ranking.csv": {
-      "sha256": "7e4e6cae015c13a8925d5de57cc1b7cf1a34c499b0dfa08b683052c52b55e8ff",
-      "bytes": 1475
+      "sha256": "5249673eee8020c139541bf282afc5ec242d208f9d06aee9efb8c3eb9c14ae31",
+      "bytes": 1572
     },
     "grading/records.jsonl.gz": {
-      "sha256": "6a7438f8b6df0db72cbf245f155627a30199aea12941227795163c314cb4b09b",
-      "bytes": 52041299
+      "sha256": "246860fbd61ad5f0a498c4cba4d46e562ae83cb5834f868f19698e968d389c15",
+      "bytes": 66698307
     },
     "grading/run.json": {
-      "sha256": "95a39f26cca19b13ac55b76e8feb398d99c106f164233f624bb1dfbc5768235d",
-      "bytes": 648
+      "sha256": "425475ec4bbc8551582c2edbafaadc534cfe1cbcff209bc2234e8a0f859b2d91",
+      "bytes": 988
     },
     "out/full/aggregates.csv": {
-      "sha256": "122b4b4049cb41916d998956a0ca1d62c4034d2632d20e4db93a03cbe62a60d5",
-      "bytes": 9613
+      "sha256": "1ffe01fbb9a3595e4152f69173f5f38d1d7355982468846afcba63734025c9a1",
+      "bytes": 9770
     },
     "out/full/area_totals.csv": {
-      "sha256": "34d3cb66ddd9354aab9f0f1bc77828549451f549b06c5ca6e73f8d79cfa83d7c",
-      "bytes": 342
+      "sha256": "063d8e17be1d65c686a70bec5c13433e82743a98ad3be64b965c1ab62e14d663",
+      "bytes": 354
     },
     "out/full/claims.csv": {
-      "sha256": "74de3028048cafe89c9d85ab1d83ecbcd2cfaf9c9352777a2c345fd98ff101f2",
-      "bytes": 251
+      "sha256": "8f10d1132114f2a7913eccf49426aeef6df5dee19a5fd5a10dae66c52bac14fc",
+      "bytes": 315
     },
     "out/full/disagreements.jsonl": {
       "sha256": "01263feea592f7d7ccf18500cec94515cd4486f224e7dbb81925902612957e39",
       "bytes": 245211
     },
+    "out/full/disagreements_phase2.jsonl": {
+      "sha256": "9395dd666741e16fdb97253d7447b1978525fb98f0493a041efc0d8b704665c4",
+      "bytes": 1083498
+    },
     "out/full/enriched.jsonl.gz": {
-      "sha256": "b4ff7ba74394274d31d6b941280274b79bbb3769aac621b0c04ff368d8ac71da",
-      "bytes": 23389714
+      "sha256": "98de4f636d7978628b1a5ffb3d2f7f9ee32a762dad4808aabacb2e33f38d6d13",
+      "bytes": 60862690
     },
     "out/full/issues_catalog.json": {
       "sha256": "b9adc4ee408437887ec73b1adb4873bd6d4fecf904735c5d6ee3a35e3b48a943",
       "bytes": 13480
     },
     "out/full/membership.csv": {
-      "sha256": "0b55289ad60255cfe54aeb205249b8dbe81ca6ebb6faff1229346f6d5d622b18",
-      "bytes": 3318103
+      "sha256": "985c5e25870ff472cb73535c240f7f06c053b2f8f7d0a83ab1cbda14e77d31af",
+      "bytes": 11039267
     },
     "out/full/memo.md": {
-      "sha256": "8bfa2253e50b37dcb0b103b743b75297667145e6b01c8a54398187b01592cbab",
-      "bytes": 2194
+      "sha256": "bb8bc234bb17c6f498d93f99d94c3ec935ebc82d4ba86bc4e7c8ad637785d0e3",
+      "bytes": 2285
     },
     "out/full/memo_input.json": {
-      "sha256": "63fb6f3a3ac917cbdbff41002e15f14b917495ad9205c7fb532520e14befa713",
-      "bytes": 23593
+      "sha256": "c213c91c2c3c02c7d4cdb6314b3c4a7c72685ebb7a973070320a7bfa9863cb93",
+      "bytes": 23090
     },
     "out/full/memo_output.json": {
-      "sha256": "f2887d22f96631a306f73cf095f702dff70d07579e42b4c04c6ae833c3a48311",
-      "bytes": 30184
+      "sha256": "ac320e6e4d0cf47c1f940b28221647ebdffee098d99f19d0617763bfe6ee6d20",
+      "bytes": 29994
     },
     "out/full/planted_error_cases.jsonl": {
       "sha256": "85dabefb997600897bcfd5acd8f97904b3e4ea914354a0c6cc28e393a8be57d6",
       "bytes": 4334
     },
+    "out/full/planted_error_cases_phase2.jsonl": {
+      "sha256": "4f9785d238af8d2d515296eca301349ffebaf578019e0d2dc128fa0a4a63c589",
+      "bytes": 4324
+    },
     "out/full/quarantine.jsonl.gz": {
-      "sha256": "bf21538bbc96c8062a21cfcb5c12910389dab76ccf82edb186c14c2f656913e8",
-      "bytes": 9907916
+      "sha256": "1fc8d63972bc61a2d0dd1e5bb142cb0c2b9fa6938a775b4e2c9856a60a702b80",
+      "bytes": 1960021
     },
     "out/full/ranking.csv": {
-      "sha256": "7e4e6cae015c13a8925d5de57cc1b7cf1a34c499b0dfa08b683052c52b55e8ff",
-      "bytes": 1475
+      "sha256": "5249673eee8020c139541bf282afc5ec242d208f9d06aee9efb8c3eb9c14ae31",
+      "bytes": 1572
     },
     "out/full/run_log.jsonl": {
-      "sha256": "ca97076ac44c149ff4bef8990d0d54480eb50c5026beabda587be1dc4f4b6812",
-      "bytes": 5248
+      "sha256": "f8bbb6cb99adb189946de1e0a3641146bd0d6f7b17049eb63f86a475aa7d9c5a",
+      "bytes": 11348
     },
     "out/full/run_summary.json": {
-      "sha256": "0d0af3bb1faffce46096289e45138671a8153c847630f7e8d0b3e5ab627e9891",
-      "bytes": 11250
+      "sha256": "2ac7184e569195978b419831750bddb3212f42f0ee842732370c136eaa0938e8",
+      "bytes": 19018
     },
     "out/full/self-check.json": {
-      "sha256": "0758cf41fce8130be71e7900eccb33d50a35510e46c246b934f855f2fa0a669d",
-      "bytes": 10374
+      "sha256": "a1a69c04f4f3650789b5b4dbe7c4d94c5f9d128985c6f136b9fdd23ed497b97e",
+      "bytes": 10470
     },
     "out/full/verifier_predictions.jsonl": {
       "sha256": "50bd8e96bc3ead5f584c1ef3c1114622a5fbf4021c4f74745914b4eab99b79ec",
       "bytes": 546695
     },
+    "out/full/verifier_predictions_phase2.jsonl": {
+      "sha256": "cf6fa1998e6d2002b8e466c10562abc47ac5e8c54ea06936d533260752950715",
+      "bytes": 2262242
+    },
     "out/full/verify_summary.json": {
       "sha256": "7d878dd3e6af585852c989f148874cde353001062e351aa55678ae65909979fb",
       "bytes": 1690
+    },
+    "out/full/verify_summary_phase2.json": {
+      "sha256": "edd448556b51a4cdf80c97374f4d01a0292b9f21a8eb45c97a97f3a172fc0c89",
+      "bytes": 2346
     },
     "out/ingestion.json": {
       "sha256": "3e5e01083c3d0a338bb584f71b3a5420485783f5ca9d085b8cac89a51b42752a",
@@ -286,16 +334,16 @@
       "bytes": 34472
     },
     "cost/report.html": {
-      "sha256": "3f434a4c1976a53fb01f744531c7c1995b9c98caeb9b5ff076d11c0ccdf3d7b5",
-      "bytes": 11441
+      "sha256": "cb813c677a0d15257bbfb35812fae4f25b7ef91f4faeda7ac75ea56655a16d5e",
+      "bytes": 12545
     },
     "cost/report.json": {
-      "sha256": "30209c6dbb4d0b78acd16a3895e6c824bbdecbff96428fe87d1454e14f116429",
-      "bytes": 16810
+      "sha256": "f539e166e4f24984b66a66baa905178f7d1a0e485050e316d29de3b495e32d72",
+      "bytes": 18457
     },
     "cost/report.md": {
-      "sha256": "5edc2d53085c17ac3fb683a5f5ec5c4efc37c09fb93ca807c5ad378ad7db1a33",
-      "bytes": 8752
+      "sha256": "7147ad53d3e316d82297d4aafe80f039c627110b5d3d2f7da811339f2945bfe9",
+      "bytes": 9572
     },
     "evals/golden/golden_50_labeled.csv": {
       "sha256": "cf3dc3c23669b7707c77e99d8967e2277a4e56ca5809ec4910d20b5d679e690c",

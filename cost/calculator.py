@@ -7,7 +7,7 @@ Paid pilot execution is a separate, explicit command (see cost/README.md):
     python -m pipeline pilot --confirm-paid
 
 Inputs (all saved files): pilot_calls.jsonl, pilot_runs.json, pilot_records.jsonl, rates.csv, assumptions.json,
-checkpoint_500_calls.jsonl / checkpoint_500_run.json and, when present, checkpoint_10000_calls.jsonl / _run.json.
+checkpoint_500_calls.jsonl / checkpoint_500_run.json and, when present, checkpoint_10000_* and full_phase2_gpt_* (calls may be .jsonl.gz).
 Outputs: usage.csv (every billed item per call), report.md, report.html, report.json.
 
 Cost of a billing item = billed_units x price_per_unit. Input, cached input and output are mutually exclusive:
@@ -16,6 +16,7 @@ uncached input = input_tokens - cached_input_tokens; reasoning tokens are alread
 
 import argparse
 import csv
+import gzip
 import html
 import json
 import math
@@ -27,6 +28,10 @@ HERE = Path(__file__).resolve().parent
 
 def load_jsonl(path):
     path = Path(path)
+    gz = path.with_name(path.name + ".gz")
+    if not path.exists() and gz.exists():  # large call logs are stored gzipped
+        with gzip.open(gz, "rt", encoding="utf-8") as f:
+            return [json.loads(line) for line in f if line.strip()]
     if not path.exists():
         return []
     with path.open(encoding="utf-8") as f:
@@ -59,7 +64,7 @@ def billing_items(call, rates):
 
 
 def stage_of(call):
-    return {"jev_labels": "enrich: Jev labels", "luna_quotes": "enrich: gpt quotes", "luna_relabel": "verify",
+    return {"jev_labels": "enrich: Jev labels", "luna_quotes": "enrich: gpt quotes", "luna_labels": "enrich: gpt labels", "luna_relabel": "verify",
             "luna_discover_issues": "group: discover", "luna_assign_issue": "group: assign",
             "luna_memo": "memo"}.get(call.get("step"), call.get("role"))
 
@@ -179,7 +184,7 @@ def main():
     refreshes.append({"checkpoint": "pilot 100 (cold, 1 worker)", "texts": texts, "enrich_seconds": cold_run["stage_seconds"]["enrich"],
                       "texts_per_s": pilot_tp, "jev_cost_per_text": unit["jev_per_text"],
                       "workers": "batch 1 / jev 1"})
-    for name in ("checkpoint_500", "checkpoint_10000"):
+    for name in ("checkpoint_500", "checkpoint_10000", "full_phase2_gpt"):
         cp_calls = load_jsonl(HERE / f"{name}_calls.jsonl")
         meta_path = HERE / f"{name}_run.json"
         if not cp_calls or not meta_path.exists():
@@ -190,11 +195,17 @@ def main():
             seg_calls = [c for c in cp_calls if not seg.get("run_id") or c.get("run_id") == seg["run_id"]]
             st, _ = summarize_calls(seg_calls, rates)
             jev = st.get("enrich: Jev labels")
+            enrich_cost = sum(v["cost"] for k, v in st.items() if k.startswith("enrich"))
             refreshes.append({"checkpoint": f"{name} {seg.get('label', '')}".strip(), "texts": seg["end"]["completed"],
                               "enrich_seconds": seg["end"]["seconds"], "texts_per_s": seg["end"]["completed"] / seg["end"]["seconds"],
                               "jev_cost_per_text": jev["cost"] / jev["review_ids_sent"] if jev else None,
+                              "enrich_cost_per_text": enrich_cost / seg["end"]["completed"] if seg["end"]["completed"] else None,
+                              "backend": "gpt-6-luna" if not jev else "jev",
                               "workers": f"batch {seg['start'].get('batch_workers')} / jev {seg['start'].get('jev_workers')}"})
-    latest_tp = refreshes[-1]["texts_per_s"]
+    refreshes[0]["enrich_cost_per_text"] = sum(v["cost"] for k, v in cold.items() if k.startswith("enrich")) / texts
+    refreshes[0]["backend"] = "jev"
+    # Jev scenarios are projected from the latest Jev-based refresh (the gpt phase-2 row is a different backend).
+    latest_tp = [r for r in refreshes if r.get("backend", "jev") == "jev"][-1]["texts_per_s"]
 
     vol = a["volumes"]
     scenarios = []
@@ -290,11 +301,11 @@ def render_md(r):
     L += ["", "Retries: 0 failed attempts in the pilot, so the base projection adds no retry allowance; the conservative case adds 10%. "
           "Verification: a declared seeded sample (3% of distinct texts, minimum 20; 20 in the pilot). Fallbacks: none configured "
           "(no stronger model); a quote failure falls back to an exact text prefix in code at zero API cost.", "",
-          "## Estimate refreshes (100 -> 500 -> 10,000)", "", "| Checkpoint | Distinct texts | Enrich seconds | Texts/s | Jev cost/text | Workers |",
-          "|---|---|---|---|---|---|"]
+          "## Estimate refreshes (100 -> 500 -> 10,000 -> phase 2)", "", "| Checkpoint | Backend | Distinct texts | Enrich seconds | Texts/s | Jev cost/text | All enrichment cost/text | Workers |",
+          "|---|---|---|---|---|---|---|---|"]
     for x in r["refreshes"]:
-        L.append(f"| {x['checkpoint']} | {x['texts']:,} | {x['enrich_seconds']:.1f} | {x['texts_per_s']:.2f} | {money(x['jev_cost_per_text'])} | {x['workers']} |")
-    L += ["", "Projections use the latest refresh's enrichment throughput. Elapsed time is modeled from measured throughput, "
+        L.append(f"| {x['checkpoint']} | {x.get('backend', 'jev')} | {x['texts']:,} | {x['enrich_seconds']:.1f} | {x['texts_per_s']:.2f} | {money(x['jev_cost_per_text'])} | {money(x.get('enrich_cost_per_text'))} | {x['workers']} |")
+    L += ["", "Projections of the Jev scenarios use the latest Jev-based refresh's enrichment throughput; the gpt-6-luna phase-2 rows are measured evidence for the second labelling phase (run 2's rate includes a 15-minute PC sleep and a network outage). Elapsed time is modeled from measured throughput, "
           "not from summed call durations (calls overlap when workers > 1).", "",
           f"## Full-run projections (budget {money(r['budget_usd'])})", "",
           "| Scenario | Case | Distinct texts sent | Completed classifications | API cost | Enrich time | Budget |", "|---|---|---|---|---|---|---|"]

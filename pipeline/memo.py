@@ -188,8 +188,9 @@ def run(ctx, out_dir, group_config, agg):
         msg = user if attempt == 0 else user + "\n\nYour previous memo failed these code checks; fix them:\n- " + "\n- ".join(problems[:20])
         out, err = ctx.luna_call("memo", "luna_memo", m["model"], m["reasoning_effort"], SYSTEM, msg, SCHEMA,
                                  m["max_output_tokens"], [])
-        if out is None:
-            problems = [f"memo call failed: {err}"]
+        if not isinstance(out, dict):
+            problems = [f"memo call failed: {err or 'response was not a JSON object'}"]
+            out = None
             continue
         claims_ok, problems = check(out, agg_by_id, pack, allowed)
         if not problems:
@@ -202,6 +203,15 @@ def run(ctx, out_dir, group_config, agg):
               "memo_config": memo_config, "input_sha256": input_sha, "inputs": payload}
     common.write_json(out_dir / "memo_output.json", result)
     common.write_json(out_dir / "memo_input.json", payload)
+    # Area totals the memo cites (not issue-level, so not in claims.csv): written from the exact facts it was given.
+    groups = {"access": "access", "usability": "usability", "playback": "playback+downloads",
+              "billing_support": "billing+support", "catalog": "catalog", "other": "other"}
+    with (out_dir / "area_totals.csv").open("w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f, lineterminator="\n")
+        w.writerow(["area", "topics", "complaint_count", "severity_sum", "mean_severity", "cancellation_count"])
+        for area, v in payload["facts"]["areas"].items():
+            w.writerow([area, groups.get(area, area), v["complaint_count"], v["severity_sum"], v["mean_severity"],
+                        v["cancellation_count"]])
     if out:
         claims_ok, _ = check(out, agg_by_id, pack, allowed)
         with (out_dir / "claims.csv").open("w", newline="", encoding="utf-8") as f:

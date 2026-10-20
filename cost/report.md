@@ -34,16 +34,20 @@ Stage seconds (cold): ingest 0.07, enrich 14.82, verify 5.19, group 28.83, rank 
 
 Retries: 0 failed attempts in the pilot, so the base projection adds no retry allowance; the conservative case adds 10%. Verification: a declared seeded sample (3% of distinct texts, minimum 20; 20 in the pilot). Fallbacks: none configured (no stronger model); a quote failure falls back to an exact text prefix in code at zero API cost.
 
-## Estimate refreshes (100 -> 500 -> 10,000)
+## Estimate refreshes (100 -> 500 -> 10,000 -> phase 2)
 
-| Checkpoint | Distinct texts | Enrich seconds | Texts/s | Jev cost/text | Workers |
-|---|---|---|---|---|---|
-| pilot 100 (cold, 1 worker) | 100 | 14.8 | 6.75 | $0.000054 | batch 1 / jev 1 |
-| checkpoint_500 | 479 | 31.5 | 15.22 | $0.000054 | batch 2 / jev 8 |
-| checkpoint_10000 part 1 (before cache-fill fix; process ended by a session restart) | 3,750 | 1243.2 | 3.02 | $0.000054 | batch 4 / jev 8 |
-| checkpoint_10000 part 2 (after fix) | 4,741 | 136.2 | 34.81 | $0.000054 | batch 4 / jev 8 |
+| Checkpoint | Backend | Distinct texts | Enrich seconds | Texts/s | Jev cost/text | All enrichment cost/text | Workers |
+|---|---|---|---|---|---|---|---|
+| pilot 100 (cold, 1 worker) | jev | 100 | 14.8 | 6.75 | $0.000054 | $0.000056 | batch 1 / jev 1 |
+| checkpoint_500 | jev | 479 | 31.5 | 15.22 | $0.000054 | $0.000056 | batch 2 / jev 8 |
+| checkpoint_10000 part 1 (before cache-fill fix; process ended by a session restart) | jev | 3,750 | 1243.2 | 3.02 | $0.000054 | $0.000057 | batch 4 / jev 8 |
+| checkpoint_10000 part 2 (after fix) | jev | 4,741 | 136.2 | 34.81 | $0.000054 | $0.000057 | batch 4 / jev 8 |
+| full_phase2_gpt test (4 batches) | gpt-6-luna | 200 | 53.8 | 3.72 | n/a | $0.000019 | batch 4 / jev 8 |
+| full_phase2_gpt run 1 (stopped to fix head-of-line blocking) | gpt-6-luna | 8,800 | 211.7 | 41.56 | n/a | $0.000021 | batch 48 / jev 8 |
+| full_phase2_gpt run 2 (crashed on a malformed response at 13:40) | gpt-6-luna | 212,100 | 2246.4 | 94.42 | n/a | $0.000021 | batch 48 / jev 8 |
+| full_phase2_gpt run 3 (to the spend cap) | gpt-6-luna | 101,900 | 558.3 | 182.53 | n/a | $0.000021 | batch 48 / jev 8 |
 
-Projections use the latest refresh's enrichment throughput. Elapsed time is modeled from measured throughput, not from summed call durations (calls overlap when workers > 1).
+Projections of the Jev scenarios use the latest Jev-based refresh's enrichment throughput; the gpt-6-luna phase-2 rows are measured evidence for the second labelling phase (run 2's rate includes a 15-minute PC sleep and a network outage). Elapsed time is modeled from measured throughput, not from summed call durations (calls overlap when workers > 1).
 
 ## Full-run projections (budget $10.00)
 

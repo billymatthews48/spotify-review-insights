@@ -55,7 +55,7 @@ def run(state, cache, analysis_dir, database_url=None):
     in_scope = dict(conn.execute("SELECT review_id, in_scope FROM records").fetchall())
     memo_out = common.read_json(analysis_dir / "memo_output.json")
     m = memo_out["memo"]
-    evals = {"verify": analysis_dir / "verify_summary.json", "golden": common.ROOT / "evals" / "golden" / "golden_eval_summary.json",
+    evals = {"verify": analysis_dir / "verify_summary.json", "verify_phase2": analysis_dir / "verify_summary_phase2.json", "golden": common.ROOT / "evals" / "golden" / "golden_eval_summary.json",
              "system_tests": common.ROOT / "evals" / "system_tests" / "results.json",
              "cost_report": common.ROOT / "cost" / "report.json", "ingestion": common.OUT_DIR / "ingestion_report.json",
              "run_summary": analysis_dir / "run_summary.json"}

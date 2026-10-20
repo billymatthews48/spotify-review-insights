@@ -11,9 +11,12 @@ needs no model. Cached by text + group_config, so reruns make no new calls.
 
 import hashlib
 import json
+import threading
 from concurrent.futures import ThreadPoolExecutor
 
-from . import common, labels
+from . import common, labels, runtime
+from .luna_labeler import items_of
+from .providers import FatalProviderError
 
 TOPIC_CODE = {"access": "ACC", "usability": "USB", "playback": "PLB", "downloads": "DWN", "catalog": "CAT",
               "billing": "BIL", "support": "SUP", "other": "OTH"}
@@ -71,16 +74,17 @@ def group_config(cfg, label_config):
     return f"{g['model_discover']}/{g['reasoning_effort']}+{g['prompt_version']}+[{label_config}]"
 
 
-def _complaint_texts(conn, label_config, topic):
-    """Distinct complaint/cancellation texts of one topic: (text_sha, origin_id, text), seeded order."""
+def _complaint_texts(conn, label_configs, topic):
+    """Distinct complaint/cancellation texts of one topic across all label configs: (text_sha, origin_id, text)."""
     # Join on the label's own origin record (always completed when its label exists) instead of an EXISTS over
     # all completed records, which SQLite planned as a full scan per label.
-    rows = conn.execute("""
+    rows = conn.execute(f"""
         SELECT l.text_sha256, l.origin_review_id, s.review_text FROM cache.labels l
         JOIN records r ON r.review_id = l.origin_review_id AND r.status = 'completed' AND r.label_config = l.label_config
         JOIN source_rows s ON s.review_id = l.origin_review_id
-        WHERE l.label_config = ? AND l.topic = ? AND l.intent IN ('complaint','cancellation')
-    """, (label_config, topic)).fetchall()
+        WHERE l.label_config IN ({','.join('?' * len(label_configs))}) AND l.topic = ?
+          AND l.intent IN ('complaint','cancellation')
+    """, (*label_configs, topic)).fetchall()
     return sorted((tuple(r) for r in rows), key=lambda r: hashlib.sha256(f"group-v1:{r[1]}".encode()).hexdigest())
 
 
@@ -99,7 +103,7 @@ def discover(ctx, gc, topic, texts):
                                      DISCOVER_SYSTEM.format(topic=topic, definition=labels.TOPICS[topic]), user,
                                      DISCOVER_SCHEMA, g.get("discover_max_output_tokens", 2500), [o for _, o, _ in examples])
         ids = {o for _, o, _ in examples}
-        for n, issue in enumerate((payload or {}).get("issues", [])[:6], 1):
+        for n, issue in enumerate(items_of(payload, "issues")[:6], 1):
             name, definition = issue.get("name", "").strip(), issue.get("definition", "").strip()
             if name and definition and set(issue.get("example_ids", [])) <= ids:  # reject invented ids
                 catalog.append((f"{code}-{n:02d}", name[:80], definition[:300]))
@@ -131,17 +135,25 @@ def assign(ctx, gc, topic, catalog, texts):
                                   catalog="\n".join(f"- {iid}: {name}. {d}" for iid, name, d in catalog))
 
     def do_chunk(chunk):
-        """<= 50 texts -> [(text_sha, issue_id, method)]; one retry for missing/invalid answers."""
+        """<= 50 texts -> [(text_sha, issue_id, method)]; one retry for missing/invalid answers. If the spend cap or
+        the provider's credit is exhausted, the rest go to the topic catch-all without a call (method recorded), so
+        every complaint still has exactly one issue and the ranking stays complete."""
         pending = {i + 1: t for i, t in enumerate(chunk)}
         out = []
         for _ in range(lim["max_attempts_per_batch"]):
             if not pending:
                 break
+            if no_credit.is_set():
+                return out + [(t[0], catchall, "fallback_no_credit") for t in pending.values()]
             user = json.dumps([{"i": i, "text": t[2][:600]} for i, t in pending.items()], ensure_ascii=False)
-            payload, err = ctx.luna_call("group", "luna_assign_issue", g["model_discover"], "none", system, user,
-                                         ASSIGN_SCHEMA, 2000, [t[1] for t in pending.values()])
+            try:
+                payload, err = ctx.luna_call("group", "luna_assign_issue", g["model_discover"], "none", system, user,
+                                             ASSIGN_SCHEMA, 2000, [t[1] for t in pending.values()])
+            except (runtime.BudgetExceeded, FatalProviderError):
+                no_credit.set()
+                return out + [(t[0], catchall, "fallback_no_credit") for t in pending.values()]
             got = {}
-            for item in (payload or {}).get("items", []):
+            for item in items_of(payload):
                 if item.get("i") in pending and item.get("issue_id") in valid and item["i"] not in got:
                     got[item["i"]] = item["issue_id"]
             out += [(pending[i][0], iid, "luna") for i, iid in got.items()]
@@ -150,6 +162,7 @@ def assign(ctx, gc, topic, catalog, texts):
         return out + [(t[0], catchall, "fallback_after_retry") for t in pending.values()]
 
     chunks = [todo[s:s + 50] for s in range(0, len(todo), 50)]
+    no_credit = threading.Event()  # shared: once credit is gone, no further calls are attempted
     with ThreadPoolExecutor(g.get("workers", 4)) as pool:
         for rows in pool.map(do_chunk, chunks):
             with ctx.db_lock, ctx.conn:  # saved per chunk, so an interrupted group stage resumes from cache
@@ -157,27 +170,44 @@ def assign(ctx, gc, topic, catalog, texts):
                                      [(sha, gc, iid, method, ctx.run_id) for sha, iid, method in rows])
 
 
-def run(ctx, out_dir):
+def run(ctx, out_dir, memo_reserve_usd=0.10):
     conn = ctx.conn
     conn.executescript(SCHEMA)
     gc = group_config(ctx.cfg, ctx.label_config)
     catalogs = {}
+    ctx.ledger.cap -= memo_reserve_usd  # keep enough budget for the memo call after grouping
+    try:
+        _assign_all(ctx, gc, catalogs)
+    finally:
+        ctx.ledger.cap += memo_reserve_usd
+    return _finish(ctx, out_dir, gc)
+
+
+def _assign_all(ctx, gc, catalogs):
+    conn = ctx.conn
     for topic in labels.TOPICS:
-        texts = _complaint_texts(conn, ctx.label_config, topic)
+        # All label configs share one accepted catalog (keyed by the primary config): texts already assigned are
+        # skipped, so later phases only assign their new complaints and never re-discover issues.
+        texts = _complaint_texts(conn, ctx.label_configs, topic)
         if not texts:
             continue
         catalogs[topic] = discover(ctx, gc, topic, texts)
         assign(ctx, gc, topic, catalogs[topic], texts)
+
+
+def _finish(ctx, out_dir, gc):
+    conn = ctx.conn
     # Membership: every completed complaint/cancellation ID, once, via its exact text's assignment.
+    lcs = ctx.label_configs
     with conn:
         conn.execute("DELETE FROM membership WHERE group_config=?", (gc,))
-        conn.execute("""
+        conn.execute(f"""
             INSERT INTO membership(issue_id, review_id, group_config)
             SELECT a.issue_id, r.review_id, ? FROM records r JOIN source_rows s USING(review_id)
             JOIN cache.labels l ON l.text_sha256 = s.text_sha256 AND l.label_config = r.label_config
             JOIN cache.group_assign a ON a.text_sha256 = s.text_sha256 AND a.group_config = ?
-            WHERE r.status = 'completed' AND r.label_config = ? AND l.intent IN ('complaint','cancellation')""",
-                     (gc, gc, ctx.label_config))
+            WHERE r.status = 'completed' AND r.label_config IN ({','.join('?' * len(lcs))})
+              AND l.intent IN ('complaint','cancellation')""", (gc, gc, *lcs))
     missing = conn.execute("""
         SELECT COUNT(*) FROM records r JOIN source_rows s USING(review_id)
         JOIN cache.labels l ON l.text_sha256 = s.text_sha256 AND l.label_config = r.label_config

@@ -19,6 +19,11 @@ UNLOGGED = [
      "what": "On the deliberate Ctrl+C, the interrupt handler dropped one finished batch before committing it (bug: popped "
              "before waiting; fixed). In-process ledger said $0.528059 vs $0.525200 logged.",
      "measured_usd": 0.002859},
+    {"when": "2026-10-20 13:40 local", "run_id": "enrich-20261020T130208-a47b1a",
+     "what": "Phase-2 run crashed on a response that was a bare JSON list (fixed: tolerant item parsing + per-batch crash "
+             "guard). Up to 48 in-flight gpt-6-luna batches may have been paid but were never logged; their texts stayed "
+             "pending and were re-sent.",
+     "estimated_max_usd": 0.05},
 ]
 
 
@@ -94,10 +99,11 @@ def write(state, cache, out_dir):
                                 "saving_vs_uncached_usd": round(sum(c["cached_input_tokens"] for k, c in calls.items() if "luna" in k)
                                                                 * (rates[("gpt-6-luna", "input_uncached")]
                                                                    - rates[("gpt-6-luna", "input_cached")]), 6)},
+        "maintenance_events": [e for e in log if e["event"] not in ("start", "end")],
         "runs": [{"run_id": rid, "stage": (ev.get("start") or ev.get("end"))["stage"],
                   "start": ev.get("start", {}).get("detail"), "end": ev.get("end", {}).get("detail"),
                   "seconds": (ev["end"]["at"] - ev["start"]["at"]) if "start" in ev and "end" in ev else None}
-                 for rid, ev in runs.items()],
+                 for rid, ev in runs.items() if "start" in ev or "end" in ev],
     }
     common.write_json(out_dir / "run_summary.json", summary)
     from .export import enriched_and_quarantine

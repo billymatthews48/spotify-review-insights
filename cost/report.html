@@ -27,15 +27,19 @@
 <tr><td>memo</td><td>OpenAI</td><td>gpt-6-luna (effort low)</td><td>memo-v2 / schema-v1</td><td>1 request (aggregates only)</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>5,036</td><td>0</td><td>2,034</td><td>$0.001521</td></tr>
 </table>
 <p>Retries: 0 failed attempts in the pilot, so the base projection adds no retry allowance; the conservative case adds 10%. Verification: a declared seeded sample (3% of distinct texts, minimum 20; 20 in the pilot). Fallbacks: none configured (no stronger model); a quote failure falls back to an exact text prefix in code at zero API cost.</p>
-<h2>Estimate refreshes (100 -&gt; 500 -&gt; 10,000)</h2>
+<h2>Estimate refreshes (100 -&gt; 500 -&gt; 10,000 -&gt; phase 2)</h2>
 <table>
-<tr><th>Checkpoint</th><th>Distinct texts</th><th>Enrich seconds</th><th>Texts/s</th><th>Jev cost/text</th><th>Workers</th></tr>
-<tr><td>pilot 100 (cold, 1 worker)</td><td>100</td><td>14.8</td><td>6.75</td><td>$0.000054</td><td>batch 1 / jev 1</td></tr>
-<tr><td>checkpoint_500</td><td>479</td><td>31.5</td><td>15.22</td><td>$0.000054</td><td>batch 2 / jev 8</td></tr>
-<tr><td>checkpoint_10000 part 1 (before cache-fill fix; process ended by a session restart)</td><td>3,750</td><td>1243.2</td><td>3.02</td><td>$0.000054</td><td>batch 4 / jev 8</td></tr>
-<tr><td>checkpoint_10000 part 2 (after fix)</td><td>4,741</td><td>136.2</td><td>34.81</td><td>$0.000054</td><td>batch 4 / jev 8</td></tr>
+<tr><th>Checkpoint</th><th>Backend</th><th>Distinct texts</th><th>Enrich seconds</th><th>Texts/s</th><th>Jev cost/text</th><th>All enrichment cost/text</th><th>Workers</th></tr>
+<tr><td>pilot 100 (cold, 1 worker)</td><td>jev</td><td>100</td><td>14.8</td><td>6.75</td><td>$0.000054</td><td>$0.000056</td><td>batch 1 / jev 1</td></tr>
+<tr><td>checkpoint_500</td><td>jev</td><td>479</td><td>31.5</td><td>15.22</td><td>$0.000054</td><td>$0.000056</td><td>batch 2 / jev 8</td></tr>
+<tr><td>checkpoint_10000 part 1 (before cache-fill fix; process ended by a session restart)</td><td>jev</td><td>3,750</td><td>1243.2</td><td>3.02</td><td>$0.000054</td><td>$0.000057</td><td>batch 4 / jev 8</td></tr>
+<tr><td>checkpoint_10000 part 2 (after fix)</td><td>jev</td><td>4,741</td><td>136.2</td><td>34.81</td><td>$0.000054</td><td>$0.000057</td><td>batch 4 / jev 8</td></tr>
+<tr><td>full_phase2_gpt test (4 batches)</td><td>gpt-6-luna</td><td>200</td><td>53.8</td><td>3.72</td><td>n/a</td><td>$0.000019</td><td>batch 4 / jev 8</td></tr>
+<tr><td>full_phase2_gpt run 1 (stopped to fix head-of-line blocking)</td><td>gpt-6-luna</td><td>8,800</td><td>211.7</td><td>41.56</td><td>n/a</td><td>$0.000021</td><td>batch 48 / jev 8</td></tr>
+<tr><td>full_phase2_gpt run 2 (crashed on a malformed response at 13:40)</td><td>gpt-6-luna</td><td>212,100</td><td>2246.4</td><td>94.42</td><td>n/a</td><td>$0.000021</td><td>batch 48 / jev 8</td></tr>
+<tr><td>full_phase2_gpt run 3 (to the spend cap)</td><td>gpt-6-luna</td><td>101,900</td><td>558.3</td><td>182.53</td><td>n/a</td><td>$0.000021</td><td>batch 48 / jev 8</td></tr>
 </table>
-<p>Projections use the latest refresh&#x27;s enrichment throughput. Elapsed time is modeled from measured throughput, not from summed call durations (calls overlap when workers &gt; 1).</p>
+<p>Projections of the Jev scenarios use the latest Jev-based refresh&#x27;s enrichment throughput; the gpt-6-luna phase-2 rows are measured evidence for the second labelling phase (run 2&#x27;s rate includes a 15-minute PC sleep and a network outage). Elapsed time is modeled from measured throughput, not from summed call durations (calls overlap when workers &gt; 1).</p>
 <h2>Full-run projections (budget $10.00)</h2>
 <table>
 <tr><th>Scenario</th><th>Case</th><th>Distinct texts sent</th><th>Completed classifications</th><th>API cost</th><th>Enrich time</th><th>Budget</th></tr>

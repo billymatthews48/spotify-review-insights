@@ -18,7 +18,7 @@ import json
 import re
 import threading
 import time
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
 from pathlib import Path
 
 from . import common, labels, runtime
@@ -118,11 +118,13 @@ class RateLimiter:
 
 
 class Enricher:
-    def __init__(self, conn, cfg, recorder, ledger, rates):
+    def __init__(self, conn, cfg, recorder, ledger, rates, backend="jev"):
         self.conn, self.cfg, self.rec, self.ledger, self.rates = conn, cfg, recorder, ledger, rates
-        self.label_config = runtime.label_config(cfg)
+        self.backend = backend
+        self.label_config = runtime.label_config(cfg, backend)
         lim = cfg["limits"]
-        self.jev = Jev(lim["request_timeout_seconds"])
+        # Jev client only for the Jev backend, so a gpt-6-luna phase needs no Jev key or credit.
+        self.jev = Jev(lim["request_timeout_seconds"]) if backend == "jev" else None
         self.luna = None  # created on first long text, so short-only runs need no OpenAI key
         self.questions = jev_questions()
         self.jev_pool = ThreadPoolExecutor(cfg["enrich"]["workers"])
@@ -170,6 +172,73 @@ class Enricher:
                 self.ledger.settle(reservation, spent)
         return None, records, ("invalid", err)
 
+    def _luna_labels(self, batch):
+        """Phase-2 backend: one gpt-6-luna request labels the whole batch (<= 50 texts) with the shared rubric prompt
+        (the same prompt/schema the verifier uses). Code validates every index, enum and range; invalid or missing items
+        get one retry in a smaller request, then are quarantined. Returns (labelled, failed, records, stop)."""
+        from . import luna_labeler
+        p = self.cfg["enrich_phase2"]
+        if self.luna is None:
+            self.luna = Luna(self.cfg["limits"]["request_timeout_seconds"])
+        reserve = 8000 * self.rates[(p["model"], "input_uncached")] + p["max_output_tokens"] * self.rates[(p["model"], "output")]
+        labelled, failed, records = {}, {}, []
+        todo = list(batch)
+        last_err = None
+        for _ in range(self.cfg["limits"]["max_attempts_per_batch"]):
+            if not todo:
+                break
+            index = {i + 1: it for i, it in enumerate(todo)}
+            user = luna_labeler.user_message([(i, it[2]) for i, it in index.items()])
+            try:
+                reservation = self.ledger.reserve(reserve)
+            except runtime.BudgetExceeded as e:
+                return labelled, {**failed, **{it[1]: ("budget", str(e)) for it in todo}}, records, "budget"
+            spent = 0.0
+            try:
+                def attempt(n):
+                    return self.luna.structured(p["model"], p["reasoning_effort"], luna_labeler.system_prompt(), user,
+                                                luna_labeler.SCHEMA, p["max_output_tokens"], role="enrich",
+                                                step="luna_labels", review_ids=[it[1] for it in todo], rates=self.rates,
+                                                label_config=self.label_config, attempt=len(records) + n)
+                try:
+                    payload, recs, last_err = run_with_retries(attempt, self.cfg["limits"])
+                except FatalProviderError as e:
+                    records += e.records
+                    return labelled, {**failed, **{it[1]: ("fatal", str(e)) for it in todo}}, records, "fatal"
+                spent = sum(r["cost_usd"] for r in recs)
+                records += recs
+            finally:
+                self.ledger.settle(reservation, spent)
+            if payload is None and "usage policy" in (last_err or ""):
+                # Provider content filter refused the whole request (one offensive review blocks all 50). Isolate:
+                # retry each review alone; any still refused is quarantined with an explicit reason.
+                if len(todo) > 1:
+                    for single in todo:
+                        l2, f2, r2, s2 = self._luna_labels([single])
+                        labelled.update(l2)
+                        failed.update(f2)
+                        records += r2
+                        if s2:
+                            return labelled, failed, records, s2
+                    return labelled, failed, records, None
+                failed[todo[0][1]] = ("refused", f"provider_content_policy_refusal: {last_err[:120]}")
+                return labelled, failed, records, None
+            good, bad = luna_labeler.validate(payload, index)
+            for i, lab in good.items():
+                sha, origin, text = index[i]
+                labelled[origin] = (sha, text, {
+                    "topic": lab["topic"], "intent": lab["intent"], "severity": lab["severity"],
+                    "sentiment": round(max(-1.0, min(1.0, float(lab["sentiment"]))), 3),
+                    "confidence": {}, "raw": {"gpt-6-luna": lab}})
+            todo = [index[i] for i in bad]
+            if payload is None and not (last_err or "").startswith(("invalid JSON", "response ")):
+                # transient failure exhausted its backoff: leave pending for a later run, not quarantined.
+                # (Invalid JSON or an incomplete response counts as invalid output and uses the one retry.)
+                return labelled, {**failed, **{it[1]: ("transient", last_err) for it in todo}}, records, None
+        for it in todo:
+            failed[it[1]] = ("invalid", last_err or "labels invalid or missing after retry")
+        return labelled, failed, records, None
+
     def _luna_quotes(self, items):
         """items: [(origin_id, text, topic, intent)] long texts.
         Returns ({origin_id: quote}, records, {origin_id: error}, stop) where stop is None/'budget'/'fatal'."""
@@ -205,7 +274,8 @@ class Enricher:
             finally:
                 self.ledger.settle(reservation, spent)
             got = {}
-            for item in (payload or {}).get("items", []):
+            from .luna_labeler import items_of
+            for item in items_of(payload):
                 if isinstance(item.get("i"), int) and item["i"] in index and item["i"] not in got:
                     got[item["i"]] = item.get("quote") or ""
             next_todo = []
@@ -223,18 +293,31 @@ class Enricher:
         return quotes, records, errors, None
 
     def run_batch(self, batch):
+        """Crash guard: an unexpected error in one batch never stops the run (2026-10-20 a malformed response did).
+        The batch's texts stay pending with the error recorded, so a later pass retries them."""
+        try:
+            return self._run_batch(batch)
+        except Exception as e:  # noqa: BLE001 - deliberate: isolate per-batch failures
+            msg = f"internal_error: {type(e).__name__}: {e}"[:200]
+            return {"labelled": {}, "failed": {origin: ("transient", msg) for _, origin, _ in batch}, "records": [],
+                    "quotes": {}, "quote_errors": {}, "stop": None}
+
+    def _run_batch(self, batch):
         """batch: [(text_sha, origin_id, text)] -> result dict for the main thread to commit."""
-        futures = {origin: self.jev_pool.submit(self._jev_one, origin, text) for _, origin, text in batch}
-        labelled, failed, records, stop = {}, {}, [], None
-        for sha, origin, text in batch:
-            parsed, recs, err = _wait(futures[origin])
-            records += recs
-            if parsed is None:
-                failed[origin] = err
-                if err[0] in ("budget", "fatal"):
-                    stop = stop or err[0]
-            else:
-                labelled[origin] = (sha, text, parsed)
+        if self.backend == "luna":
+            labelled, failed, records, stop = self._luna_labels(batch)
+        else:
+            futures = {origin: self.jev_pool.submit(self._jev_one, origin, text) for _, origin, text in batch}
+            labelled, failed, records, stop = {}, {}, [], None
+            for sha, origin, text in batch:
+                parsed, recs, err = _wait(futures[origin])
+                records += recs
+                if parsed is None:
+                    failed[origin] = err
+                    if err[0] in ("budget", "fatal"):
+                        stop = stop or err[0]
+                else:
+                    labelled[origin] = (sha, text, parsed)
         limit = self.cfg["quote"]["whole_text_max_chars"]
         long_items = [(o, t, p["topic"], p["intent"]) for o, (s, t, p) in labelled.items() if len(t) > limit]
         quotes, qerrors = {}, {}
@@ -348,14 +431,14 @@ def commit_batch(conn, recorder, enricher, result, run_id):
                          (lc, now, origin))
             completed += 1
         for origin, (kind, err) in result["failed"].items():
-            if kind == "invalid":
+            if kind in ("invalid", "refused"):
                 # Same exact text would get the same treatment, so its in-scope twins share the quarantine.
                 sha = conn.execute("SELECT text_sha256 FROM source_rows WHERE review_id=?", (origin,)).fetchone()[0]
+                why = f"enrich_invalid_output_after_retry: {err}" if kind == "invalid" else err
                 cur = conn.execute("""UPDATE records SET status='quarantined', reason=?, attempts=attempts+?, updated_at=?
                                       WHERE status='pending' AND in_scope=1 AND review_id IN
                                         (SELECT review_id FROM source_rows WHERE text_sha256=?)""",
-                                   (f"enrich_invalid_output_after_retry: {err}"[:300],
-                                    cfg["limits"]["max_attempts_per_batch"], now, sha))
+                                   (why[:300], cfg["limits"]["max_attempts_per_batch"], now, sha))
                 quarantined += cur.rowcount
             else:
                 conn.execute("UPDATE records SET attempts=attempts+1, reason=?, updated_at=? WHERE review_id=?",
@@ -382,7 +465,7 @@ def _wait(future):
 
 
 def run(state_path, cache_path, phase="initial", max_batches=None, limit_texts=None, batch_size=50,
-        batch_workers=4, cfg=None, run_id=None):
+        batch_workers=4, cfg=None, run_id=None, backend="jev", extend_scope=False):
     cfg = cfg or runtime.load_config()
     if not 1 <= batch_size <= 50:
         raise SystemExit("batch_size must be between 1 and 50 reviews per request group")
@@ -391,9 +474,17 @@ def run(state_path, cache_path, phase="initial", max_batches=None, limit_texts=N
     run_id = run_id or runtime.new_run_id("enrich")
     recorder = runtime.Recorder(conn, run_id, phase)
     ledger = runtime.Ledger(cfg["limits"]["spend_cap_usd"], recorder.spent())
-    enricher = Enricher(conn, cfg, recorder, ledger, rates)
+    enricher = Enricher(conn, cfg, recorder, ledger, rates, backend)
     lc = enricher.label_config
     started = time.time()
+    if extend_scope:
+        # Queue every remaining nonempty review. pending_texts keeps the course's seeded sample order, so wherever
+        # a budget stop lands, the classified set is still a uniform random sample.
+        with conn:
+            n = conn.execute("UPDATE records SET in_scope=1 WHERE status='pending' AND in_scope=0").rowcount
+            conn.execute("INSERT OR REPLACE INTO meta VALUES ('scope_extended', ?)",
+                         (json.dumps({"at": time.time(), "records_added": n, "label_config": lc}),))
+        recorder.event("enrich", "scope_extended", records_added=n, label_config=lc)
     with conn:
         hits = apply_cache(conn, lc, cfg.get("reuse_out_of_scope", True))
     work = pending_texts(conn, lc, limit_texts)
@@ -410,42 +501,63 @@ def run(state_path, cache_path, phase="initial", max_batches=None, limit_texts=N
     totals = {"completed": 0, "quarantined": 0, "left_pending": 0, "cache_filled": hits, "batches": 0}
     stop_reason = "finished"
     pool = ThreadPoolExecutor(batch_workers)
-    in_flight = []
+    in_flight = set()
+    queue = iter(batches)
 
-    def commit_next():
+    outage = {"streak": 0}  # consecutive batches where every text failed transiently (e.g. network down)
+
+    def commit(f):
         nonlocal stop_reason
-        # Wait BEFORE removing it from in_flight: if Ctrl+C lands during the wait, the batch stays queued
-        # and the interrupt handler still commits it (popping first lost one paid batch on 2026-10-16).
-        res = _wait(in_flight[0])
-        in_flight.pop(0)
+        # Remove a batch from in_flight only AFTER its commit returns: if Ctrl+C lands mid-commit the transaction
+        # rolls back and the interrupt handler commits it again. Commits are idempotent (INSERT OR IGNORE calls,
+        # REPLACE labels, status updates), so a repeat can never double-count.
+        res = f.result()
         _account(totals, commit_batch(conn, recorder, enricher, res, run_id))
+        in_flight.discard(f)
         _progress(totals, len(batches), ledger, started)
+        all_transient = not res["labelled"] and res["failed"] and all(k == "transient" for k, _ in res["failed"].values())
+        outage["streak"] = outage["streak"] + 1 if all_transient else 0
         if res["stop"] and stop_reason == "finished":
             stop_reason = {"budget": "spend_cap_reached", "fatal": "provider_auth_or_credit_error"}[res["stop"]]
 
-    try:
-        # Keep up to batch_workers batches in flight; commit each in the main thread, in submission order.
-        for b in batches:
-            if stop_reason != "finished":
-                break
+    def fill():
+        nonlocal stop_reason
+        if outage["streak"] >= 3:
+            # Circuit breaker: several whole batches failed transiently in a row (connection/timeouts). Pause instead
+            # of racing through the queue and leaving thousands of texts pending; then probe with new work.
+            print(f"[circuit breaker] {outage['streak']} batches failed transiently in a row; pausing 60 s", flush=True)
+            recorder.event("enrich", "circuit_breaker_pause", streak=outage["streak"])
+            time.sleep(60)
+            outage["streak"] = 0
+        while stop_reason == "finished" and len(in_flight) < batch_workers:
             if time.time() - started > cfg["limits"]["max_run_seconds"]:
                 stop_reason = "time_cap"
-                break
-            in_flight.append(pool.submit(enricher.run_batch, b))
-            if len(in_flight) >= batch_workers:
-                commit_next()
+                return
+            b = next(queue, None)
+            if b is None:
+                return
+            in_flight.add(pool.submit(enricher.run_batch, b))
+
+    try:
+        # Keep up to batch_workers batches in flight and commit each in the main thread as soon as it finishes
+        # (any order). Batches are independent, so one slow batch no longer holds back the finished ones.
+        fill()
         while in_flight:
-            commit_next()
+            done, _ = wait(in_flight, timeout=0.5, return_when=FIRST_COMPLETED)  # short timeout: Ctrl+C stays responsive
+            for f in done:
+                commit(f)
+            fill()
     except KeyboardInterrupt:
         stop_reason = "interrupted"
         print("\nInterrupted: finishing in-flight batches and saving progress...", flush=True)
         pool.shutdown(wait=False, cancel_futures=True)  # drop batches that have not started
         while in_flight:  # save everything already paid for
-            f = in_flight[0]
-            if f.cancelled():
-                in_flight.pop(0)
-                continue
-            commit_next()
+            done, _ = wait(in_flight, timeout=0.5, return_when=FIRST_COMPLETED)
+            for f in done:
+                if f.cancelled():
+                    in_flight.discard(f)
+                else:
+                    commit(f)
     finally:
         pool.shutdown(wait=True, cancel_futures=True)
         enricher.jev_pool.shutdown(wait=True, cancel_futures=True)
