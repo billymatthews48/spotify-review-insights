@@ -231,10 +231,10 @@ def main():
         "local_compute": a["local_compute"], "infrastructure": a["infrastructure"],
         "rate_sources": [dict(v) for v in sources.values()],
     }
-    (args.out / "report.json").write_text(json.dumps(report, indent=2, default=str) + "\n", encoding="utf-8")
+    (args.out / "report.json").write_text(json.dumps(report, indent=2, default=str) + "\n", encoding="utf-8", newline="\n")
     md = render_md(report)
-    (args.out / "report.md").write_text(md, encoding="utf-8")
-    (args.out / "report.html").write_text(render_html(md), encoding="utf-8")
+    (args.out / "report.md").write_text(md, encoding="utf-8", newline="\n")
+    (args.out / "report.html").write_text(render_html(md), encoding="utf-8", newline="\n")
     print(f"Offline replay done (no API calls). Cold pilot API cost ${cold_cost:.6f}; warm ${warm_cost:.6f}; "
           f"rates x{args.rates_multiplier}. Wrote report.md, report.html, report.json, usage.csv")
     for s in scenarios:

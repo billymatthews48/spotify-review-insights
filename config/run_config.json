@@ -42,7 +42,7 @@
     "provider": "openai",
     "model": "gpt-6-luna",
     "reasoning_effort": "low",
-    "prompt_version": "memo-v3",
+    "prompt_version": "memo-v4",
     "max_output_tokens": 4000,
     "top_issues": 12,
     "examples_per_issue": 4

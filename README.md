@@ -2,7 +2,7 @@
 
 **Question:** at the end of the review window, should Spotify's next quarter of product effort go to **access, usability, playback, or billing/support**?
 
-**Answer: usability, starting with excessive ad interruptions (`USB-01`).** Usability leads the actionable areas: 13,516 complaint/cancellation reviews and severity sum 37,865, vs playback 8,199 / 27,479 and billing/support 7,859 / 22,279 ([`area_totals.csv`](out/full/area_totals.csv)). `USB-01` is the highest-ranked specific issue (priority score 21,043, claim C2). The #1 baseline row is the catch-all `OTH-99` "general dissatisfaction" (score 65,484, C1); it names no feature, so it is reported but not treated as a roadmap item. Full memo: [`out/full/memo.md`](out/full/memo.md). Claims: [`grading/claims.csv`](grading/claims.csv).
+**Answer: usability, starting with excessive ad interruptions (`USB-01`).** Usability leads the actionable areas: 13,516 complaint/cancellation reviews and severity sum 37,865, vs playback 8,199 / 27,479 and billing/support 7,859 / 22,279 ([`area_totals.csv`](out/full/area_totals.csv)). `USB-01` is the highest-ranked specific issue: 7,520 complaints (C3), mean severity 2.798271 (C4), priority score 21,043 (C5). The #1 baseline row is the catch-all `OTH-99` "general dissatisfaction" (35,769 complaints, C1; mean severity 1.830747, C2); it names no feature, so it is reported but not treated as a roadmap item. Full memo: [`out/full/memo.md`](out/full/memo.md). Claims: [`grading/claims.csv`](grading/claims.csv).
 
 | | |
 |---|---|
@@ -10,6 +10,8 @@
 | Backend API (Vercel serverless, reads Neon Postgres) | [`/api/summary`](https://spotify-review-insights-roan.vercel.app/api/summary), [`/api/ranking`](https://spotify-review-insights-roan.vercel.app/api/ranking), [`/api/recommendation`](https://spotify-review-insights-roan.vercel.app/api/recommendation), [`/api/issue?id=USB-01`](https://spotify-review-insights-roan.vercel.app/api/issue?id=USB-01), [`/api/review?id=cd8bf064-c32e-400e-906e-a4d900819bbd`](https://spotify-review-insights-roan.vercel.app/api/review?id=cd8bf064-c32e-400e-906e-a4d900819bbd), [`/api/trend`](https://spotify-review-insights-roan.vercel.app/api/trend), [`/api/evals`](https://spotify-review-insights-roan.vercel.app/api/evals) |
 | Database | Neon Postgres: `records` (all 660,622), `issues`, `ranking`, `membership`, `claims`, `memo`, `monthly`, `evals`, `run_meta`. Loaded by [`pipeline/publish.py`](pipeline/publish.py) |
 | Grading export | [`grading/`](grading/) (records/calls gzipped). Course checker: [`out/full/self-check.json`](out/full/self-check.json) |
+| Result files | [`enriched.jsonl.gz`](out/full/enriched.jsonl.gz) (237,987 completed) · [`quarantine.jsonl.gz`](out/full/quarantine.jsonl.gz) (422,635 with reason + attempts) · [`issues_catalog.json`](out/full/issues_catalog.json) · [`membership.csv`](out/full/membership.csv) · [`aggregates.csv`](out/full/aggregates.csv) · [`ranking.csv`](out/full/ranking.csv) · [`run_log.jsonl`](out/full/run_log.jsonl) · [`run_summary.json`](out/full/run_summary.json) · [`run_manifest.json`](out/full/run_manifest.json) |
+| Schema and prompts | [`schema/output_schema.json`](schema/output_schema.json) · [`prompts/`](prompts/) (Jev questions, quote, verifier, group discover/assign, memo prompts, and all structured-output schemas) · labels and examples in [`pipeline/labels.py`](pipeline/labels.py) |
 | Cost calculator | [`cost/`](cost/) · [report](cost/report.md) · offline replay: `python cost/calculator.py` |
 | Interruption/resume recording | [`evals/recovery/interruption_resume_recording.mp4`](evals/recovery/interruption_resume_recording.mp4) |
 
@@ -37,8 +39,8 @@ Measured numbers are from saved logs; projections are labelled as such in the ca
 
 **Deliverable quality (4)**
 1. *Accessible code/setup and artifacts*: [Setup](#setup) and [Commands](#commands); all outputs are committed (`out/`, `grading/`, `cost/`, `evals/`); [`requirements.txt`](requirements.txt), [`.env.example`](.env.example).
-2. *Architecture, shared schema, provenance*: [Architecture](#architecture); labels in [`pipeline/labels.py`](pipeline/labels.py); prompts in [`prompts/`](prompts/); every record carries `source_sha256` (course `row_sha`) and `label_config`; [`out/data_manifest.json`](out/data_manifest.json).
-3. *Memo numbers linked to calculations and evidence*: [`out/full/memo.md`](out/full/memo.md) cites C1–C4 in [`grading/claims.csv`](grading/claims.csv), and the course checker recomputes them (0 mismatches). Area totals are in [`area_totals.csv`](out/full/area_totals.csv). Evidence review IDs are in [`memo_input.json`](out/full/memo_input.json). The memo agent's output passed every code check ([`memo_output.json`](out/full/memo_output.json) `problems: []`).
+2. *Architecture, shared schema, provenance*: [Architecture](#architecture), the [stage table](#stages-input-output-owner-failure-behaviour-stop-condition) and a [traced example](#one-review-traced-end-to-end). Labels are in [`pipeline/labels.py`](pipeline/labels.py), the schema in [`schema/output_schema.json`](schema/output_schema.json), all role prompts in [`prompts/`](prompts/). Every record carries `source_sha256` (course `row_sha`) and `label_config`. [`run_manifest.json`](out/full/run_manifest.json) ties together the source checksum, code version, config, prompt hashes, model IDs, run IDs and output checksums.
+3. *Memo numbers linked to calculations and evidence*: [`out/full/memo.md`](out/full/memo.md) cites C1–C7 in [`grading/claims.csv`](grading/claims.csv), and the course checker recomputes them (0 mismatches). Area totals are in [`area_totals.csv`](out/full/area_totals.csv). Evidence review IDs are in [`memo_input.json`](out/full/memo_input.json). The memo agent's output passed every code check ([`memo_output.json`](out/full/memo_output.json) `problems: []`).
 4. *Recommendation, alternatives, limitations*: memo sections "Alternatives considered" and "Limitations", plus [Limitations](#limitations) below.
 
 **Testing and evaluation (3)**
@@ -48,7 +50,7 @@ Measured numbers are from saved logs; projections are labelled as such in the ca
 
 **Working result (3)**
 1. *Full ingestion, coverage, classification*: [`ingestion_report.json`](out/ingestion_report.json), [`grading/records.jsonl.gz`](grading/records.jsonl.gz), checker coverage above. The 100k scope and the 422,622 unclassified rows are disclosed.
-2. *Runnable staged program, bounded calls, saved handoffs, resume*: `python -m pipeline run --input any.csv …`; enrichment requests are <= 50 reviews (Jev: 1 per request; quotes/verify/assign: <= 50); [`grading/calls.jsonl.gz`](grading/calls.jsonl.gz) has 80,660 attempts. Checkpoints: 131,915 before ⊂ 237,987 after; resume phase calls never include a before-ID.
+2. *Runnable staged program, bounded calls, saved handoffs, resume*: `python -m pipeline run --input any.csv …`; enrichment requests are <= 50 reviews (Jev: 1 per request; quotes/verify/assign: <= 50); [`grading/calls.jsonl.gz`](grading/calls.jsonl.gz) has 80,661 attempts. Checkpoints: 131,915 before ⊂ 237,987 after; resume phase calls never include a before-ID.
 3. *Reproducible ranking and deployed dashboard*: `python -m pipeline rerank …` reproduces [`ranking.csv`](grading/ranking.csv) byte-for-byte; [dashboard](https://spotify-review-insights-roan.vercel.app) is served by the Vercel API from Neon with live claim checks.
 
 ## Architecture
@@ -97,6 +99,39 @@ flowchart LR
 | Rank | none | records + membership -> ranking | - | integer arithmetic, half-up 6-dp means, stable tie-break |
 | Memo | `gpt-6-luna`, reasoning `low` | top-12 issues + area totals + facts + <= 4 evidence reviews per issue -> structured memo + claims | writing the argument | checks every claim value, issue ID, review ID and number in the prose; one corrective retry; cached by input hash |
 
+### Stages: input, output, owner, failure behaviour, stop condition
+
+| Stage | Input | Saved output (handoff) | Owner | Failure behaviour | Stop condition |
+|---|---|---|---|---|---|
+| 1 Prepare | CSV path | state DB (`source_rows`, `records`), [`ingestion_report.json`](out/ingestion_report.json), [`ingestion.json`](out/ingestion.json), [`data_manifest.json`](out/data_manifest.json) | code | strict CSV parser raises on malformed rows. Later copies of a duplicate ID are reported, not loaded. Empty text is quarantined (`empty_review_text`) | every row read |
+| 2 Enrich | pending in-scope distinct texts, batches of <= 50 | `labels` (result cache), record statuses, call log | Jev + gpt-6-luna; code validates | transient: backoff x4. Invalid: 1 retry, then quarantine. Quote invalid twice: exact prefix + `needs_review`. Auth/credit: stop the run | queue empty, spend cap, time cap, Ctrl+C or `--max-batches` |
+| 3 Verify | seeded 3% of origin records (text only) | [`verify_summary.json`](out/full/verify_summary.json), [`verifier_predictions.jsonl`](out/full/verifier_predictions.jsonl), [`disagreements.jsonl`](out/full/disagreements.jsonl), [`planted_error_cases.jsonl`](out/full/planted_error_cases.jsonl) | gpt-6-luna; code compares | invalid: 1 retry, then listed as a verifier failure | declared sample done |
+| 4 Group | completed complaint/cancellation texts, per topic | [`issues_catalog.json`](out/full/issues_catalog.json), assignments, [`membership.csv`](out/full/membership.csv) | gpt-6-luna; code validates | an issue citing invented example IDs is rejected. Invalid assignment: 1 retry, then the topic catch-all `-99` | every complaint assigned (ungrouped = 0) |
+| 5 Rank | records + membership | [`ranking.csv`](out/full/ranking.csv), [`aggregates.csv`](out/full/aggregates.csv), [`area_totals.csv`](out/full/area_totals.csv) | code | deterministic; no model | always completes |
+| 6 Memo | top-12 aggregates, area totals, facts, <= 4 evidence reviews per issue | [`memo.md`](out/full/memo.md), [`memo_output.json`](out/full/memo_output.json), [`claims.csv`](out/full/claims.csv) | gpt-6-luna; code checks | any failed claim, ID or number check: 1 corrective retry, then a warning banner with problems listed | checks pass or 2 attempts |
+| Publish | saved outputs | Neon tables | code | one transaction, so a failure leaves the previous data intact | committed |
+
+### One review traced end-to-end
+
+Review **`dc3d0e35-dfc6-4d4d-8755-531277cc2394`**: *"This app wants to play all ads today....."* (★5, 2022-11-28, source row 188,172). Trace it live: [`/api/review?id=dc3d0e35-dfc6-4d4d-8755-531277cc2394`](https://spotify-review-insights-roan.vercel.app/api/review?id=dc3d0e35-dfc6-4d4d-8755-531277cc2394).
+
+1. **Source:** `source_sha256 = 70b33c81…86b3ccc` (course `row_sha`, in [`records.jsonl.gz`](grading/records.jsonl.gz)). It is in scope by the course's seeded rank.
+2. **Enrichment:** Jev call `typesafe-4f11ac175d154539942a0ba352e2f5bb` (provider id `req_01a13d457a4a70619a4b3d1d982589ee`, phase `initial`, 1,266 input tokens, $0.000053).
+   - topic `usability` (p = 1.00), intent `complaint` (p = 1.00), severity `3_degraded` (p = 0.97; next `2_annoyance` 0.03), sentiment Score 0.66, so 0.66/2 − 1 = −0.67.
+   - The quote is the whole text (≤ 200 chars) and `needs_review` is false.
+   - **The 5-star rating played no part:** labels come from the text only.
+3. **Verification:** it is in the seeded 3% sample. The blind verifier call `openai-9056679d08224942913533ff817e77d7` returned usability / complaint / 3 / −0.6, agreeing on all three fields.
+4. **Grouping:** assigned to `USB-01` *Excessive ad interruptions* by `openai-e3027a32295c4ae39e627bd8e0bcc7f3`; its row in [`membership.csv`](grading/membership.csv) is `USB-01,dc3d0e35-…`.
+5. **Ranking:** `USB-01` is rank 2: complaint_count 7,520, severity_sum 21,043 (this review adds 3), mean_severity 2.798271, priority_score 21,043.
+6. **Memo:** claims **C3** (7,520), **C4** (2.798271) and **C5** (21,043) in [`claims.csv`](grading/claims.csv) cite exactly these numbers, and the dashboard re-checks them on every page load.
+
+**A failed case and its handling:** review `9f855846-6620-4eeb-b456-0b12f4c97bf6` (*"Wonderful to access the world's music this way, but sometimes confused by the way that playlists merge into music suggestions…"*).
+- Its first Jev call (`typesafe-74e5a2c8359c4be8b6ba60fc35fb503f`, phase A) failed with **HTTP 499 `internal_error`**. 499 was not yet in the retryable set, so the record was left **pending**, not quarantined and not labelled, with `reason = pending_after_transient: HTTP 499 …` and `attempts = 1`.
+- The next run re-sent it (`typesafe-18856846ba18444d9c5e7347ce27a95a`, succeeded): usability / complaint / 2 (mixed praise + criticism is a complaint), `attempts = 2`.
+- 499 was then added to the retryable statuses.
+
+**An ambiguous case:** golden #11, *"We are boycotting Swedish app in our protest…"*. The human said cancellation; the pipeline said `unclear` (rule: bare boycott slogans are unclear unless a personal departure is stated). Both labels are defensible, and it is recorded as category D in the [error analysis](evals/golden/error_analysis.md).
+
 ## Setup
 
 Requirements: Python 3.11+ (tested on 3.13), Node 20+ (dashboard only).
@@ -134,9 +169,11 @@ python -m pipeline snapshot --state state/full.sqlite --out out/full/checkpoint_
 python -m pipeline enrich --state state/full.sqlite --phase resume
 python -m pipeline snapshot --state state/full.sqlite --out out/full/checkpoint_after.json
 python -m pipeline analyze --state state/full.sqlite --out out/full          # verify, group, rank, memo
-python -m pipeline report  --state state/full.sqlite --out out/full          # run_log.jsonl, run_summary.json
+python -m pipeline report  --state state/full.sqlite --out out/full          # run_log, run_summary, enriched, quarantine
+python -m pipeline prompts                                                   # write every role prompt to prompts/
 python -m pipeline grading --state state/full.sqlite --analysis out/full --checkpoints out/full --out grading
 python -m pipeline publish --state state/full.sqlite --analysis out/full     # -> Neon (needs DATABASE_URL)
+python -m pipeline manifest --state state/full.sqlite --out out/full/run_manifest.json
 cd web && vercel deploy --prod                                               # dashboard + API
 ```
 
@@ -158,8 +195,8 @@ cd web && vercel deploy --prod                                               # d
 7. **Analyze (Oct 17):**
    - Verifier sample of 2,345: one batch failed validation twice and was retried successfully on rerun.
    - The group stage first hit a slow query (an EXISTS planned as a scan) and was stopped before any further paid calls, fixed and rerun. Verification was cached, so nothing was paid twice.
-   - The memo was regenerated once with a fixed evidence pack (prefer short reviews whose full text is shown) and a stricter prompt (`memo-v3`). The first version is not used.
-8. **Real failures in the log:** 9 failed attempts out of 80,660, all retried: Jev HTTP 499 internal_error, GPT invalid JSON, GPT `max_output_tokens`.
+   - The memo was regenerated twice: `memo-v3` fixed the evidence pack (prefer short reviews whose full text is shown) and required numbers for every alternative; `memo-v4` (Oct 19) required complaint_count, mean_severity and priority_score claims for the lead issue. Each passed every code check on the first attempt. Earlier versions are not used; all three calls are in the call log.
+8. **Real failures in the log:** 9 failed attempts out of 80,661, all retried: Jev HTTP 499 internal_error, GPT invalid JSON, GPT `max_output_tokens`.
 
 ## Design choices
 
@@ -175,18 +212,26 @@ cd web && vercel deploy --prod                                               # d
 
 ## Trend (in-scope, comparable random sample; first and last months partial)
 
-| | Complaint share | Generic `other` complaints | Note |
-|---|---|---|---|
-| Typical months 2022-05 to 2023-06 | 29–37% | 3–6% | |
-| **2023-07** | 59.3% | 45.7% | volume spike (12,856 classified, about 3x normal); 20.2% `unclear`, largely boycott slogans |
-| 2023-10 / 2023-11 | 74.3% / 69.2% | 27.8% / 28.0% | second spike |
+Denominator = in-scope classified reviews in the period (the random sample, so periods are comparable). Exact-text reuse rows are excluded.
 
-The usability complaint share is steady at about 10–12% except **Mar–Apr 2023 (16.8% / 15.5%)**. Denominators are in [`/api/trend`](https://spotify-review-insights-roan.vercel.app/api/trend) and the `monthly` table. These are observations, not causal claims.
+| Period | Denominator | Complaints | Generic `other` complaints | `unclear` | Usability complaints |
+|---|---|---|---|---|---|
+| Baseline: 2022-06 to 2023-06 full months, excl. Mar–Apr 2023 | 47,093 | 15,146 (32.2%) | 1,992 (4.2%) | 3,641 (7.7%) | 5,049 (10.7%) |
+| 2023-03 to 2023-04 | 7,980 | 2,750 (34.5%) | 251 (3.1%) | 537 (6.7%) | **1,291 (16.2%)** |
+| **2023-07** (volume about 3x a typical month) | 12,856 | 7,629 (59.3%) | **5,873 (45.7%)** | **2,599 (20.2%)** | 681 (5.3%) |
+| 2023-10 | 13,402 | 9,952 (74.3%) | 3,722 (27.8%) | 759 (5.7%) | 1,676 (12.5%) |
+| 2022-05 (partial month) | 2,379 | 744 (31.3%) | 98 (4.1%) | 193 (8.1%) | 240 (10.1%) |
+| 2023-11 (partial month) | 5,187 | 3,590 (69.2%) | 1,451 (28.0%) | 304 (5.9%) | 656 (12.6%) |
+
+- July 2023 is dominated by generic complaints and `unclear` texts, largely boycott slogans.
+- Usability complaints rise from 10.7% to 16.2% in Mar–Apr 2023, then stay at about 12.5% in Oct–Nov 2023.
+
+Monthly rows are in [`/api/trend`](https://spotify-review-insights-roan.vercel.app/api/trend) (classified counts include exact-text reuse). These are observations, not causal claims.
 
 ## Limitations
 
 - **Incomplete classification:** 422,622 nonempty reviews (64%) were not classified because of the declared budget scope. They are visible in `records.jsonl.gz` with an explicit reason and excluded from all aggregates. The baseline counts cover 237,987 classified reviews, of which 137,937 are exact-text reuses that skew toward short generic texts.
 - **Label quality:** golden topic agreement is 60% (n = 50, mostly rule-application differences); the verifier agrees on 87% of topics. Topic is the weakest field, and catch-all issues (`OTH-99`, `BIL-99`, `PLB-99`) absorb vague complaints.
 - **Review bias:** self-selected, historical public reviews. No revenue, plan tier or confirmed churn; cancellation language is intent. Text was not translated; non-Latin scripts are flagged.
-- **Process gaps:** the two unlogged-cost incidents above (≤ about $0.014 combined). The memo was regenerated once after an evidence-pack fix. The golden comparison came after the setup was chosen because the human labels arrived late.
+- **Process gaps:** the two unlogged-cost incidents above (≤ about $0.014 combined). The memo was regenerated twice (evidence-pack fix, then lead-issue claims). The golden comparison came after the setup was chosen because the human labels arrived late.
 - **Charges** are usage × dated list prices, not provider invoices.

@@ -72,5 +72,7 @@ def write(state, cache, out_dir):
                  for rid, ev in runs.items()],
     }
     common.write_json(out_dir / "run_summary.json", summary)
+    from .export import enriched_and_quarantine
+    summary["enriched_records"], summary["quarantine_records"] = enriched_and_quarantine(conn, out_dir)
     conn.close()
     return summary

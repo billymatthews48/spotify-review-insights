@@ -69,6 +69,11 @@ def main():
     p.add_argument("--cache", type=Path, default=None)
     p.add_argument("--out", required=True, type=Path)
 
+    p = sub.add_parser("manifest", help="Write run_manifest.json tying source, code, config, prompts, models, outputs")
+    p.add_argument("--state", required=True, type=Path)
+    p.add_argument("--cache", type=Path, default=None)
+    p.add_argument("--out", required=True, type=Path)
+
     p = sub.add_parser("publish", help="Load saved outputs into Postgres (DATABASE_URL) for the dashboard (no model calls)")
     p.add_argument("--state", required=True, type=Path)
     p.add_argument("--cache", type=Path, default=None)
@@ -100,12 +105,23 @@ def main():
         conn = common.connect(args.state)
         print("completed_ids saved:", enrich.snapshot(conn, args.out))
     elif args.command == "prompts":
-        from . import enrich, runtime
+        from . import enrich, group, luna_labeler, memo, runtime
         cfg = runtime.load_config()
-        common.write_json(common.ROOT / "prompts" / "jev_questions_v1.json",
+        p = common.ROOT / "prompts"
+        common.write_json(p / "jev_questions_v1.json",
                           {"model": cfg["enrich"]["model"], "state_template": enrich.jev_state("<review_text>"),
                            "questions": enrich.jev_questions(), "label_config": runtime.label_config(cfg)})
-        print("wrote prompts/jev_questions_v1.json")
+        # Role prompts that live in code, written out verbatim so each role's instructions are inspectable.
+        texts = {f"verify_system_{cfg['prompt_version']}.txt": luna_labeler.system_prompt(),
+                 f"group_discover_{cfg['group']['prompt_version']}.txt": group.DISCOVER_SYSTEM,
+                 f"group_assign_{cfg['group']['prompt_version']}.txt": group.ASSIGN_SYSTEM,
+                 f"memo_system_{cfg['memo']['prompt_version']}.txt": memo.SYSTEM}
+        for name, text in texts.items():
+            (p / name).write_text(text.strip() + "\n", encoding="utf-8", newline="\n")
+        schemas = {"verify_output": luna_labeler.SCHEMA, "group_discover_output": group.DISCOVER_SCHEMA,
+                   "group_assign_output": group.ASSIGN_SCHEMA, "memo_output": memo.SCHEMA, "quote_output": enrich.QUOTE_SCHEMA}
+        common.write_json(p / "structured_output_schemas.json", schemas)
+        print("wrote", ", ".join(["jev_questions_v1.json", *texts, "structured_output_schemas.json"]))
     elif args.command == "run":
         from . import orchestrate
         summary = orchestrate.run_all(args.input, args.state, args.out, args.scope_size, args.cache,
@@ -131,6 +147,14 @@ def main():
         cache = args.cache or args.state.with_name(args.state.stem + "_cache.sqlite")
         s = report.write(args.state, cache, args.out)
         print(json.dumps({k: s[k] for k in ("record_status", "completed_total", "actual_api_charges_usd")}, indent=2))
+    elif args.command == "manifest":
+        from . import manifest
+        cache = args.cache or args.state.with_name(args.state.stem + "_cache.sqlite")
+        m = manifest.write(args.state, cache, args.out, ["grading/*", "out/full/*", "out/ingestion*.json",
+                                                          "out/data_manifest.json", "cost/*.jsonl", "cost/*.csv",
+                                                          "cost/report.*", "evals/golden/*.csv", "evals/golden/*.json*",
+                                                          "evals/system_tests/*.json*", "evals/recovery/*"])
+        print(f"wrote {args.out}: {len(m['outputs'])} output files hashed, {len(m['runs'])} runs, git {m['code_version']['git_head_when_manifest_written']}")
     elif args.command == "publish":
         from . import publish
         cache = args.cache or args.state.with_name(args.state.stem + "_cache.sqlite")

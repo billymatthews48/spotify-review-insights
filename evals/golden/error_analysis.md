@@ -56,6 +56,22 @@ Categories were drafted by the AI assistant (Claude) by applying the GRADING_CON
 
 **Tally:** A pipeline error 3 · B rule application 15 · C language 3 · D ambiguous 4.
 
+## Evidence quotes: does the quote support the label?
+
+Code confirms all 50 quotes are exact substrings. Support was inspected by hand:
+
+- **46 of 50** reviews are ≤ 200 characters, so the quote is the **whole review** by design. It contains all the evidence by construction but is not a minimal span.
+- **4 long reviews** got a gpt-6-luna span:
+
+| Review | Pipeline label | Quote | Supports the label? |
+|---|---|---|---|
+| 215463ae | playback / complaint / 4 | "I'm trying to play a song but it doesn't working." | **Yes** (the stronger severity-4 evidence, "can't even open the app", sits elsewhere in the text) |
+| 292ce26a | catalog / complaint / 2 | "Banning conservative music that speaks truth." | **Yes** (removed content is catalog) |
+| 3ddb3f4e | usability / cancellation / 3 | "we can't CHOOSE song after a song played" | **Partly:** supports the topic, but the cancellation evidence ("Deleting this App") is not in the span |
+| 723f07de | playback / complaint / 4 | "it keeps crashing every time." | **Supports a wrong label:** the quote is faithful, but the review's update says the problem was resolved (model error #7) |
+
+**Result:** 4/4 long-review quotes support the topic, 1 misses the intent evidence, and 1 faithfully supports a mislabel. A single span cannot always carry both topic and intent evidence; the contract requires one exact substring.
+
 ## Entities: inspection of unsupported additions
 
 The human labeller left the optional `entities` field blank on all 50 rows, so there is no human-vs-model entity agreement score (the report's `cases_with_entities_not_in_human_list: 19` only means "the pipeline listed something and the human listed nothing"). Instead, each predicted entity was inspected against the text:

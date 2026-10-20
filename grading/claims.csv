@@ -1,5 +1,8 @@
 claim_id,issue_id,metric,value
-C1,OTH-99,priority_score,65484
-C2,USB-01,priority_score,21043
-C3,PLB-05,priority_score,6077
-C4,BIL-99,priority_score,9312
+C1,OTH-99,complaint_count,35769
+C2,OTH-99,mean_severity,1.830747
+C3,USB-01,complaint_count,7520
+C4,USB-01,mean_severity,2.798271
+C5,USB-01,priority_score,21043
+C6,PLB-01,priority_score,4880
+C7,BIL-99,priority_score,9312

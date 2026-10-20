@@ -14,3 +14,7 @@
 {"seq":14,"run_id":"analyze-20261017T151448-cd4471","at":1792286112.5644011,"stage":"group","event":"end","detail":{"group_config":"gpt-6-luna/low+group-v2+[jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1]","issues":44,"memberships":75411,"ungrouped_complaints":0,"assignment_methods":{"luna":40344}}}
 {"seq":15,"run_id":"analyze-20261017T151448-cd4471","at":1792286124.19886,"stage":"rank","event":"end","detail":{"issues":44,"memberships":75411}}
 {"seq":16,"run_id":"analyze-20261017T151448-cd4471","at":1792286142.9095485,"stage":"memo","event":"end","detail":{"attempts":1,"problems":0}}
+{"seq":17,"run_id":"analyze-20261019T145827-a2e472","at":1792457914.1705656,"stage":"verify","event":"end","detail":{"sample":2345,"compared":2345,"failures":0}}
+{"seq":18,"run_id":"analyze-20261019T145827-a2e472","at":1792457971.7842884,"stage":"group","event":"end","detail":{"group_config":"gpt-6-luna/low+group-v2+[jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1]","issues":44,"memberships":75411,"ungrouped_complaints":0,"assignment_methods":{"luna":40344}}}
+{"seq":19,"run_id":"analyze-20261019T145827-a2e472","at":1792457991.3855102,"stage":"rank","event":"end","detail":{"issues":44,"memberships":75411}}
+{"seq":20,"run_id":"analyze-20261019T145827-a2e472","at":1792458020.479851,"stage":"memo","event":"end","detail":{"attempts":1,"problems":0}}

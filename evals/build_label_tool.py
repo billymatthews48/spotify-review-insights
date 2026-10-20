@@ -21,7 +21,7 @@ def main(src):
     html = (HERE / "label_tool_template.html").read_text(encoding="utf-8").replace("__DATA__", data)
     out = HERE / "golden" / "label_golden_50.html"
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(html, encoding="utf-8")
+    out.write_text(html, encoding="utf-8", newline="\n")
     print(f"Wrote {out} ({len(rows)} reviews)")
 
 

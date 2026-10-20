@@ -1,0 +1,303 @@
+{
+  "verify_output": {
+    "name": "relabels",
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "i",
+              "topic",
+              "intent",
+              "severity",
+              "sentiment"
+            ],
+            "properties": {
+              "i": {
+                "type": "integer"
+              },
+              "topic": {
+                "type": "string",
+                "enum": [
+                  "access",
+                  "usability",
+                  "playback",
+                  "downloads",
+                  "catalog",
+                  "billing",
+                  "support",
+                  "other"
+                ]
+              },
+              "intent": {
+                "type": "string",
+                "enum": [
+                  "cancellation",
+                  "complaint",
+                  "request",
+                  "praise",
+                  "unclear"
+                ]
+              },
+              "severity": {
+                "type": "integer",
+                "enum": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ]
+              },
+              "sentiment": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "group_discover_output": {
+    "name": "issues",
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "issues"
+      ],
+      "properties": {
+        "issues": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "definition",
+              "example_ids"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "definition": {
+                "type": "string"
+              },
+              "example_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "group_assign_output": {
+    "name": "assignments",
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "i",
+              "issue_id"
+            ],
+            "properties": {
+              "i": {
+                "type": "integer"
+              },
+              "issue_id": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "memo_output": {
+    "name": "memo",
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "recommendation",
+        "claims",
+        "alternatives",
+        "evidence_review_ids",
+        "limitations",
+        "memo_markdown"
+      ],
+      "properties": {
+        "recommendation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "area",
+            "headline",
+            "rationale",
+            "issue_ids"
+          ],
+          "properties": {
+            "area": {
+              "type": "string",
+              "enum": [
+                "access",
+                "usability",
+                "playback",
+                "billing_support",
+                "catalog",
+                "other"
+              ]
+            },
+            "headline": {
+              "type": "string"
+            },
+            "rationale": {
+              "type": "string"
+            },
+            "issue_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "claims": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "claim_id",
+              "issue_id",
+              "metric",
+              "value"
+            ],
+            "properties": {
+              "claim_id": {
+                "type": "string"
+              },
+              "issue_id": {
+                "type": "string"
+              },
+              "metric": {
+                "type": "string",
+                "enum": [
+                  "complaint_count",
+                  "severity_sum",
+                  "mean_severity",
+                  "priority_score"
+                ]
+              },
+              "value": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "alternatives": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "area",
+              "why_not_first",
+              "issue_ids"
+            ],
+            "properties": {
+              "area": {
+                "type": "string",
+                "enum": [
+                  "access",
+                  "usability",
+                  "playback",
+                  "billing_support",
+                  "catalog",
+                  "other"
+                ]
+              },
+              "why_not_first": {
+                "type": "string"
+              },
+              "issue_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "evidence_review_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "memo_markdown": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "quote_output": {
+    "name": "quotes",
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "i",
+              "quote"
+            ],
+            "properties": {
+              "i": {
+                "type": "integer"
+              },
+              "quote": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

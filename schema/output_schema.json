@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schema-v1",
+  "title": "Spotify review pipeline output schema (schema-v1)",
+  "description": "Shapes of grading/records.jsonl(.gz) rows (one per source review_id), out/full/enriched.jsonl.gz, out/full/quarantine.jsonl.gz and grading/calls.jsonl(.gz). Validated in code (pipeline/enrich.py parse_jev + commit_batch, tools/check_submission.py).",
+  "$defs": {
+    "topic": {"enum": ["access", "usability", "playback", "downloads", "catalog", "billing", "support", "other"]},
+    "intent": {"enum": ["cancellation", "complaint", "request", "praise", "unclear"], "description": "precedence: cancellation > complaint > request > praise > unclear"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "completed_record": {
+      "type": "object",
+      "required": ["review_id", "source_sha256", "status", "topic", "intent", "sentiment", "severity", "entities", "evidence_quote", "needs_review", "label_config"],
+      "properties": {
+        "review_id": {"type": "string", "description": "original source ID, unchanged"},
+        "source_sha256": {"$ref": "#/$defs/sha256", "description": "SHA-256 of compact UTF-8 JSON of the six source fields (course row_sha helper)"},
+        "status": {"const": "completed"},
+        "topic": {"$ref": "#/$defs/topic"},
+        "intent": {"$ref": "#/$defs/intent"},
+        "sentiment": {"type": "number", "minimum": -1, "maximum": 1, "description": "Jev Score position s in 0..4 mapped to s/2 - 1"},
+        "severity": {"type": "integer", "minimum": 1, "maximum": 5, "description": "shared scale in pipeline/labels.py SEVERITY"},
+        "entities": {"type": "array", "items": {"type": "string", "minLength": 1}, "description": "feature terms matched by a fixed lexicon in code"},
+        "evidence_quote": {"type": "string", "minLength": 1, "description": "exact substring of review_text: whole text if <= 200 chars, else a gpt-6-luna span checked in code"},
+        "needs_review": {"type": "boolean", "description": "true if any Jev topic/intent/severity confidence < 0.5, quote fallback, or non-Latin script"},
+        "label_config": {"type": "string", "description": "model+prompt+schema versions; exact-text reuse requires identical label_config"},
+        "cache_source_id": {"type": "string", "description": "present when this record reuses the validated result of a completed original with identical text"},
+        "result_cache_run": {"type": "string", "description": "present only for result-cache hits from another run's state (warm pilot)"},
+        "review_reasons": {"type": "array", "items": {"type": "string"}, "description": "why needs_review is set, e.g. low_confidence:topic"},
+        "quote_source": {"enum": ["whole_text", "luna", "fallback_prefix"]}
+      }
+    },
+    "quarantined_record": {
+      "type": "object",
+      "required": ["review_id", "source_sha256", "status", "reason"],
+      "properties": {
+        "review_id": {"type": "string"},
+        "source_sha256": {"$ref": "#/$defs/sha256"},
+        "status": {"const": "quarantined"},
+        "reason": {"type": "string", "minLength": 1, "examples": ["empty_review_text", "not_classified_outside_declared_100k_budget_scope", "enrich_invalid_output_after_retry: ..."]},
+        "attempts": {"type": "integer", "minimum": 0, "description": "quarantine.jsonl only: model attempts made for this record"},
+        "in_scope": {"type": "boolean", "description": "quarantine.jsonl only"}
+      }
+    },
+    "call": {
+      "type": "object",
+      "required": ["request_id", "role", "review_ids", "model", "phase", "outcome", "label_config", "input_tokens", "output_tokens"],
+      "properties": {
+        "request_id": {"type": "string"},
+        "role": {"enum": ["enrich", "verify", "group", "memo"]},
+        "step": {"enum": ["jev_labels", "luna_quotes", "luna_relabel", "luna_discover_issues", "luna_assign_issue", "luna_memo"]},
+        "review_ids": {"type": "array", "items": {"type": "string"}, "description": "IDs actually sent; enrichment requests carry 1-50"},
+        "model": {"type": "string"},
+        "phase": {"enum": ["initial", "resume"]},
+        "outcome": {"enum": ["succeeded", "failed"]},
+        "label_config": {"type": ["string", "null"]},
+        "input_tokens": {"type": "integer", "minimum": 0},
+        "cached_input_tokens": {"type": "integer", "minimum": 0},
+        "output_tokens": {"type": "integer", "minimum": 0},
+        "reasoning_tokens": {"type": "integer", "minimum": 0},
+        "usage_status": {"enum": ["reported", "none_reported", "unknown_possible_charge", "missing"]},
+        "cost_usd": {"type": "number", "minimum": 0, "description": "usage x dated rates in config/rates.csv"},
+        "attempt": {"type": "integer", "minimum": 1},
+        "error": {"type": ["string", "null"]},
+        "seconds": {"type": "number"},
+        "provider_request_id": {"type": ["string", "null"]}
+      }
+    }
+  },
+  "oneOf": [{"$ref": "#/$defs/completed_record"}, {"$ref": "#/$defs/quarantined_record"}]
+}

@@ -16,8 +16,10 @@ state/
 *.sqlite-shm
 
 # Checker output stays outside the submitted grading folder
-local-reference.json
-self-check.json
+/local-reference.json
+grading/local-reference.json
+/self-check.json
+grading/self-check.json
 
 # Python / Node
 __pycache__/

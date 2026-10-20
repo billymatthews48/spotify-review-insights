@@ -29,4 +29,4 @@ This runs the real pipeline on the unchanged `cost_100.csv` (checksum verified a
 
 The full run's actual charges ($4.95) are in [`../out/full/run_summary.json`](../out/full/run_summary.json), against the calculator's $4.98 base projection for the 100k scope.
 
-Note: the pilot ran with memo prompt `memo-v2` and a 3% verify fraction with a minimum of 20. The final run used `memo-v3` (stricter evidence and claim rules); everything else was unchanged.
+Note: the pilot ran with memo prompt `memo-v2` and a 3% verify fraction with a minimum of 20. The final run used `memo-v4` (stricter evidence and claim rules); everything else was unchanged.

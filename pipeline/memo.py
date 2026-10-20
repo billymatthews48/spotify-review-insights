@@ -56,6 +56,8 @@ Rules:
 - Base the choice on the saved numbers: the issue ranking and the area totals in facts.areas. Explicitly discuss
   the #1 baseline issue. Issue IDs ending in -99 are catch-alls (OTH-99 = complaints naming no specific
   feature); say how you treated them rather than silently skipping them.
+- For the lead issue of your recommendation, state and claim all three of complaint_count, mean_severity and
+  priority_score.
 - Compare the recommended area with at least two alternatives and say why they rank lower. For every area you
   discuss, state its area totals from facts.areas and cite at least one of its ranked issues with a claim.
 - State limitations, including the classification scope and unresolved records given in the facts.
@@ -209,6 +211,6 @@ def run(ctx, out_dir, group_config, agg):
                 w.writerow([c["claim_id"], c["issue_id"], c["metric"], c["value"]])
         header = "" if not problems else ("> **Code check warning:** this memo did not pass every automated check; "
                                           "see memo_output.json `problems`.\n\n")
-        (out_dir / "memo.md").write_text(header + out["memo_markdown"].strip() + "\n", encoding="utf-8")
+        (out_dir / "memo.md").write_text(header + out["memo_markdown"].strip() + "\n", encoding="utf-8", newline="\n")
     ctx.recorder.event("memo", "end", attempts=attempts, problems=len(problems))
     return result

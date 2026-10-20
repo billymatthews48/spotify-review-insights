@@ -90,15 +90,15 @@
       "usage_unknown_attempts": 0
     },
     "memo/luna_memo/gpt-6-luna/initial": {
-      "attempts": 2,
-      "succeeded": 2,
+      "attempts": 3,
+      "succeeded": 3,
       "failed": 0,
       "review_ids_sent": 0,
-      "input_tokens": 12825,
+      "input_tokens": 19644,
       "cached_input_tokens": 0,
-      "output_tokens": 2944,
-      "reasoning_tokens": 501,
-      "cost_usd": 0.002754,
+      "output_tokens": 4365,
+      "reasoning_tokens": 725,
+      "cost_usd": 0.004147,
       "usage_unknown_attempts": 0
     },
     "verify/luna_relabel/gpt-6-luna/initial": {
@@ -115,9 +115,9 @@
     }
   },
   "actual_api_charges_usd": {
-    "total": 4.947241,
+    "total": 4.948634,
     "typesafe (Jev)": 4.198612,
-    "openai (gpt-6-luna)": 0.748629
+    "openai (gpt-6-luna)": 0.750022
   },
   "charges_basis": "provider-reported usage x dated rates in config/rates.csv (not a provider invoice)",
   "known_unlogged_or_estimated": [
@@ -279,6 +279,16 @@
     },
     {
       "run_id": "analyze-20261017T151448-cd4471",
+      "stage": "memo",
+      "start": null,
+      "end": {
+        "attempts": 1,
+        "problems": 0
+      },
+      "seconds": null
+    },
+    {
+      "run_id": "analyze-20261019T145827-a2e472",
       "stage": "memo",
       "start": null,
       "end": {

@@ -1,0 +1,337 @@
+{
+  "source": {
+    "file": "spotify_reviews_18months.csv",
+    "sha256": "1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6",
+    "bytes": 97400616,
+    "parsed_rows_sha256": "eb5ea1e15f020212004a5b1e2f873e45a9f105d1b4516ad077020492364f71ff",
+    "scope_size": "100050"
+  },
+  "code_version": {
+    "git_head_when_manifest_written": "dc49809d3297e9f1f7e5e0689f96f50194da1781",
+    "working_tree_dirty": true,
+    "note": "The pipeline code was first committed after the run; fixes made during the run (cache-fill query, interrupt handler, grouping query, HTTP 499 retry) are listed in the README run log."
+  },
+  "config": {
+    "file": "config/run_config.json",
+    "sha256": "b145a04dc4b76abb25f6260f4fbf2c52dac0846199850360f761cb662428a02a",
+    "snapshot": {
+      "schema_version": "schema-v1",
+      "prompt_version": "prompts-v1",
+      "enrich": {
+        "provider": "typesafe",
+        "model": "jev-1.13.0",
+        "questions": [
+          "topic",
+          "intent",
+          "severity",
+          "sentiment"
+        ],
+        "workers": 8,
+        "max_requests_per_second": 50,
+        "needs_review_confidence": 0.5
+      },
+      "quote": {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "reasoning_effort": "none",
+        "whole_text_max_chars": 200,
+        "batch_size": 50,
+        "max_output_tokens": 6000,
+        "workers": 2
+      },
+      "verify": {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "reasoning_effort": "none",
+        "sample_fraction": 0.03,
+        "min_sample": 20,
+        "sample_seed": "verify-v1",
+        "batch_size": 50,
+        "max_output_tokens": 6000
+      },
+      "group": {
+        "provider_discover": "openai",
+        "model_discover": "gpt-6-luna",
+        "reasoning_effort": "low",
+        "prompt_version": "group-v2",
+        "workers": 8,
+        "examples_per_topic": 120,
+        "provider_assign": "typesafe",
+        "model_assign": "jev-1.13.0"
+      },
+      "memo": {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "reasoning_effort": "low",
+        "prompt_version": "memo-v4",
+        "max_output_tokens": 4000,
+        "top_issues": 12,
+        "examples_per_issue": 4
+      },
+      "limits": {
+        "spend_cap_usd": 10.0,
+        "max_attempts_per_batch": 2,
+        "backoff_base_seconds": 1.0,
+        "backoff_max_seconds": 30.0,
+        "request_timeout_seconds": 60,
+        "max_fallback_fraction": 0.05,
+        "max_run_seconds": 21600
+      }
+    }
+  },
+  "rates": {
+    "file": "config/rates.csv",
+    "sha256": "4e6a3edd30e2e155b459eaceba56e0ca50af5913ca7bfc438c60817847173691"
+  },
+  "prompts": {
+    "group_assign_group-v2.txt": "0a8868de54f75efead329869f62f66471375c06437144182ecc61fc6251e3522",
+    "group_discover_group-v2.txt": "a112436ecab2613eb5012e346ebad7feb1beae5b944fe2c6ad5aeeb45ba057a9",
+    "jev_questions_v1.json": "6e6fc507e4b47cf61b4e6cd28daf4b3096cd5d5dfcfbb0d65f5e69863c6cace2",
+    "memo_system_memo-v4.txt": "f03e1cc56c1e6c59c0f5a615485c9af11b6adb48e5aa1f2126d1c17de1c589da",
+    "quote_v1.txt": "bd7298d1a18a6c0b09ed5f600d5730c053df31aeb521f17b97ed21ed2a7e44f7",
+    "structured_output_schemas.json": "bddb95fd4544dd168b295c1c6094f94530550fa3a3333b49c0c9008ec208c5fe",
+    "verify_system_prompts-v1.txt": "9ea817a5c703393bbbc8368cd3d7623caa6ae5c9c6bc905f8f175db2a70bf05c"
+  },
+  "models": {
+    "enrich_labels": "jev-1.13.0",
+    "enrich_quotes": "gpt-6-luna (reasoning none)",
+    "verify": "gpt-6-luna (reasoning none)",
+    "group_discover": "gpt-6-luna (reasoning low)",
+    "group_assign": "gpt-6-luna (reasoning none)",
+    "memo": "gpt-6-luna (reasoning low)"
+  },
+  "configs": {
+    "label_config": "jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1",
+    "verify_config": "gpt-6-luna/none+verify-prompts-v1+labels-v1",
+    "group_config": "gpt-6-luna/low+group-v2+[jev-1.13.0+gpt-6-luna/none+prompts-v1+schema-v1+labels-v1]",
+    "memo_config": "gpt-6-luna/low+memo-v4"
+  },
+  "runs": [
+    {
+      "run_id": "enrich-20261014T184618-96a23c",
+      "stage": "enrich",
+      "phase": "initial",
+      "started_at_unix": 1792028811.7274609
+    },
+    {
+      "run_id": "enrich-20261014T193719-e82f1f",
+      "stage": "enrich",
+      "phase": "initial",
+      "started_at_unix": 1792031857.5216248
+    },
+    {
+      "run_id": "enrich-20261016T124241-cbe311",
+      "stage": "enrich",
+      "phase": "initial",
+      "started_at_unix": 1792190598.0656822
+    },
+    {
+      "run_id": "enrich-20261016T124452-4e6451",
+      "stage": "enrich",
+      "phase": "resume",
+      "started_at_unix": 1792190709.9568765
+    }
+  ],
+  "outputs": {
+    "grading/calls.jsonl.gz": {
+      "sha256": "261b28d437c5fca8eb925735a1facc4adc8fa360b425f37f5f7105e129479589",
+      "bytes": 7203556
+    },
+    "grading/checkpoint_after.json": {
+      "sha256": "5bf7b9a39d84b708265faad585edb6857792a1d489aaa847218a2745afaaaf60",
+      "bytes": 10471456
+    },
+    "grading/checkpoint_before.json": {
+      "sha256": "bd75033c164ddbe4b00168157de76068540808f65494ed2c605536ee9c825789",
+      "bytes": 5804288
+    },
+    "grading/claims.csv": {
+      "sha256": "74de3028048cafe89c9d85ab1d83ecbcd2cfaf9c9352777a2c345fd98ff101f2",
+      "bytes": 251
+    },
+    "grading/ingestion.json": {
+      "sha256": "3e5e01083c3d0a338bb584f71b3a5420485783f5ca9d085b8cac89a51b42752a",
+      "bytes": 954
+    },
+    "grading/membership.csv": {
+      "sha256": "0b55289ad60255cfe54aeb205249b8dbe81ca6ebb6faff1229346f6d5d622b18",
+      "bytes": 3318103
+    },
+    "grading/ranking.csv": {
+      "sha256": "7e4e6cae015c13a8925d5de57cc1b7cf1a34c499b0dfa08b683052c52b55e8ff",
+      "bytes": 1475
+    },
+    "grading/records.jsonl.gz": {
+      "sha256": "6a7438f8b6df0db72cbf245f155627a30199aea12941227795163c314cb4b09b",
+      "bytes": 52041299
+    },
+    "grading/run.json": {
+      "sha256": "95a39f26cca19b13ac55b76e8feb398d99c106f164233f624bb1dfbc5768235d",
+      "bytes": 648
+    },
+    "out/full/aggregates.csv": {
+      "sha256": "122b4b4049cb41916d998956a0ca1d62c4034d2632d20e4db93a03cbe62a60d5",
+      "bytes": 9613
+    },
+    "out/full/area_totals.csv": {
+      "sha256": "34d3cb66ddd9354aab9f0f1bc77828549451f549b06c5ca6e73f8d79cfa83d7c",
+      "bytes": 342
+    },
+    "out/full/claims.csv": {
+      "sha256": "74de3028048cafe89c9d85ab1d83ecbcd2cfaf9c9352777a2c345fd98ff101f2",
+      "bytes": 251
+    },
+    "out/full/disagreements.jsonl": {
+      "sha256": "01263feea592f7d7ccf18500cec94515cd4486f224e7dbb81925902612957e39",
+      "bytes": 245211
+    },
+    "out/full/enriched.jsonl.gz": {
+      "sha256": "db29937601c5da39f26abed85f2574727b3180c5205ba3cf05a20154b4bcd445",
+      "bytes": 23389714
+    },
+    "out/full/issues_catalog.json": {
+      "sha256": "b9adc4ee408437887ec73b1adb4873bd6d4fecf904735c5d6ee3a35e3b48a943",
+      "bytes": 13480
+    },
+    "out/full/membership.csv": {
+      "sha256": "0b55289ad60255cfe54aeb205249b8dbe81ca6ebb6faff1229346f6d5d622b18",
+      "bytes": 3318103
+    },
+    "out/full/memo.md": {
+      "sha256": "8bfa2253e50b37dcb0b103b743b75297667145e6b01c8a54398187b01592cbab",
+      "bytes": 2194
+    },
+    "out/full/memo_input.json": {
+      "sha256": "63fb6f3a3ac917cbdbff41002e15f14b917495ad9205c7fb532520e14befa713",
+      "bytes": 23593
+    },
+    "out/full/memo_output.json": {
+      "sha256": "f2887d22f96631a306f73cf095f702dff70d07579e42b4c04c6ae833c3a48311",
+      "bytes": 30184
+    },
+    "out/full/planted_error_cases.jsonl": {
+      "sha256": "85dabefb997600897bcfd5acd8f97904b3e4ea914354a0c6cc28e393a8be57d6",
+      "bytes": 4334
+    },
+    "out/full/quarantine.jsonl.gz": {
+      "sha256": "8df5e7e0dfbfb207b056ee6dba4946c74997ebccc8287a66bcb9b6914365d436",
+      "bytes": 9907916
+    },
+    "out/full/ranking.csv": {
+      "sha256": "7e4e6cae015c13a8925d5de57cc1b7cf1a34c499b0dfa08b683052c52b55e8ff",
+      "bytes": 1475
+    },
+    "out/full/run_log.jsonl": {
+      "sha256": "ca97076ac44c149ff4bef8990d0d54480eb50c5026beabda587be1dc4f4b6812",
+      "bytes": 5248
+    },
+    "out/full/run_summary.json": {
+      "sha256": "502b0a55ce4ce8d00616a0a31e8f2234f7d6e0e656f97ad748a50a2ea086bfd2",
+      "bytes": 8685
+    },
+    "out/full/self-check.json": {
+      "sha256": "0758cf41fce8130be71e7900eccb33d50a35510e46c246b934f855f2fa0a669d",
+      "bytes": 10374
+    },
+    "out/full/verifier_predictions.jsonl": {
+      "sha256": "50bd8e96bc3ead5f584c1ef3c1114622a5fbf4021c4f74745914b4eab99b79ec",
+      "bytes": 546695
+    },
+    "out/full/verify_summary.json": {
+      "sha256": "7d878dd3e6af585852c989f148874cde353001062e351aa55678ae65909979fb",
+      "bytes": 1690
+    },
+    "out/ingestion.json": {
+      "sha256": "3e5e01083c3d0a338bb584f71b3a5420485783f5ca9d085b8cac89a51b42752a",
+      "bytes": 954
+    },
+    "out/ingestion_report.json": {
+      "sha256": "91f5da2e7184640335d1cca686d3b1919c0c80ae662605944f7baf0d6a8427c0",
+      "bytes": 4655
+    },
+    "out/data_manifest.json": {
+      "sha256": "6f3be52049a7e966a16a9ae89893dfa07ee8e2f634dff4fd82919542138df602",
+      "bytes": 1261
+    },
+    "cost/checkpoint_10000_calls.jsonl": {
+      "sha256": "42b1fcb6e197e2d5d7ab16925dce079f9713a9ba8b0b1d6a7bdd25e783893ea5",
+      "bytes": 5511225
+    },
+    "cost/checkpoint_500_calls.jsonl": {
+      "sha256": "6e591b27ace4e80f4bdcde5e3f12efd5e6f5a2e6c78525806d69af57d949eafe",
+      "bytes": 310848
+    },
+    "cost/pilot_calls.jsonl": {
+      "sha256": "3cae27aa3b92dbd38bd4f3c436c231b199238349565dc7ca18200438ec48c86f",
+      "bytes": 74987
+    },
+    "cost/pilot_records.jsonl": {
+      "sha256": "f09430ca4f60f99ea05316324c1e8fbb9a056cc83418d527ffdaa392f3f3af60",
+      "bytes": 46838
+    },
+    "cost/pilot_records_warm.jsonl": {
+      "sha256": "096dddc4ccecd5b90f77ac254ef53891a5c6f868bf4e4b4467db9e9e792e5ec4",
+      "bytes": 51938
+    },
+    "cost/rates.csv": {
+      "sha256": "4e6a3edd30e2e155b459eaceba56e0ca50af5913ca7bfc438c60817847173691",
+      "bytes": 917
+    },
+    "cost/usage.csv": {
+      "sha256": "f2b69d58d5abfafa15c7a62171f1222209831a238e89f4fad1d2252da20057d5",
+      "bytes": 34472
+    },
+    "cost/report.html": {
+      "sha256": "06c160558ff4f76e6a6479c235f7085c6d74740cfa74dd30adf473f64b969161",
+      "bytes": 10740
+    },
+    "cost/report.json": {
+      "sha256": "30209c6dbb4d0b78acd16a3895e6c824bbdecbff96428fe87d1454e14f116429",
+      "bytes": 16810
+    },
+    "cost/report.md": {
+      "sha256": "44c29c0fb71c774aa063201a20e61c041a24908f82432dfd3d19cb6ac827976c",
+      "bytes": 8215
+    },
+    "evals/golden/golden_50_labeled.csv": {
+      "sha256": "cf3dc3c23669b7707c77e99d8967e2277a4e56ca5809ec4910d20b5d679e690c",
+      "bytes": 11955
+    },
+    "evals/golden/golden_50_labeled_v1_superseded.csv": {
+      "sha256": "2da4f3ba524274e96b5e99e26ef828c96c962a322619a717d577f4635a631a67",
+      "bytes": 11955
+    },
+    "evals/golden/golden_eval_cases.jsonl": {
+      "sha256": "a9f071c2cd6a547e2bf1587ac4c3b9f05012699e6e054ac30b92c6c7e27e3c42",
+      "bytes": 28683
+    },
+    "evals/golden/golden_eval_cases_luna_only.jsonl": {
+      "sha256": "f99ea12db1b4c6974a37f7bcc762afe9daf9ef243ed506d0ed586f969c89c802",
+      "bytes": 21612
+    },
+    "evals/golden/golden_eval_report.json": {
+      "sha256": "2543265b46d53d77207cb92118f9f7bc095419faf73685c04232d258d910a886",
+      "bytes": 2696
+    },
+    "evals/golden/golden_eval_summary.json": {
+      "sha256": "33a7b2554418dfe755673ea0b9bc6c5f4b21484abea756b7afde8e43539267da",
+      "bytes": 1328
+    },
+    "evals/golden/luna_only_calls.jsonl": {
+      "sha256": "72973e4d65f8ac0540371ba20adf9a5285423ae4ef75260fc7ddd41dd1b14ccd",
+      "bytes": 2472
+    },
+    "evals/system_tests/calls.jsonl": {
+      "sha256": "5b1aab01dc3ea3bd545e986964b8ae79649dfa93689847e1fb624478fe3f01b0",
+      "bytes": 6052
+    },
+    "evals/system_tests/results.json": {
+      "sha256": "936caace284d713963944d4f4cbb9793d4855c23e4d06afae698b507a90d18dc",
+      "bytes": 7999
+    },
+    "evals/recovery/interruption_resume_recording.mp4": {
+      "sha256": "cc0dd7ea0feb902d1eb90995b45cd21ae07e0374cde641ead1370a7f260306ef",
+      "bytes": 10723621
+    }
+  }
+}

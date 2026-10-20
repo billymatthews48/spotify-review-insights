@@ -62,6 +62,26 @@ def calls(conn, run_ids=None):
                "started_at": r["started_at"], "seconds": r["seconds"], "provider_request_id": r["provider_request_id"]}
 
 
+def enriched_and_quarantine(conn, out_dir):
+    """Separate result files named in the brief: enriched.jsonl.gz (every completed record with its validated
+    labels, provenance and review reasons) and quarantine.jsonl.gz (every record not successfully classified, with
+    reason and attempt count). records.jsonl in grading/ combines both."""
+    out_dir = Path(out_dir)
+    attempts = dict(conn.execute("SELECT review_id, attempts FROM records"))
+    in_scope = dict(conn.execute("SELECT review_id, in_scope FROM records"))
+    enriched, quarantine = [], []
+    for r in records(conn):
+        if r["status"] == "completed":
+            enriched.append(r)
+        else:
+            # source_sha256 stays in grading/records.jsonl; the log keeps what explains the status.
+            quarantine.append({"review_id": r["review_id"], "status": r["status"], "reason": r["reason"],
+                               "attempts": attempts[r["review_id"]], "in_scope": bool(in_scope[r["review_id"]])})
+    write_jsonl(out_dir / "enriched.jsonl", enriched, gz=True)
+    write_jsonl(out_dir / "quarantine.jsonl", quarantine, gz=True)
+    return len(enriched), len(quarantine)
+
+
 def write_jsonl(path, rows, gz=False):
     path = Path(path)
     if gz:
