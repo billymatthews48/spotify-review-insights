@@ -1,0 +1,12 @@
+{
+  "final": "memo_final.json",
+  "revision_of": "memo_output.json",
+  "draft_config": "gpt-6-luna/low+memo-v4",
+  "draft_memo_sha256": "7a461e5861df540aed85a355e996799d3d1f89ddacf63fb446f1242f05504b1b",
+  "final_memo_sha256": "3c91cc39d80e193a3da1bb01982ce0c0e69a0875ad90a56a8ad1c7ac556a7472",
+  "revised_by": "student, with the AI coding assistant (Claude), 2026-10-20",
+  "reason": "The draft recommended reducing ads without acknowledging that ads and Premium-only limits fund the free tier. The student kept the recommendation (usability, USB-01) but reframed it as making ads less disruptive, added a revenue trade-off section using the declared business lens (config/business_lens.json), and named playback as the no-revenue-risk alternative. A memo-v5 prompt with the same rule could not be run because the OpenAI credit was exhausted (HTTP 429, no charge).",
+  "business_lens": "business-lens-v1",
+  "claims_checked": 9,
+  "problems": []
+}

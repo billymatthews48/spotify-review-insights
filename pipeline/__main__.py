@@ -61,6 +61,10 @@ def main():
     p.add_argument("--input", type=Path, default=common.ROOT / "data" / "dataset" / "cost_100.csv")
     p.add_argument("--confirm-paid", action="store_true", help="Required: acknowledges this makes real API calls")
 
+    p = sub.add_parser("memo-final", help="Code-check the student's revised memo (memo_final.json) -> memo_final.md (no model calls)")
+    p.add_argument("--out", required=True, type=Path, help="Analysis folder with memo_output.json and memo_final.json")
+    p.add_argument("--lens", type=Path, default=None, help="Declared business lens (default config/business_lens.json)")
+
     p = sub.add_parser("grading", help="Write the standardized grading/ export from saved outputs (no model calls)")
     p.add_argument("--state", required=True, type=Path)
     p.add_argument("--cache", type=Path, default=None)
@@ -169,6 +173,10 @@ def main():
         meta = pilot.run(args.input)
         print(json.dumps({k: {kk: meta["runs"][k][kk] for kk in ("wall_clock_seconds", "stage_seconds")} for k in meta["runs"]},
                          indent=2))
+    elif args.command == "memo-final":
+        from . import memo
+        r = memo.finalize(args.out, args.lens)
+        print(json.dumps({k: r[k] for k in ("claims_checked", "problems")}, indent=2))
     elif args.command == "grading":
         from . import grading
         cache = args.cache or args.state.with_name(args.state.stem + "_cache.sqlite")

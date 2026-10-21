@@ -379,14 +379,14 @@
   ],
   "hash_convention": "Reference/benchmark: canonical UTF-8 JSON via canonical(); input files and audit script: exact bytes.",
   "input_files_sha256": {
-    "calls.jsonl.gz": "0b25e87815b7f9739c2058e89548f010dbb83030becd5444ff804e03a16cd13f",
+    "calls.jsonl.gz": "94ab0ce610dfa3a02488c11d48efbe2294739378996a9927306c223eee70e60e",
     "checkpoint_after.json": "5bf7b9a39d84b708265faad585edb6857792a1d489aaa847218a2745afaaaf60",
     "checkpoint_before.json": "bd75033c164ddbe4b00168157de76068540808f65494ed2c605536ee9c825789",
     "claims.csv": "8f10d1132114f2a7913eccf49426aeef6df5dee19a5fd5a10dae66c52bac14fc",
     "ingestion.json": "3e5e01083c3d0a338bb584f71b3a5420485783f5ca9d085b8cac89a51b42752a",
     "membership.csv": "985c5e25870ff472cb73535c240f7f06c053b2f8f7d0a83ab1cbda14e77d31af",
     "ranking.csv": "5249673eee8020c139541bf282afc5ec242d208f9d06aee9efb8c3eb9c14ae31",
-    "records.jsonl.gz": "246860fbd61ad5f0a498c4cba4d46e562ae83cb5834f868f19698e968d389c15",
+    "records.jsonl.gz": "8786a8cb6a052b6c4c06bdb67bee1ed5eb5d8955805fd002bb3da763cdf03ba1",
     "run.json": "425475ec4bbc8551582c2edbafaadc534cfe1cbcff209bc2234e8a0f859b2d91"
   },
   "issue_counts": {
@@ -403,7 +403,7 @@
     "status": "not_supplied"
   },
   "reference_sha256": "bb31d47db9b9a85cd97b3ba6e880915aff41a6127c3accee719c139ab34b7e97",
-  "reported_calls": 109875,
+  "reported_calls": 109876,
   "reported_input_tokens": 150197140,
   "reported_output_tokens": 31398052,
   "status": "review_required",

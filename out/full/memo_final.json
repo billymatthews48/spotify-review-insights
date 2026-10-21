@@ -1,0 +1,106 @@
+{
+  "revision_of": "memo_output.json (memo agent draft, gpt-6-luna/low+memo-v4)",
+  "revised_by": "student, with the AI coding assistant (Claude), 2026-10-20",
+  "reason": "The draft recommended reducing ads without acknowledging that ads and Premium-only limits fund the free tier. The student kept the recommendation (usability, USB-01) but reframed it as making ads less disruptive, added a revenue trade-off section using the declared business lens (config/business_lens.json), and named playback as the no-revenue-risk alternative. A memo-v5 prompt with the same rule could not be run because the OpenAI credit was exhausted (HTTP 429, no charge).",
+  "memo": {
+    "recommendation": {
+      "area": "usability",
+      "headline": "Make ads less disruptive, not fewer",
+      "rationale": "Usability has the largest complaint total of the named areas and USB-01 (excessive ad interruptions) is its leading, specific issue. Ads fund the free tier, so the work targets ad frequency, timing and loudness rather than removing ads.",
+      "issue_ids": [
+        "USB-01"
+      ]
+    },
+    "claims": [
+      {
+        "claim_id": "C1",
+        "issue_id": "USB-01",
+        "metric": "complaint_count",
+        "value": "28764"
+      },
+      {
+        "claim_id": "C2",
+        "issue_id": "USB-01",
+        "metric": "mean_severity",
+        "value": "2.894938"
+      },
+      {
+        "claim_id": "C3",
+        "issue_id": "USB-01",
+        "metric": "priority_score",
+        "value": "83270"
+      },
+      {
+        "claim_id": "C4",
+        "issue_id": "OTH-99",
+        "metric": "complaint_count",
+        "value": "61635"
+      },
+      {
+        "claim_id": "C5",
+        "issue_id": "OTH-99",
+        "metric": "priority_score",
+        "value": "116400"
+      },
+      {
+        "claim_id": "C6",
+        "issue_id": "PLB-01",
+        "metric": "complaint_count",
+        "value": "7860"
+      },
+      {
+        "claim_id": "C7",
+        "issue_id": "PLB-01",
+        "metric": "priority_score",
+        "value": "26948"
+      },
+      {
+        "claim_id": "C8",
+        "issue_id": "BIL-02",
+        "metric": "complaint_count",
+        "value": "9937"
+      },
+      {
+        "claim_id": "C9",
+        "issue_id": "BIL-02",
+        "metric": "priority_score",
+        "value": "29827"
+      }
+    ],
+    "alternatives": [
+      {
+        "area": "playback",
+        "why_not_first": "The strongest area with no revenue trade-off: its complaints are defects and its mean severity is higher than usability's. It comes second because its top issue, PLB-01, has a far lower priority score than USB-01 and the area has fewer complaints. The choice if leadership wants no revenue risk this quarter.",
+        "issue_ids": [
+          "PLB-01"
+        ]
+      },
+      {
+        "area": "billing_support",
+        "why_not_first": "23245 of its 46820 complaints are about Premium-only limits, the reason to upgrade; loosening them trades directly against subscription revenue. BIL-02 ranks below USB-01.",
+        "issue_ids": [
+          "BIL-02"
+        ]
+      },
+      {
+        "area": "access",
+        "why_not_first": "Highest mean severity of any area (3.964362) but the smallest volume (7997 complaints): a targeted fix, not a quarter's focus.",
+        "issue_ids": []
+      }
+    ],
+    "evidence_review_ids": [
+      "e57b7127-13d5-41bc-ad83-1595256f5478",
+      "cd8bf064-c32e-400e-906e-a4d900819bbd",
+      "811a3af2-8624-4e83-93fc-d17cfd216bb6",
+      "b2d1098c-85a0-4acc-b481-9bdfbe844940"
+    ],
+    "limitations": [
+      "577230 records are classified; 83227 are pending unclassified and 165 are quarantined.",
+      "Reviews are self-selected and historical (2022-05-17 to 2023-11-15); cancellation language is expressed intent, not observed churn.",
+      "The monetization-lever tags are a product judgment declared after the first draft and applied to whole issues; BIL-99 (price complaints mixed with billing errors) is untagged. No revenue data was used.",
+      "OTH-99 is the #1 baseline issue but names no feature, so it guides investigation rather than being treated as a feature.",
+      "This memo is the student's revision of the memo agent's draft; code re-checked every number, claim and review ID."
+    ],
+    "memo_markdown": "# Next-quarter product effort: make ads less disruptive, not fewer\n\nRecommend prioritizing usability, starting with excessive ad interruptions (USB-01): complaint_count 28764 [C1], mean_severity 2.894938 [C2], priority_score 83270 [C3]. Ads pay for the free tier, so the goal is not fewer ads but less disruptive ones: control how often, when and how loudly they play, and keep promised ad-free periods free of ads.\n\n## Why\n\nUsability has the largest complaint total of the named product areas: complaint_count 59647, severity_sum 169075, mean_severity 2.834594, cancellation_count 6148. USB-01 is its leading issue and the highest-ranked specific issue overall.\n\nThe #1 baseline issue is OTH-99, general dissatisfaction that names no feature: complaint_count 61635 [C4], priority_score 116400 [C5]. Because it is a catch-all, I treat it as a signal to investigate, not as a feature workstream.\n\nThe ad complaints are mostly about how ads are delivered, not that ads exist. The issue is defined as ads that are too frequent, mistimed or loud. Reviewers say \"wayyy to many ads\" from someone who would otherwise give the app top marks (e57b7127-13d5-41bc-ad83-1595256f5478), and \"Just got 4 minutes of ads straight\" (cd8bf064-c32e-400e-906e-a4d900819bbd).\n\n## Revenue trade-off\n\nAds and Premium-only features are how the free tier earns money and encourages upgrades. Under the declared business lens, 37075 of usability's 59647 complaints and 23245 of billing/support's 46820 are about these monetization levers, 61170 in total. Removing ads or paywalls would cost revenue, so this recommendation keeps them and changes how they are experienced:\n\n- cap how many ads play in a row and how long one ad break lasts;\n- play ads between songs, never in the middle of one;\n- match ad loudness to the music;\n- honor promised ad-free periods.\n\nThese changes reduce interruption while keeping ads in the product. This memo uses no revenue data, so each change should be tested against ad revenue and Premium upgrades before a full rollout.\n\n## Alternatives considered\n\n**Playback (incl. downloads)** is the strongest area with no revenue trade-off: complaint_count 42261, severity_sum 146374, mean_severity 3.463572, cancellation_count 3665, and none of its complaints are monetization levers. Its leading issue, PLB-01 (unexpected playback stops), has complaint_count 7860 [C6] and priority_score 26948 [C7]. These are defects, so fixing them costs no revenue, and the area's mean severity is higher than usability's. It comes second because USB-01's priority score is far above any playback issue and usability has more complaints. If leadership wants no revenue risk this quarter, playback reliability is the choice.\n\n**Billing/support** totals are complaint_count 46820, severity_sum 136100, mean_severity 2.906877, cancellation_count 8247. BIL-02 (Premium-locked playback controls) has complaint_count 9937 [C8] and priority_score 29827 [C9]. 23245 of its complaints are about Premium-only limits, which are the reason to upgrade; loosening them trades directly against subscription revenue, so it is not first.\n\n**Access** has the highest mean severity of any area (3.964362) but the smallest volume (complaint_count 7997), so it suits a targeted fix rather than a quarter's focus.\n\n## Evidence\n\nThe excerpts illustrate the themes; they are examples, not estimates. Ad complaints focus on frequency and length (e57b7127-13d5-41bc-ad83-1595256f5478, cd8bf064-c32e-400e-906e-a4d900819bbd). A paying subscriber has to reinstall the app because the music player stops working (811a3af2-8624-4e83-93fc-d17cfd216bb6). A free user cannot loop, play the previous track or play songs in order without Premium (b2d1098c-85a0-4acc-b481-9bdfbe844940).\n\n## Limitations\n\n- 577230 records are classified; 83227 are pending unclassified and 165 are quarantined.\n- Reviews are self-selected and historical (2022-05-17 to 2023-11-15). Cancellation language is expressed intent, not observed churn.\n- The monetization-lever tags are a product judgment, declared after the first draft and applied to whole issues. BIL-99, a catch-all that mixes price complaints with billing errors, is left untagged. No revenue data was used.\n- OTH-99 is the #1 baseline issue but names no feature, so it should guide investigation rather than be treated as a feature.\n- This memo is the student's revision of the memo agent's draft (memo.md). Code re-checked every number, claim and review ID in it.\n"
+  }
+}

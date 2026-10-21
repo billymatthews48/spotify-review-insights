@@ -1,0 +1,20 @@
+{
+  "version": "business-lens-v1",
+  "declared_by": "student (product judgment), 2026-10-20, after reading the memo-v4 output",
+  "rule": "Ads and Premium-only features are how the free tier earns revenue. Complaints about them are complaints about the business model, not defects: removing the cause would cost revenue. Work on them should make them less disruptive within the business model (e.g. ad frequency, timing, loudness, relevance), not remove them. Defects (crashes, playback stops, sign-in failures) carry no such trade-off.",
+  "monetization_lever_issues": {
+    "USB-01": "ads in free listening (frequency, timing, loudness)",
+    "USB-02": "ads inserted in podcasts for Premium subscribers",
+    "USB-03": "free-tier limits on playback controls",
+    "BIL-01": "free-tier limits on choosing specific songs",
+    "BIL-02": "playback controls locked to Premium",
+    "BIL-03": "free-tier skip and replay caps",
+    "OTH-03": "ad load and Premium requirements in general"
+  },
+  "not_tagged": {
+    "BIL-99": "catch-all that mixes price complaints with billing errors; it cannot be split without re-labelling, so it is left untagged",
+    "USB-04": "shuffle/autoplay complaints mix free-tier forced shuffle with genuine misbehaviour",
+    "PLB-05": "wrong song or queue behaviour is mostly a defect, though some may be free-tier shuffle"
+  },
+  "note": "Issue IDs refer to the saved catalog (out/full/issues_catalog.json). If grouping is re-run and the catalog changes, this list must be re-declared. The baseline ranking is unchanged by this lens; it only adds context for the memo."
+}

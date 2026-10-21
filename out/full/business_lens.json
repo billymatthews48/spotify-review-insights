@@ -1,0 +1,87 @@
+{
+  "version": "business-lens-v1",
+  "declared_by": "student (product judgment), 2026-10-20, after reading the memo-v4 output",
+  "rule": "Ads and Premium-only features are how the free tier earns revenue. Complaints about them are complaints about the business model, not defects: removing the cause would cost revenue. Work on them should make them less disruptive within the business model (e.g. ad frequency, timing, loudness, relevance), not remove them. Defects (crashes, playback stops, sign-in failures) carry no such trade-off.",
+  "monetization_lever_issues": [
+    {
+      "issue_id": "USB-01",
+      "name": "Excessive ad interruptions",
+      "why_tagged": "ads in free listening (frequency, timing, loudness)",
+      "complaint_count": 28764
+    },
+    {
+      "issue_id": "BIL-02",
+      "name": "Premium-Locked Playback Controls",
+      "why_tagged": "playback controls locked to Premium",
+      "complaint_count": 9937
+    },
+    {
+      "issue_id": "BIL-01",
+      "name": "Free-Tier Song Selection Restrictions",
+      "why_tagged": "free-tier limits on choosing specific songs",
+      "complaint_count": 9206
+    },
+    {
+      "issue_id": "USB-03",
+      "name": "Restricted playback controls",
+      "why_tagged": "free-tier limits on playback controls",
+      "complaint_count": 7777
+    },
+    {
+      "issue_id": "BIL-03",
+      "name": "Free-Tier Skip and Replay Limits",
+      "why_tagged": "free-tier skip and replay caps",
+      "complaint_count": 4102
+    },
+    {
+      "issue_id": "OTH-03",
+      "name": "Ads and Premium Restrictions",
+      "why_tagged": "ad load and Premium requirements in general",
+      "complaint_count": 850
+    },
+    {
+      "issue_id": "USB-02",
+      "name": "Premium podcast ads",
+      "why_tagged": "ads inserted in podcasts for Premium subscribers",
+      "complaint_count": 534
+    }
+  ],
+  "monetization_lever_complaints_total": 61170,
+  "not_tagged": {
+    "BIL-99": "catch-all that mixes price complaints with billing errors; it cannot be split without re-labelling, so it is left untagged",
+    "USB-04": "shuffle/autoplay complaints mix free-tier forced shuffle with genuine misbehaviour",
+    "PLB-05": "wrong song or queue behaviour is mostly a defect, though some may be free-tier shuffle"
+  },
+  "areas": {
+    "access": {
+      "complaint_count": 7997,
+      "monetization_lever_complaints": 0,
+      "remaining_complaints": 7997
+    },
+    "usability": {
+      "complaint_count": 59647,
+      "monetization_lever_complaints": 37075,
+      "remaining_complaints": 22572
+    },
+    "playback": {
+      "complaint_count": 42261,
+      "monetization_lever_complaints": 0,
+      "remaining_complaints": 42261
+    },
+    "billing_support": {
+      "complaint_count": 46820,
+      "monetization_lever_complaints": 23245,
+      "remaining_complaints": 23575
+    },
+    "catalog": {
+      "complaint_count": 15336,
+      "monetization_lever_complaints": 0,
+      "remaining_complaints": 15336
+    },
+    "other": {
+      "complaint_count": 78831,
+      "monetization_lever_complaints": 850,
+      "remaining_complaints": 77981
+    }
+  }
+}

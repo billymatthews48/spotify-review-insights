@@ -12,6 +12,7 @@ import json
 import re
 from collections import defaultdict
 from decimal import Decimal
+from pathlib import Path
 
 from . import common
 from .rank import mean6
@@ -111,6 +112,28 @@ def facts(conn, label_config, group_config):
             areas[area] = {"complaint_count": c, "severity_sum": s, "mean_severity": mean6(s, c), "cancellation_count": x}
     f["areas"] = areas
     return f
+
+
+def business_lens(agg, lens):
+    """Declared product judgment (config/business_lens.json): which issues are complaints about how the free tier
+    earns revenue. Pure arithmetic over the saved ranking; the baseline ranking itself is unchanged."""
+    levers = lens["monetization_lever_issues"]
+    area_of = {t: a for a, tops in AREAS.items() for t in tops}
+    areas = defaultdict(lambda: {"complaint_count": 0, "monetization_lever_complaints": 0})
+    for r in agg:
+        a = areas[area_of.get(r["topic"], "other")]
+        a["complaint_count"] += r["complaint_count"]
+        if r["issue_id"] in levers:
+            a["monetization_lever_complaints"] += r["complaint_count"]
+    for a in areas.values():
+        a["remaining_complaints"] = a["complaint_count"] - a["monetization_lever_complaints"]
+    issues = [{"issue_id": r["issue_id"], "name": r["name"], "why_tagged": levers[r["issue_id"]],
+               "complaint_count": r["complaint_count"]} for r in agg if r["issue_id"] in levers]
+    return {"version": lens["version"], "declared_by": lens["declared_by"], "rule": lens["rule"],
+            "monetization_lever_issues": issues,
+            "monetization_lever_complaints_total": sum(i["complaint_count"] for i in issues),
+            "not_tagged": lens.get("not_tagged", {}),
+            "areas": {a: areas[a] for a in AREAS if a in areas}}
 
 
 def _numbers(text):
@@ -225,4 +248,43 @@ def run(ctx, out_dir, group_config, agg):
     # Memo calls send no review IDs (they read saved aggregates), so the run log names the artifact they consumed.
     ctx.recorder.event("memo", "end", attempts=attempts, problems=len(problems), cache_hit=bool(cached),
                        input_artifact=str(out_dir / "memo_input.json"), input_sha256=input_sha, memo_config=memo_config)
+    return result
+
+
+def finalize(out_dir, lens_path=None):
+    """Student revision of the memo agent's draft. memo_final.json is written by hand (same schema as the draft)
+    and must pass the same code checks: claim values vs the saved ranking, issue IDs, evidence review IDs, and every
+    number in every text field vs the draft's saved inputs plus the declared business lens. No model calls."""
+    out_dir = Path(out_dir)
+    lens_path = Path(lens_path or common.ROOT / "config" / "business_lens.json")
+    final = common.read_json(out_dir / "memo_final.json")
+    draft = common.read_json(out_dir / "memo_output.json")
+    with (out_dir / "aggregates.csv").open(encoding="utf-8", newline="") as f:
+        agg = [dict(r, complaint_count=int(r["complaint_count"])) for r in csv.DictReader(f)]
+    agg_by_id = {r["issue_id"]: dict(r, complaint_count=str(r["complaint_count"])) for r in agg}
+    lens = business_lens(agg, common.read_json(lens_path))
+    m = final["memo"]
+    texts = [m["memo_markdown"], m["recommendation"]["headline"], m["recommendation"]["rationale"],
+             *(a["why_not_first"] for a in m["alternatives"]), *m["limitations"]]
+    claims_ok, problems = check(dict(m, memo_markdown="\n".join(texts)), agg_by_id, draft["inputs"]["evidence_pack"],
+                                _allowed_numbers({"draft_inputs": draft["inputs"], "business_lens": lens}))
+    with (out_dir / "claims.csv").open(encoding="utf-8", newline="") as f:
+        exported = [(c["claim_id"], c["issue_id"], c["metric"], c["value"]) for c in csv.DictReader(f)]
+    if sorted(exported) != sorted((c["claim_id"], c["issue_id"], c["metric"], c["value"]) for c in claims_ok):
+        problems.append("claims.csv does not match the final memo's valid claims")
+    common.write_json(out_dir / "business_lens.json", lens)
+    with (out_dir / "business_lens.csv").open("w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f, lineterminator="\n")
+        w.writerow(["area", "complaint_count", "monetization_lever_complaints", "remaining_complaints"])
+        for area, v in lens["areas"].items():
+            w.writerow([area, v["complaint_count"], v["monetization_lever_complaints"], v["remaining_complaints"]])
+    sha = lambda s: hashlib.sha256(s.encode()).hexdigest()
+    result = {"final": "memo_final.json", "revision_of": "memo_output.json", "draft_config": draft["memo_config"],
+              "draft_memo_sha256": sha(draft["memo"]["memo_markdown"]), "final_memo_sha256": sha(m["memo_markdown"]),
+              "revised_by": final["revised_by"], "reason": final["reason"], "business_lens": lens["version"],
+              "claims_checked": len(claims_ok), "problems": problems}
+    common.write_json(out_dir / "memo_final_check.json", result)
+    header = "" if not problems else ("> **Code check warning:** this memo did not pass every automated check; "
+                                      "see memo_final_check.json.\n\n")
+    (out_dir / "memo_final.md").write_text(header + m["memo_markdown"].strip() + "\n", encoding="utf-8", newline="\n")
     return result

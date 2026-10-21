@@ -7,7 +7,7 @@
     "scope_size": "100050"
   },
   "code_version": {
-    "git_head_when_manifest_written": "3a8b4dfbd711889636aa17d28bd906c8b05107e1",
+    "git_head_when_manifest_written": "9e449bb9afc50b29b06a6c2cc92a895b71b5ffc3",
     "working_tree_dirty": true,
     "note": "The pipeline code was first committed after the run; fixes made during the run (cache-fill query, interrupt handler, grouping query, HTTP 499 retry) are listed in the README run log."
   },
@@ -170,8 +170,8 @@
   ],
   "outputs": {
     "grading/calls.jsonl.gz": {
-      "sha256": "0b25e87815b7f9739c2058e89548f010dbb83030becd5444ff804e03a16cd13f",
-      "bytes": 23732137
+      "sha256": "94ab0ce610dfa3a02488c11d48efbe2294739378996a9927306c223eee70e60e",
+      "bytes": 23732505
     },
     "grading/checkpoint_after.json": {
       "sha256": "5bf7b9a39d84b708265faad585edb6857792a1d489aaa847218a2745afaaaf60",
@@ -198,7 +198,7 @@
       "bytes": 1572
     },
     "grading/records.jsonl.gz": {
-      "sha256": "246860fbd61ad5f0a498c4cba4d46e562ae83cb5834f868f19698e968d389c15",
+      "sha256": "8786a8cb6a052b6c4c06bdb67bee1ed5eb5d8955805fd002bb3da763cdf03ba1",
       "bytes": 66698307
     },
     "grading/run.json": {
@@ -213,6 +213,14 @@
       "sha256": "063d8e17be1d65c686a70bec5c13433e82743a98ad3be64b965c1ab62e14d663",
       "bytes": 354
     },
+    "out/full/business_lens.csv": {
+      "sha256": "4d2cef6502db314fe847cc015f4f84fc2708dc538ad36f6608fafddd01af98ba",
+      "bytes": 220
+    },
+    "out/full/business_lens.json": {
+      "sha256": "0e2e1cfea841101ae7067d8dc58c666534a669a7a22f014f412b3c62fe65f07d",
+      "bytes": 3107
+    },
     "out/full/claims.csv": {
       "sha256": "8f10d1132114f2a7913eccf49426aeef6df5dee19a5fd5a10dae66c52bac14fc",
       "bytes": 315
@@ -226,7 +234,7 @@
       "bytes": 1083498
     },
     "out/full/enriched.jsonl.gz": {
-      "sha256": "98de4f636d7978628b1a5ffb3d2f7f9ee32a762dad4808aabacb2e33f38d6d13",
+      "sha256": "e72541f6bd9488fa05992b52c8334e04d690b2e154c98a071cd7a4a84056f4f7",
       "bytes": 60862690
     },
     "out/full/issues_catalog.json": {
@@ -240,6 +248,18 @@
     "out/full/memo.md": {
       "sha256": "bb8bc234bb17c6f498d93f99d94c3ec935ebc82d4ba86bc4e7c8ad637785d0e3",
       "bytes": 2285
+    },
+    "out/full/memo_final.json": {
+      "sha256": "a89a9edca6d862b9df9ec281b3b2c898a32185b6787dd6f122386fc4e034ad45",
+      "bytes": 8792
+    },
+    "out/full/memo_final.md": {
+      "sha256": "3c91cc39d80e193a3da1bb01982ce0c0e69a0875ad90a56a8ad1c7ac556a7472",
+      "bytes": 4461
+    },
+    "out/full/memo_final_check.json": {
+      "sha256": "91c04bce3b9a80537cba6e9e2df41e7a5027df862eccf207097b745e8f5849a3",
+      "bytes": 949
     },
     "out/full/memo_input.json": {
       "sha256": "c213c91c2c3c02c7d4cdb6314b3c4a7c72685ebb7a973070320a7bfa9863cb93",
@@ -258,7 +278,7 @@
       "bytes": 4324
     },
     "out/full/quarantine.jsonl.gz": {
-      "sha256": "1fc8d63972bc61a2d0dd1e5bb142cb0c2b9fa6938a775b4e2c9856a60a702b80",
+      "sha256": "bfff45b9be427ded4d51eabe55460dc713bf87e8de0787021ee4c230b97631b0",
       "bytes": 1960021
     },
     "out/full/ranking.csv": {
@@ -266,15 +286,15 @@
       "bytes": 1572
     },
     "out/full/run_log.jsonl": {
-      "sha256": "f8bbb6cb99adb189946de1e0a3641146bd0d6f7b17049eb63f86a475aa7d9c5a",
-      "bytes": 11348
+      "sha256": "b929aebb74d0db49cc6fa681090bde203aaf8b9f8cb0ad10efe762007ca3d6fa",
+      "bytes": 12152
     },
     "out/full/run_summary.json": {
-      "sha256": "2ac7184e569195978b419831750bddb3212f42f0ee842732370c136eaa0938e8",
-      "bytes": 19018
+      "sha256": "175b57ae45cac66827d127ee922420e70fca74b76a8e7780b7193cdef10fdf3e",
+      "bytes": 19406
     },
     "out/full/self-check.json": {
-      "sha256": "a1a69c04f4f3650789b5b4dbe7c4d94c5f9d128985c6f136b9fdd23ed497b97e",
+      "sha256": "5b16718c3758aac2bd9dea06a7731288aba46b7f36d982b4eedafb6d92f0f07c",
       "bytes": 10470
     },
     "out/full/verifier_predictions.jsonl": {

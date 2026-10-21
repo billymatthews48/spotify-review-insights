@@ -78,8 +78,8 @@ button { font: inherit; padding: 8px 14px; border-radius: 8px; border: 1px solid
   <div class="kpis" id="kpis"></div>
 
   <section>
-    <h2>AI recommendation</h2>
-    <p class="sub">Written by the memo agent (gpt-6-luna) from saved aggregates only. Every number is re-checked against the ranking table on each page load.</p>
+    <h2>Recommendation</h2>
+    <p class="sub" id="recsrc">Drafted by the memo agent (gpt-6-luna) from saved aggregates only. Every number is re-checked against the ranking table on each page load.</p>
     <div id="rec">loading…</div>
   </section>
 
@@ -153,6 +153,7 @@ async function loadRec() {
   const m = d.memo;
   const allOk = d.claims.every((c) => c.matches);
   const problems = m.problems || [];
+  if (/revised/.test(m.model || "")) $("recsrc").textContent = "Drafted by the memo agent (gpt-6-luna) from saved aggregates, then revised by the student to account for the ad-revenue trade-off (declared business lens). Code re-checked every number, claim and review ID in the revision, and the numbers are re-checked against the ranking table on each page load.";
   $("rec").innerHTML = `
     <div class="rec"><div class="area">Recommended priority: ${esc(m.area.replace("_", " / "))}</div>
       <h3>${esc(m.headline)}</h3><p>${esc(m.rationale)}</p>

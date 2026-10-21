@@ -54,11 +54,16 @@ def run(state, cache, analysis_dir, database_url=None):
         "SELECT review_id, review_text, review_rating, review_likes, app_version, substr(review_timestamp,1,7) FROM source_rows")}
     in_scope = dict(conn.execute("SELECT review_id, in_scope FROM records").fetchall())
     memo_out = common.read_json(analysis_dir / "memo_output.json")
-    m = memo_out["memo"]
+    m, memo_problems, memo_source = memo_out["memo"], memo_out["problems"], memo_out.get("memo_config", "")
+    if (analysis_dir / "memo_final.json").exists():  # the student's code-checked revision replaces the agent draft
+        check = common.read_json(analysis_dir / "memo_final_check.json")
+        m, memo_problems = common.read_json(analysis_dir / "memo_final.json")["memo"], check["problems"]
+        memo_source = f"{check['draft_config']} draft, revised by the student ({check['business_lens']})"
     evals = {"verify": analysis_dir / "verify_summary.json", "verify_phase2": analysis_dir / "verify_summary_phase2.json", "golden": common.ROOT / "evals" / "golden" / "golden_eval_summary.json",
              "system_tests": common.ROOT / "evals" / "system_tests" / "results.json",
              "cost_report": common.ROOT / "cost" / "report.json", "ingestion": common.OUT_DIR / "ingestion_report.json",
-             "run_summary": analysis_dir / "run_summary.json"}
+             "run_summary": analysis_dir / "run_summary.json",
+             "business_lens": analysis_dir / "business_lens.json"}
     monthly = conn.execute("""
         SELECT substr(s.review_timestamp,1,7), l.topic, COUNT(*), SUM(l.intent IN ('complaint','cancellation')),
                SUM(CASE WHEN l.intent IN ('complaint','cancellation') THEN l.severity ELSE 0 END)
@@ -97,7 +102,7 @@ def run(state, cache, analysis_dir, database_url=None):
         cur.execute("INSERT INTO memo VALUES (1,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
                     (rec["area"], rec["headline"], rec["rationale"], json.dumps(rec["issue_ids"]), json.dumps(m["alternatives"]),
                      json.dumps(m["limitations"]), json.dumps(m["evidence_review_ids"]), m["memo_markdown"],
-                     json.dumps(memo_out["problems"]), memo_out.get("memo_config", "")))
+                     json.dumps(memo_problems), memo_source))
         cur.executemany("INSERT INTO monthly VALUES (%s,%s,%s,%s,%s)", [tuple(r) for r in monthly])
         for name, path in evals.items():
             if Path(path).exists():
